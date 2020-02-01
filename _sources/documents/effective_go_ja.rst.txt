@@ -16,62 +16,44 @@ Go本体のパッケージのソースはコアライブラリとしてだけで
 フォーマット
 ---------------------
 
-Formatting issues are the most contentious but the least consequential.
-People can adapt to different formatting styles but it's better if they
-don't have to, and less time is devoted to the topic if everyone adheres
-to the same style. The problem is how to approach this Utopia without a
-long prescriptive style guide.
+フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。
 
-With Go we take an unusual approach and let the machine take care of
-most formatting issues. The **gofmt** program (also available as
-**go fmt**, which operates at the package level rather than source file
-level) reads a Go program and emits the source in a standard style of
-indentation and vertical alignment, retaining and if necessary
-reformatting comments. If you want to know how to handle some new layout
-situation, run **gofmt**; if the answer doesn't seem right, rearrange
-your program (or file a bug about **gofmt**), don't work around it.
+Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。``gofmt`` プログラム（ソースファイルレベルではなくパッケージレベルで動作する ``go fmt`` としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 ``gofmt`` を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。
 
-As an example, there's no need to spend time lining up the comments on
-the fields of a structure. **Gofmt** will do that for you. Given the
-declaration
+例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。
 
-::
+.. code-block:: go
 
    type T struct {
        name string // name of the object
        value int // its value
    }
 
-**gofmt** will line up the columns:
+**gofmt** カラムをフォーマットします:
 
-::
+.. code-block:: go
 
    type T struct {
        name    string // name of the object
        value   int    // its value
    }
 
-All Go code in the standard packages has been formatted with **gofmt**.
+標準パッケージのすべてのGoのコードは ``gofmt`` でフォーマットされています。
 
-Some formatting details remain. Very briefly:
+その他の書式設定の詳細が残っています。 簡潔に説明します。
 
-Indentation
-   We use tabs for indentation and **gofmt** emits them by default. Use
-   spaces only if you must.
-Line length
-   Go has no line length limit. Don't worry about overflowing a punched
-   card. If a line feels too long, wrap it and indent with an extra tab.
-Parentheses
-   Go needs fewer parentheses than C and Java: control structures
-   (**if**, **for**, **switch**) do not have parentheses in their
-   syntax. Also, the operator precedence hierarchy is shorter and
-   clearer, so
+インデント
+    インデントにタブを使用し ``gofmt`` はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。
+行の長さ
+    Goには行の長さの制限はありません。パンチされたカードがあふれる心配はありません。行が長すぎると感じる場合は、それを折り返し、追加のタブでインデントします。
+括弧
+    Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( ``if``, ``for``, ``switch`` )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。
 
-   ::
+.. code-block:: go
 
-      x<<8 + y<<16
+    x<<8 + y<<16
 
-   means what the spacing implies, unlike in the other languages.
+他の言語とは異なり、スペースが意味することを意味します。
 
 コメント
 ------------------

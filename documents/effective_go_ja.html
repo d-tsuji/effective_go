@@ -48,54 +48,36 @@
 </div>
 <div class="section" id="id5">
 <h2>フォーマット<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Formatting issues are the most contentious but the least consequential.
-People can adapt to different formatting styles but it's better if they
-don't have to, and less time is devoted to the topic if everyone adheres
-to the same style. The problem is how to approach this Utopia without a
-long prescriptive style guide.</p>
-<p>With Go we take an unusual approach and let the machine take care of
-most formatting issues. The <strong>gofmt</strong> program (also available as
-<strong>go fmt</strong>, which operates at the package level rather than source file
-level) reads a Go program and emits the source in a standard style of
-indentation and vertical alignment, retaining and if necessary
-reformatting comments. If you want to know how to handle some new layout
-situation, run <strong>gofmt</strong>; if the answer doesn't seem right, rearrange
-your program (or file a bug about <strong>gofmt</strong>), don't work around it.</p>
-<p>As an example, there's no need to spend time lining up the comments on
-the fields of a structure. <strong>Gofmt</strong> will do that for you. Given the
-declaration</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">T</span> <span class="n">struct</span> <span class="p">{</span>
-    <span class="n">name</span> <span class="n">string</span> <span class="o">//</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">object</span>
-    <span class="n">value</span> <span class="nb">int</span> <span class="o">//</span> <span class="n">its</span> <span class="n">value</span>
+<p>フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。</p>
+<p>Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。<code class="docutils literal notranslate"><span class="pre">gofmt</span></code> プログラム（ソースファイルレベルではなくパッケージレベルで動作する <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">fmt</span></code> としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。</p>
+<p>例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">T</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span> <span class="kt">string</span> <span class="c1">// name of the object</span>
+    <span class="nx">value</span> <span class="kt">int</span> <span class="c1">// its value</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>gofmt</strong> will line up the columns:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">T</span> <span class="n">struct</span> <span class="p">{</span>
-    <span class="n">name</span>    <span class="n">string</span> <span class="o">//</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">object</span>
-    <span class="n">value</span>   <span class="nb">int</span>    <span class="o">//</span> <span class="n">its</span> <span class="n">value</span>
+<p><strong>gofmt</strong> カラムをフォーマットします:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">T</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">name</span>    <span class="kt">string</span> <span class="c1">// name of the object</span>
+    <span class="nx">value</span>   <span class="kt">int</span>    <span class="c1">// its value</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>All Go code in the standard packages has been formatted with <strong>gofmt</strong>.</p>
-<p>Some formatting details remain. Very briefly:</p>
-<dl>
-<dt>Indentation</dt><dd><p>We use tabs for indentation and <strong>gofmt</strong> emits them by default. Use
-spaces only if you must.</p>
+<p>標準パッケージのすべてのGoのコードは <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> でフォーマットされています。</p>
+<p>その他の書式設定の詳細が残っています。 簡潔に説明します。</p>
+<dl class="simple">
+<dt>インデント</dt><dd><p>インデントにタブを使用し <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。</p>
 </dd>
-<dt>Line length</dt><dd><p>Go has no line length limit. Don't worry about overflowing a punched
-card. If a line feels too long, wrap it and indent with an extra tab.</p>
+<dt>行の長さ</dt><dd><p>Goには行の長さの制限はありません。パンチされたカードがあふれる心配はありません。行が長すぎると感じる場合は、それを折り返し、追加のタブでインデントします。</p>
 </dd>
-<dt>Parentheses</dt><dd><p>Go needs fewer parentheses than C and Java: control structures
-(<strong>if</strong>, <strong>for</strong>, <strong>switch</strong>) do not have parentheses in their
-syntax. Also, the operator precedence hierarchy is shorter and
-clearer, so</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="o">+</span> <span class="n">y</span><span class="o">&lt;&lt;</span><span class="mi">16</span>
-</pre></div>
-</div>
-<p>means what the spacing implies, unlike in the other languages.</p>
+<dt>括弧</dt><dd><p>Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, <code class="docutils literal notranslate"><span class="pre">switch</span></code> )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。</p>
 </dd>
 </dl>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">x</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="o">+</span> <span class="nx">y</span><span class="o">&lt;&lt;</span><span class="mi">16</span>
+</pre></div>
+</div>
+<p>他の言語とは異なり、スペースが意味することを意味します。</p>
 </div>
 <div class="section" id="id6">
 <h2>コメント<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
@@ -2801,11 +2783,11 @@ const templateStr = `
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 71585</li>
-            <li>非アスキー: 2380</li>
-            <li>合計文字数: 73965</li>
-            <li>半角換算: 76345</li>
-            <li>全角換算: 38172.5</li>
+            <li>英数記号: 70023</li>
+            <li>非アスキー: 3128</li>
+            <li>合計文字数: 73151</li>
+            <li>半角換算: 76279</li>
+            <li>全角換算: 38139.5</li>
         </ul>
     </p>
 </div>
