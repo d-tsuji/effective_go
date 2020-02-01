@@ -18,7 +18,7 @@ Go本体のパッケージのソースはコアライブラリとしてだけで
 
 フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。
 
-Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。``gofmt`` プログラム（ソースファイルレベルではなくパッケージレベルで動作する ``go fmt`` としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 ``gofmt`` を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。
+Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。**gofmt** プログラム（ソースファイルレベルではなくパッケージレベルで動作する **go fmt** としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 **gofmt** を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。
 
 例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。
 
@@ -38,16 +38,16 @@ Goでは、通常とは異なるアプローチを採用し、ほとんどのフ
        value   int    // its value
    }
 
-標準パッケージのすべてのGoのコードは ``gofmt`` でフォーマットされています。
+標準パッケージのすべてのGoのコードは **gofmt** でフォーマットされています。
 
 その他の書式設定の詳細が残っています。 簡潔に説明します。
 
 インデント
-    インデントにタブを使用し ``gofmt`` はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。
+    インデントにタブを使用し **gofmt** はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。
 行の長さ
     Goには行の長さの制限はありません。パンチされたカードがあふれる心配はありません。行が長すぎると感じる場合は、それを折り返し、追加のタブでインデントします。
 括弧
-    Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( ``if``, ``for``, ``switch`` )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。
+    Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( **if**, **for**, **switch** )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。
 
 .. code-block:: go
 
@@ -869,56 +869,33 @@ powerful applications come precisely from the fact that it's not
 block-based but function-based. In the section on **panic** and
 **recover** we'll see another example of its possibilities.
 
-データ(Data)
+データ
 --------------------
 
-.. _allocation_new:
-
-Allocation with **new**
+**new** によるアロケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Go has two allocation primitives, the built-in functions **new** and
-**make**. They do different things and apply to different types, which
-can be confusing, but the rules are simple. Let's talk about **new**
-first. It's a built-in function that allocates memory, but unlike its
-namesakes in some other languages it does not *initialize* the memory,
-it only *zeros* it. That is, **new(T)** allocates zeroed storage for a
-new item of type **T** and returns its address, a value of type ***T**.
-In Go terminology, it returns a pointer to a newly allocated zero value
-of type **T**.
+Goは2つのメモリアロケーションのプリミティブを持っています。組み込み関数である **new** と **make** です。それらは異なることを行い、異なる型に適用するため困惑するかもしれません。しかしルールはシンプルです。まず **new** について説明しましょう。これはメモリをアロケーションする組み込み関数ですが、他のいくつかの言語の同じ関数名のそれとは異なり、メモリを **初期化** せず、ゼロにするだけです。つまり **new(T)** は、型Tの新しい要素にゼロ化されたメモリを割り当て、型*Tの値であるアドレスを返します。 Goの用語では、型Tとして新しく割り当てられたゼロ値へのポインターを返します。
 
-Since the memory returned by **new** is zeroed, it's helpful to arrange
-when designing your data structures that the zero value of each type can
-be used without further initialization. This means a user of the data
-structure can create one with **new** and get right to work. For
-example, the documentation for **bytes.Buffer** states that "the zero
-value for **Buffer** is an empty buffer ready to use." Similarly,
-**sync.Mutex** does not have an explicit constructor or **Init** method.
-Instead, the zero value for a **sync.Mutex** is defined to be an
-unlocked mutex.
+**new** によって返されるメモリはゼロ化されます。これはデータ構造を設計する際に、各タイプのゼロ値をさらに初期化せずに使用できるように設計すると役立ちます。 データ構造を用いる開発者が **new** で変数を作成し、適切に動作できることを意味します。 たとえば、 **bytes.Buffer** のドキュメントには、「Bufferのゼロ値はすぐに使用できる空のバッファーです」と記載されています。 同様に **sync.Mutex** には明示的なコンストラクターまたは **Init** メソッドがありません。 代わりに **sync.Mutex** のゼロ値は非ロック状態のミューテックスとして定義されます。
 
-The zero-value-is-useful property works transitively. Consider this type
-declaration.
+ゼロ値の性質は推移的に機能します。以下の型宣言について考えてください。
 
-::
+.. code-block:: go
 
    type SyncedBuffer struct {
        lock    sync.Mutex
        buffer  bytes.Buffer
    }
 
-Values of type **SyncedBuffer** are also ready to use immediately upon
-allocation or just declaration. In the next snippet, both **p** and
-**v** will work correctly without further arrangement.
+型 **SyncedBuffer** の値も **new** によるメモリアロケーションや変数の宣言だけですぐに使用できます。次のスニペットでは **p** と **v** の両方が、追加のメソッドなどを用いることなく正しく機能します。
 
-::
+.. code-block:: go
 
    p := new(SyncedBuffer)  // type *SyncedBuffer
    var v SyncedBuffer      // type  SyncedBuffer
 
-.. _composite_literals:
-
-Constructors and composite literals
+コンストラクタと複合リテラル
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes the zero value isn't good enough and an initializing
@@ -3079,13 +3056,13 @@ Webサーバー
 
 mainまでの部分は簡単に理解できるはずです。 1つのフラグは、サーバーのデフォルトHTTPポートを設定します。 テンプレート変数templは、面白いことが起こる場所です。 ページを表示するためにサーバーによって実行されるHTMLテンプレートを作成します。 それについてはすぐに説明します。
 
-メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 ``QR`` をサーバーのルートパスにバインドします。 次に、サーバーを起動するために ``http.ListenAndServe`` が呼び出されます。 サーバーの実行中はブロックされます。
+メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 **QR** をサーバーのルートパスにバインドします。 次に、サーバーを起動するために **http.ListenAndServe** が呼び出されます。 サーバーの実行中はブロックされます。
 
-``QR`` はフォームデータを含むリクエストを受信し、 ``s`` という名前のフォーム値のデータに対してテンプレートを実行します。
+**QR** はフォームデータを含むリクエストを受信し、 **s** という名前のフォーム値のデータに対してテンプレートを実行します。
 
-テンプレートパッケージ ``html/template`` は強力です。 このプログラムは、その機能に触れています。 本質的に、 ``templ.Execute`` に渡されるデータ項目（この場合はフォーム値）から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト（templateStr）内で、二重括弧で区切られた部分はテンプレートアクションを示します。 ``{{if .}}`` から ``{{end}}`` の部分は、``.`` と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
+テンプレートパッケージ **html/template** は強力です。 このプログラムは、その機能に触れています。 本質的に、 **templ.Execute** に渡されるデータ項目（この場合はフォーム値）から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト（templateStr）内で、二重括弧で区切られた部分はテンプレートアクションを示します。 **{{if .}}** から **{{end}}** の部分は、**.** と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
 
-2つのスニペット ``{{.}}`` は、テンプレートに提示されたデータ（クエリ文字列）をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
+2つのスニペット **{{.}}** は、テンプレートに提示されたデータ（クエリ文字列）をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
 
 テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの `ドキュメント </pkg/html/template/>`_で詳細を確認してください。
 
