@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('ext'))
 
 # -- Project information -----------------------------------------------------
 
-project = 'Go Note'
+project = 'Effective Go'
 copyright = '2020, d-tsuji'
 author = 'd-tsuji'
 
