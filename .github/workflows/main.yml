@@ -43,11 +43,10 @@ jobs:
 
     - name: Push
       env:
-        GITHUB_USER: "d-tsuji"
         GITHUB_EMAIL: "{{ secrets.GITHUB_EMAIL }}"
         NODE_DEBUG: gh-pages
       run: |
-          git config --local user.name "${GITHUB_USER}"
+          git config --local user.name "${GITHUB_ACTOR}"
           git config --local user.email "${GITHUB_EMAIL}"
           git remote set-url origin git@github.com:${GITHUB_REPOSITORY}.git
           npm install && node deploy.js
