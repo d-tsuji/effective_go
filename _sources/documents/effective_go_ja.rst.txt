@@ -1,8 +1,8 @@
 Effective Go
 =======================
 
-Introduction
-------------
+イントロダクション
+---------------------------------
 
 Go is a new language. Although it borrows ideas from existing languages,
 it has unusual properties that make effective Go programs different in
@@ -22,8 +22,8 @@ augments the `language specification </ref/spec>`__, the `Tour of
 Go <//tour.golang.org/>`__, and `How to Write Go
 Code </doc/code.html>`__, all of which you should read first.
 
-Examples
-~~~~~~~~
+例
+~~~~~~~~~~~~~~~~
 
 The `Go package sources </src/>`__ are intended to serve not only as the
 core library but also as examples of how to use the language. Moreover,
@@ -35,8 +35,8 @@ question about how to approach a problem or how something might be
 implemented, the documentation, code and examples in the library can
 provide answers, ideas and background.
 
-Formatting
-----------
+フォーマット
+---------------------
 
 Formatting issues are the most contentious but the least consequential.
 People can adapt to different formatting styles but it's better if they
@@ -95,8 +95,8 @@ Parentheses
 
    means what the spacing implies, unlike in the other languages.
 
-Commentary
-----------
+コメント
+------------------
 
 Go provides C-style ``/* */`` block comments and C++-style ``//`` line
 comments. Line comments are the norm; block comments appear mostly as
@@ -227,7 +227,7 @@ that a set of variables is protected by a mutex.
        errorCount  uint32
    )
 
-Names
+命名
 -----
 
 Names are as important in Go as in any other language. They even have
@@ -236,8 +236,8 @@ determined by whether its first character is upper case. It's therefore
 worth spending a little time talking about naming conventions in Go
 programs.
 
-Package names
-~~~~~~~~~~~~~
+パッケージ名
+~~~~~~~~~~~~~~~~~~~~~
 
 When a package is imported, the package name becomes an accessor for the
 contents. After
@@ -287,8 +287,8 @@ comment can often be more valuable than an extra long name.
 
 .. _Getters:
 
-Getters
-~~~~~~~
+ゲッター
+~~~~~~~~~~~~~~~~~~
 
 Go doesn't provide automatic support for getters and setters. There's
 nothing wrong with providing getters and setters yourself, and it's
@@ -307,8 +307,8 @@ names read well in practice:
        obj.SetOwner(user)
    }
 
-Interface names
-~~~~~~~~~~~~~~~
+インターフェース名
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 By convention, one-method interfaces are named by the method name plus
 an -er suffix or similar modification to construct an agent noun:
@@ -326,13 +326,13 @@ the same name and signature; call your string-converter method
 .. _mixed-caps:
 
 MixedCaps
-~~~~~~~~~
+~~~~~~~~~~~~~~~~~
 
 Finally, the convention in Go is to use ``MixedCaps`` or ``mixedCaps``
 rather than underscores to write multiword names.
 
-Semicolons
-----------
+セミコロン
+------------------
 
 Like C, Go's formal grammar uses semicolons to terminate statements, but
 unlike in C, those semicolons do not appear in the source. Instead the
@@ -384,8 +384,8 @@ not like this
        g()
    }
 
-Control structures
-------------------
+制御構造(Control structures)
+--------------------------------------------------------------------
 
 The control structures of Go are related to those of C but differ in
 important ways. There is no ``do`` or ``while`` loop, only a slightly
@@ -457,7 +457,7 @@ code needs no ``else`` statements.
 .. _redeclaration:
 
 Redeclaration and reassignment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An aside: The last example in the previous section demonstrates a detail
 of how the ``:=`` short declaration form works. The declaration that
@@ -694,7 +694,7 @@ uses two ``switch`` statements:
 .. _type_switch:
 
 Type switch
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 A switch can also be used to discover the dynamic type of an interface
 variable. Such a *type switch* uses the syntax of a type assertion with
@@ -721,13 +721,13 @@ different type in each case.
        fmt.Printf("pointer to integer %d\n", *t) // t has type *int
    }
 
-Functions
----------
+関数
+----------------------------------
 
 .. _multiple-returns:
 
-Multiple return values
-~~~~~~~~~~~~~~~~~~~~~~
+多値返却
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 One of Go's unusual features is that functions and methods can return
 multiple values. This form can be used to improve on a couple of clumsy
@@ -776,8 +776,8 @@ You could use it to scan the numbers in an input slice ``b`` like this:
 
 .. _named-results:
 
-Named result parameters
-~~~~~~~~~~~~~~~~~~~~~~~
+名前付き結果変数(Named result parameters)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The return or result "parameters" of a Go function can be given names
 and used as regular variables, just like the incoming parameters. When
@@ -928,13 +928,13 @@ powerful applications come precisely from the fact that it's not
 block-based but function-based. In the section on ``panic`` and
 ``recover`` we'll see another example of its possibilities.
 
-Data
-----
+データ(Data)
+--------------------
 
 .. _allocation_new:
 
 Allocation with ``new``
-~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Go has two allocation primitives, the built-in functions ``new`` and
 ``make``. They do different things and apply to different types, which
@@ -978,7 +978,7 @@ allocation or just declaration. In the next snippet, both ``p`` and
 .. _composite_literals:
 
 Constructors and composite literals
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Sometimes the zero value isn't good enough and an initializing
 constructor is necessary, as in this example derived from package
@@ -1050,7 +1050,7 @@ examples, the initializations work regardless of the values of
 .. _allocation_make:
 
 Allocation with ``make``
-~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Back to allocation. The built-in function ``make(T,``\ *args*\ ``)``
 serves a purpose different from ``new(T)``. It creates slices, maps, and
@@ -1093,7 +1093,7 @@ Remember that ``make`` applies only to maps, slices and channels and
 does not return a pointer. To obtain an explicit pointer allocate with
 ``new`` or take the address of a variable explicitly.
 
-Arrays
+配列
 ~~~~~~
 
 Arrays are useful when planning the detailed layout of memory and
@@ -1128,8 +1128,8 @@ behavior and efficiency, you can pass a pointer to the array.
 
 But even this style isn't idiomatic Go. Use slices instead.
 
-Slices
-~~~~~~
+スライス
+~~~~~~~~~~~~~~~~
 
 Slices wrap arrays to give a more general, powerful, and convenient
 interface to sequences of data. Except for items with explicit dimension
@@ -1210,7 +1210,7 @@ though, we need a little more information, so we'll return to it later.
 .. _two_dimensional_slices:
 
 Two-dimensional slices
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Go's arrays and slices are one-dimensional. To create the equivalent of
 a 2D array or slice, it is necessary to define an array-of-arrays or
@@ -1363,7 +1363,7 @@ even if the key is already absent from the map.
    delete(timeZone, "PDT")  // Now on Standard Time
 
 Printing
-~~~~~~~~
+~~~~~~~~~~~~~~~~
 
 Formatted printing in Go uses a style similar to C's ``printf`` family
 but is richer and more general. The functions live in the ``fmt``
@@ -1617,8 +1617,8 @@ one above.
 Without that ``...``, it wouldn't compile because the types would be
 wrong; ``y`` is not of type ``int``.
 
-Initialization
---------------
+初期化(Initialization)
+--------------------------------------------------
 
 Although it doesn't look superficially very different from
 initialization in C or C++, initialization in Go is more powerful.
@@ -1626,8 +1626,8 @@ Complex structures can be built during initialization and the ordering
 issues among initialized objects, even among different packages, are
 handled correctly.
 
-Constants
-~~~~~~~~~
+定数
+~~~~~~~~~~~~~~~~~
 
 Constants in Go are just that—constant. They are created at compile
 time, even when defined as locals in functions, and can only be numbers,
@@ -1661,8 +1661,8 @@ conversion but because it calls ``Sprintf`` with ``%f``, which is not a
 string format: ``Sprintf`` will only call the ``String`` method when it
 wants a string, and ``%f`` wants a floating-point value.
 
-Variables
-~~~~~~~~~
+変数
+~~~~~~~~~~~~~~~~~
 
 Variables can be initialized just like constants but the initializer can
 be a general expression computed at run time.
@@ -1677,8 +1677,8 @@ be a general expression computed at run time.
 
 .. _init:
 
-The init function
-~~~~~~~~~~~~~~~~~
+init関数
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Finally, each source file can define its own niladic ``init`` function
 to set up whatever state is required. (Actually each file can have
@@ -1707,13 +1707,13 @@ the program state before real execution begins.
        flag.StringVar(&gopath, "gopath", gopath, "override default GOPATH")
    }
 
-Methods
--------
+メソッド
+----------------
 
 .. _pointers_vs_values:
 
-Pointers vs. Values
-~~~~~~~~~~~~~~~~~~~
+ポインター vs 値
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As we saw with ``ByteSize``, methods can be defined for any named type
 (except a pointer or an interface); the receiver does not have to be a
@@ -1785,11 +1785,11 @@ to the implementation of ``bytes.Buffer``.
 
 .. _interfaces_and_types:
 
-Interfaces and other types
---------------------------
+インターフェースとその他の型
+--------------------------------------------------
 
-Interfaces
-~~~~~~~~~~
+インターフェース
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Interfaces in Go provide a way to specify the behavior of an object: if
 something can do *this*, then it can be used *here*. We've seen a couple
@@ -1808,7 +1808,7 @@ this contrived example ``Sequence`` satisfies both.
 {{code "/doc/progs/eff_sequence.go" \`/^type/\` "$"}}
 
 Conversions
-~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
 
 The ``String`` method of ``Sequence`` is recreating the work that
 ``Sprint`` already does for slices. (It also has complexity O(N²), which
@@ -1855,7 +1855,7 @@ in practice but can be effective.
 .. _interface_conversions:
 
 Interface conversions and type assertions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 `Type switches <#type_switch>`__ are a form of conversion: they take an
 interface and, for each case in the switch, in a sense convert it to the
@@ -1930,7 +1930,7 @@ statement that's equivalent to the type switch that opened this section.
    }
 
 Generality
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
 If a type exists only to implement an interface and will never have
 exported methods beyond that interface, there is no need to export the
@@ -1988,8 +1988,8 @@ treat the result only as a ``Stream``, it won't notice the difference.
 
 .. _interface_methods:
 
-Interfaces and methods
-~~~~~~~~~~~~~~~~~~~~~~
+インターフェースとメソッド
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since almost anything can have methods attached, almost anything can
 satisfy an interface. One illustrative example is in the ``http``
@@ -2131,8 +2131,8 @@ methods, which can be defined for (almost) any type.
 
 .. _blank:
 
-The blank identifier
---------------------
+空白の識別子
+------------------------------------
 
 We've mentioned the blank identifier a couple of times now, in the
 context of ```for`` ``range`` loops <#for>`__ and `maps <#maps>`__. The
@@ -2145,7 +2145,7 @@ irrelevant. It has uses beyond those we've seen already.
 .. _blank_assign:
 
 The blank identifier in multiple assignment
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The use of a blank identifier in a ``for`` ``range`` loop is a special
 case of a general situation: multiple assignment.
@@ -2179,7 +2179,7 @@ they're provided for a reason.
 .. _blank_unused:
 
 Unused imports and variables
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 It is an error to import a package or to declare a variable without
 using it. Unused imports bloat the program and slow compilation, while a
@@ -2210,7 +2210,7 @@ find and as a reminder to clean things up later.
 .. _blank_import:
 
 Import for side effect
-~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 An unused import like ``fmt`` or ``io`` in the previous example should
 eventually be used or removed: blank assignments identify code as a work
@@ -2234,7 +2234,7 @@ name, the compiler would reject the program.)
 .. _blank_implements:
 
 Interface checks
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 As we saw in the discussion of `interfaces <#interfaces_and_types>`__
 above, a type need not declare explicitly that it implements an
@@ -2293,8 +2293,8 @@ variable. Don't do this for every type that satisfies an interface,
 though. By convention, such declarations are only used when there are no
 static conversions already present in the code, which is a rare event.
 
-Embedding
----------
+埋め込み
+-----------------
 
 Go does not provide the typical, type-driven notion of subclassing, but
 it does have the ability to “borrow” pieces of an implementation by
@@ -2447,13 +2447,13 @@ protection against changes made to types embedded from outside; there is
 no problem if a field is added that conflicts with another field in
 another subtype if neither field is ever used.
 
-Concurrency
------------
+並行処理
+-------------------
 
 .. _sharing:
 
-Share by communicating
-~~~~~~~~~~~~~~~~~~~~~~
+通信による共有
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.
@@ -2484,8 +2484,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.
 
-Goroutines
-~~~~~~~~~~
+ゴルーチン
+~~~~~~~~~~~~~~~~~~
 
 They're called *goroutines* because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
@@ -2526,8 +2526,8 @@ active.
 These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.
 
-Channels
-~~~~~~~~
+チャンネル
+~~~~~~~~~~~~~~~~~~
 
 Like maps, channels are allocated with ``make``, and the resulting value
 acts as a reference to an underlying data structure. If an optional
@@ -2686,7 +2686,7 @@ channel.
 .. _chan_of_chan:
 
 Channels of channels
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 One of the most important properties of Go is that a channel is a
 first-class value that can be allocated and passed around like any
@@ -2742,7 +2742,7 @@ there's not a mutex in sight.
 .. _parallel:
 
 Parallelization
-~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 Another application of these ideas is to parallelize a calculation
 across multiple CPU cores. If the calculation can be broken into
@@ -2818,7 +2818,7 @@ post <//blog.golang.org/2013/01/concurrency-is-not-parallelism.html>`__.
 .. _leaky_buffer:
 
 A leaky buffer
-~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~
 
 The tools of concurrent programming can even make non-concurrent ideas
 easier to express. Here's an example abstracted from an RPC package. The
@@ -2878,7 +2878,7 @@ This implementation builds a leaky bucket free list in just a few lines,
 relying on the buffered channel and the garbage collector for
 bookkeeping.
 
-Errors
+エラー
 ------
 
 Library routines must often return some sort of error indication to the
@@ -3127,8 +3127,8 @@ exercise for the reader.
 
 .. _web_server:
 
-A web server
-------------
+Webサーバー
+--------------------
 
 Let's finish with a complete Go program, a web server. This one is
 actually a kind of web re-server. Google provides a service at

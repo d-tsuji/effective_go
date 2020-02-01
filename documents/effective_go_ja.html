@@ -15,7 +15,7 @@
     <script type="text/javascript" src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
-    <link rel="prev" title="Go Note" href="../index.html" />
+    <link rel="prev" title="Effective Go" href="../index.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -34,8 +34,8 @@
             
   <div class="section" id="effective-go">
 <h1>Effective Go<a class="headerlink" href="#effective-go" title="このヘッドラインへのパーマリンク">¶</a></h1>
-<div class="section" id="introduction">
-<h2>Introduction<a class="headerlink" href="#introduction" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id1">
+<h2>イントロダクション<a class="headerlink" href="#id1" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Go is a new language. Although it borrows ideas from existing languages,
 it has unusual properties that make effective Go programs different in
 character from programs written in its relatives. A straightforward
@@ -52,8 +52,8 @@ understand.</p>
 augments the <a class="reference external" href="/ref/spec">language specification</a>, the <a class="reference external" href="//tour.golang.org/">Tour of
 Go</a>, and <a class="reference external" href="/doc/code.html">How to Write Go
 Code</a>, all of which you should read first.</p>
-<div class="section" id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id2">
+<h3>例<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The <a class="reference external" href="/src/">Go package sources</a> are intended to serve not only as the
 core library but also as examples of how to use the language. Moreover,
 many of the packages contain working, self-contained executable examples
@@ -65,8 +65,8 @@ implemented, the documentation, code and examples in the library can
 provide answers, ideas and background.</p>
 </div>
 </div>
-<div class="section" id="formatting">
-<h2>Formatting<a class="headerlink" href="#formatting" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id3">
+<h2>フォーマット<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Formatting issues are the most contentious but the least consequential.
 People can adapt to different formatting styles but it's better if they
 don't have to, and less time is devoted to the topic if everyone adheres
@@ -116,8 +116,8 @@ clearer, so</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="commentary">
-<h2>Commentary<a class="headerlink" href="#commentary" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id4">
+<h2>コメント<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Go provides C-style <code class="docutils literal notranslate"><span class="pre">/*</span> <span class="pre">*/</span></code> block comments and C++-style <code class="docutils literal notranslate"><span class="pre">//</span></code> line
 comments. Line comments are the norm; block comments appear mostly as
 package comments, but are useful within an expression or to disable
@@ -229,15 +229,15 @@ that a set of variables is protected by a mutex.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="names">
-<h2>Names<a class="headerlink" href="#names" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id5">
+<h2>命名<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Names are as important in Go as in any other language. They even have
 semantic effect: the visibility of a name outside a package is
 determined by whether its first character is upper case. It's therefore
 worth spending a little time talking about naming conventions in Go
 programs.</p>
-<div class="section" id="package-names">
-<h3>Package names<a class="headerlink" href="#package-names" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id6">
+<h3>パッケージ名<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>When a package is imported, the package name becomes an accessor for the
 contents. After</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="s2">&quot;bytes&quot;</span>
@@ -280,7 +280,7 @@ names don't automatically make things more readable. A helpful doc
 comment can often be more valuable than an extra long name.</p>
 </div>
 <div class="section" id="getters">
-<span id="id1"></span><h3>Getters<a class="headerlink" href="#getters" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id7"></span><h3>ゲッター<a class="headerlink" href="#getters" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Go doesn't provide automatic support for getters and setters. There's
 nothing wrong with providing getters and setters yourself, and it's
 often appropriate to do so, but it's neither idiomatic nor necessary to
@@ -297,8 +297,8 @@ names read well in practice:</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="interface-names">
-<h3>Interface names<a class="headerlink" href="#interface-names" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id8">
+<h3>インターフェース名<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>By convention, one-method interfaces are named by the method name plus
 an -er suffix or similar modification to construct an agent noun:
 <code class="docutils literal notranslate"><span class="pre">Reader</span></code>, <code class="docutils literal notranslate"><span class="pre">Writer</span></code>, <code class="docutils literal notranslate"><span class="pre">Formatter</span></code>, <code class="docutils literal notranslate"><span class="pre">CloseNotifier</span></code> etc.</p>
@@ -317,8 +317,8 @@ the same name and signature; call your string-converter method
 rather than underscores to write multiword names.</p>
 </div>
 </div>
-<div class="section" id="semicolons">
-<h2>Semicolons<a class="headerlink" href="#semicolons" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id9">
+<h2>セミコロン<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Like C, Go's formal grammar uses semicolons to terminate statements, but
 unlike in C, those semicolons do not appear in the source. Instead the
 lexer uses a simple rule to insert semicolons automatically as it scans,
@@ -360,7 +360,7 @@ this</p>
 </div>
 </div>
 <div class="section" id="control-structures">
-<h2>Control structures<a class="headerlink" href="#control-structures" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>制御構造(Control structures)<a class="headerlink" href="#control-structures" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>The control structures of Go are related to those of C but differ in
 important ways. There is no <code class="docutils literal notranslate"><span class="pre">do</span></code> or <code class="docutils literal notranslate"><span class="pre">while</span></code> loop, only a slightly
 generalized <code class="docutils literal notranslate"><span class="pre">for</span></code>; <code class="docutils literal notranslate"><span class="pre">switch</span></code> is more flexible; <code class="docutils literal notranslate"><span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">switch</span></code>
@@ -621,7 +621,7 @@ uses two <code class="docutils literal notranslate"><span class="pre">switch</sp
 </div>
 </div>
 <div class="section" id="type-switch">
-<span id="id2"></span><h3>Type switch<a class="headerlink" href="#type-switch" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id10"></span><h3>Type switch<a class="headerlink" href="#type-switch" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>A switch can also be used to discover the dynamic type of an interface
 variable. Such a <em>type switch</em> uses the syntax of a type assertion with
 the keyword <code class="docutils literal notranslate"><span class="pre">type</span></code> inside the parentheses. If the switch declares a
@@ -647,10 +647,10 @@ different type in each case.</p>
 </div>
 </div>
 </div>
-<div class="section" id="functions">
-<h2>Functions<a class="headerlink" href="#functions" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="multiple-return-values">
-<span id="multiple-returns"></span><h3>Multiple return values<a class="headerlink" href="#multiple-return-values" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id11">
+<h2>関数<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="multiple-returns">
+<span id="id12"></span><h3>多値返却<a class="headerlink" href="#multiple-returns" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>One of Go's unusual features is that functions and methods can return
 multiple values. This form can be used to improve on a couple of clumsy
 idioms in C programs: in-band error returns such as <code class="docutils literal notranslate"><span class="pre">-1</span></code> for <code class="docutils literal notranslate"><span class="pre">EOF</span></code>
@@ -690,7 +690,7 @@ the next position.</p>
 </div>
 </div>
 <div class="section" id="named-result-parameters">
-<span id="named-results"></span><h3>Named result parameters<a class="headerlink" href="#named-result-parameters" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="named-results"></span><h3>名前付き結果変数(Named result parameters)<a class="headerlink" href="#named-result-parameters" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The return or result &quot;parameters&quot; of a Go function can be given names
 and used as regular variables, just like the incoming parameters. When
 named, they are initialized to the zero values for their types when the
@@ -826,7 +826,7 @@ block-based but function-based. In the section on <code class="docutils literal 
 </div>
 </div>
 <div class="section" id="data">
-<h2>Data<a class="headerlink" href="#data" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>データ(Data)<a class="headerlink" href="#data" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="allocation-with-new">
 <span id="allocation-new"></span><h3>Allocation with <code class="docutils literal notranslate"><span class="pre">new</span></code><a class="headerlink" href="#allocation-with-new" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Go has two allocation primitives, the built-in functions <code class="docutils literal notranslate"><span class="pre">new</span></code> and
@@ -960,8 +960,8 @@ a pointer to a <code class="docutils literal notranslate"><span class="pre">nil<
 does not return a pointer. To obtain an explicit pointer allocate with
 <code class="docutils literal notranslate"><span class="pre">new</span></code> or take the address of a variable explicitly.</p>
 </div>
-<div class="section" id="arrays">
-<h3>Arrays<a class="headerlink" href="#arrays" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id13">
+<h3>配列<a class="headerlink" href="#id13" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Arrays are useful when planning the detailed layout of memory and
 sometimes can help avoid allocation, but primarily they are a building
 block for slices, the subject of the next section. To lay the foundation
@@ -991,8 +991,8 @@ behavior and efficiency, you can pass a pointer to the array.</p>
 </div>
 <p>But even this style isn't idiomatic Go. Use slices instead.</p>
 </div>
-<div class="section" id="slices">
-<h3>Slices<a class="headerlink" href="#slices" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id14">
+<h3>スライス<a class="headerlink" href="#id14" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Slices wrap arrays to give a more general, powerful, and convenient
 interface to sequences of data. Except for items with explicit dimension
 such as transformation matrices, most array programming in Go is done
@@ -1060,7 +1060,7 @@ structure holding the pointer, length, and capacity) is passed by value.</p>
 though, we need a little more information, so we'll return to it later.</p>
 </div>
 <div class="section" id="two-dimensional-slices">
-<span id="id3"></span><h3>Two-dimensional slices<a class="headerlink" href="#two-dimensional-slices" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id15"></span><h3>Two-dimensional slices<a class="headerlink" href="#two-dimensional-slices" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Go's arrays and slices are one-dimensional. To create the equivalent of
 a 2D array or slice, it is necessary to define an array-of-arrays or
 slice-of-slices, like this:</p>
@@ -1397,14 +1397,14 @@ wrong; <code class="docutils literal notranslate"><span class="pre">y</span></co
 </div>
 </div>
 <div class="section" id="initialization">
-<h2>Initialization<a class="headerlink" href="#initialization" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<h2>初期化(Initialization)<a class="headerlink" href="#initialization" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Although it doesn't look superficially very different from
 initialization in C or C++, initialization in Go is more powerful.
 Complex structures can be built during initialization and the ordering
 issues among initialized objects, even among different packages, are
 handled correctly.</p>
-<div class="section" id="constants">
-<h3>Constants<a class="headerlink" href="#constants" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id16">
+<h3>定数<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Constants in Go are just that—constant. They are created at compile
 time, even when defined as locals in functions, and can only be numbers,
 characters (runes), strings or booleans. Because of the compile-time
@@ -1415,14 +1415,14 @@ function call to <code class="docutils literal notranslate"><span class="pre">ma
 <p>In Go, enumerated constants are created using the <code class="docutils literal notranslate"><span class="pre">iota</span></code> enumerator.
 Since <code class="docutils literal notranslate"><span class="pre">iota</span></code> can be part of an expression and expressions can be
 implicitly repeated, it is easy to build intricate sets of values.</p>
-<p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^type ByteSize/` `/^)/<a href="#id4"><span class="problematic" id="id5">`</span></a>}}</p>
+<p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^type ByteSize/` `/^)/<a href="#id17"><span class="problematic" id="id18">`</span></a>}}</p>
 <p>The ability to attach a method such as <code class="docutils literal notranslate"><span class="pre">String</span></code> to any user-defined
 type makes it possible for arbitrary values to format themselves
 automatically for printing. Although you'll see it most often applied to
 structs, this technique is also useful for scalar types such as
 floating-point types like <code class="docutils literal notranslate"><span class="pre">ByteSize</span></code>.</p>
 <p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^func.*ByteSize.*String/`
-`/^}/<a href="#id6"><span class="problematic" id="id7">`</span></a>}}</p>
+`/^}/<a href="#id19"><span class="problematic" id="id20">`</span></a>}}</p>
 <p>The expression <code class="docutils literal notranslate"><span class="pre">YB</span></code> prints as <code class="docutils literal notranslate"><span class="pre">1.00YB</span></code>, while <code class="docutils literal notranslate"><span class="pre">ByteSize(1e13)</span></code>
 prints as <code class="docutils literal notranslate"><span class="pre">9.09TB</span></code>.</p>
 <p>The use here of <code class="docutils literal notranslate"><span class="pre">Sprintf</span></code> to implement <code class="docutils literal notranslate"><span class="pre">ByteSize</span></code>'s <code class="docutils literal notranslate"><span class="pre">String</span></code>
@@ -1431,8 +1431,8 @@ conversion but because it calls <code class="docutils literal notranslate"><span
 string format: <code class="docutils literal notranslate"><span class="pre">Sprintf</span></code> will only call the <code class="docutils literal notranslate"><span class="pre">String</span></code> method when it
 wants a string, and <code class="docutils literal notranslate"><span class="pre">%f</span></code> wants a floating-point value.</p>
 </div>
-<div class="section" id="variables">
-<h3>Variables<a class="headerlink" href="#variables" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id21">
+<h3>変数<a class="headerlink" href="#id21" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Variables can be initialized just like constants but the initializer can
 be a general expression computed at run time.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="p">(</span>
@@ -1443,8 +1443,8 @@ be a general expression computed at run time.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="the-init-function">
-<span id="init"></span><h3>The init function<a class="headerlink" href="#the-init-function" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="init">
+<span id="id22"></span><h3>init関数<a class="headerlink" href="#init" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Finally, each source file can define its own niladic <code class="docutils literal notranslate"><span class="pre">init</span></code> function
 to set up whatever state is required. (Actually each file can have
 multiple <code class="docutils literal notranslate"><span class="pre">init</span></code> functions.) And finally means finally: <code class="docutils literal notranslate"><span class="pre">init</span></code> is
@@ -1471,10 +1471,10 @@ the program state before real execution begins.</p>
 </div>
 </div>
 </div>
-<div class="section" id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="pointers-vs-values">
-<span id="id8"></span><h3>Pointers vs. Values<a class="headerlink" href="#pointers-vs-values" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id23">
+<h2>メソッド<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="vs">
+<span id="pointers-vs-values"></span><h3>ポインター vs 値<a class="headerlink" href="#vs" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>As we saw with <code class="docutils literal notranslate"><span class="pre">ByteSize</span></code>, methods can be defined for any named type
 (except a pointer or an interface); the receiver does not have to be a
 struct.</p>
@@ -1533,10 +1533,10 @@ rewrite that to <code class="docutils literal notranslate"><span class="pre">(&a
 to the implementation of <code class="docutils literal notranslate"><span class="pre">bytes.Buffer</span></code>.</p>
 </div>
 </div>
-<div class="section" id="interfaces-and-other-types">
-<span id="interfaces-and-types"></span><h2>Interfaces and other types<a class="headerlink" href="#interfaces-and-other-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="interfaces">
-<h3>Interfaces<a class="headerlink" href="#interfaces" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="interfaces-and-types">
+<span id="id24"></span><h2>インターフェースとその他の型<a class="headerlink" href="#interfaces-and-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id25">
+<h3>インターフェース<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Interfaces in Go provide a way to specify the behavior of an object: if
 something can do <em>this</em>, then it can be used <em>here</em>. We've seen a couple
 of simple examples already; custom printers can be implemented by a
@@ -1702,8 +1702,8 @@ encryption with other encryption modes is a localized change. The
 constructor calls must be edited, but because the surrounding code must
 treat the result only as a <code class="docutils literal notranslate"><span class="pre">Stream</span></code>, it won't notice the difference.</p>
 </div>
-<div class="section" id="interfaces-and-methods">
-<span id="interface-methods"></span><h3>Interfaces and methods<a class="headerlink" href="#interfaces-and-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="interface-methods">
+<span id="id26"></span><h3>インターフェースとメソッド<a class="headerlink" href="#interface-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Since almost anything can have methods attached, almost anything can
 satisfy an interface. One illustrative example is in the <code class="docutils literal notranslate"><span class="pre">http</span></code>
 package, which defines the <code class="docutils literal notranslate"><span class="pre">Handler</span></code> interface. Any object that
@@ -1822,8 +1822,8 @@ channel, and a function, all because interfaces are just sets of
 methods, which can be defined for (almost) any type.</p>
 </div>
 </div>
-<div class="section" id="the-blank-identifier">
-<span id="blank"></span><h2>The blank identifier<a class="headerlink" href="#the-blank-identifier" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="blank">
+<span id="id27"></span><h2>空白の識別子<a class="headerlink" href="#blank" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>We've mentioned the blank identifier a couple of times now, in the
 context of <code class="docutils literal notranslate"><span class="pre">`for</span></code> <code class="docutils literal notranslate"><span class="pre">range</span></code> loops &lt;#for&gt;`__ and <a class="reference external" href="#maps">maps</a>. The
 blank identifier can be assigned or declared with any value of any type,
@@ -1952,8 +1952,8 @@ though. By convention, such declarations are only used when there are no
 static conversions already present in the code, which is a rare event.</p>
 </div>
 </div>
-<div class="section" id="embedding">
-<h2>Embedding<a class="headerlink" href="#embedding" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id28">
+<h2>埋め込み<a class="headerlink" href="#id28" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Go does not provide the typical, type-driven notion of subclassing, but
 it does have the ability to “borrow” pieces of an implementation by
 <em>embedding</em> types within a struct or interface.</p>
@@ -2080,10 +2080,10 @@ protection against changes made to types embedded from outside; there is
 no problem if a field is added that conflicts with another field in
 another subtype if neither field is ever used.</p>
 </div>
-<div class="section" id="concurrency">
-<h2>Concurrency<a class="headerlink" href="#concurrency" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="share-by-communicating">
-<span id="sharing"></span><h3>Share by communicating<a class="headerlink" href="#share-by-communicating" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id29">
+<h2>並行処理<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="sharing">
+<span id="id30"></span><h3>通信による共有<a class="headerlink" href="#sharing" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -2111,8 +2111,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="goroutines">
-<h3>Goroutines<a class="headerlink" href="#goroutines" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id31">
+<h3>ゴルーチン<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -2145,8 +2145,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="channels">
-<h3>Channels<a class="headerlink" href="#channels" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id32">
+<h3>チャンネル<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <code class="docutils literal notranslate"><span class="pre">make</span></code>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -2449,8 +2449,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="errors">
-<h2>Errors<a class="headerlink" href="#errors" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id33">
+<h2>エラー<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2666,8 +2666,8 @@ problems and re-panic with the original error. That's left as an
 exercise for the reader.</p>
 </div>
 </div>
-<div class="section" id="a-web-server">
-<span id="web-server"></span><h2>A web server<a class="headerlink" href="#a-web-server" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="web">
+<span id="web-server"></span><h2>Webサーバー<a class="headerlink" href="#web" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Let's finish with a complete Go program, a web server. This one is
 actually a kind of web re-server. Google provides a service at
 <code class="docutils literal notranslate"><span class="pre">chart.apis.google.com</span></code> that does automatic formatting of data into
@@ -2723,21 +2723,21 @@ in a few lines.</p>
   <h3><a href="../index.html">目次</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Effective Go</a><ul>
-<li><a class="reference internal" href="#introduction">Introduction</a><ul>
-<li><a class="reference internal" href="#examples">Examples</a></li>
+<li><a class="reference internal" href="#id1">イントロダクション</a><ul>
+<li><a class="reference internal" href="#id2">例</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#formatting">Formatting</a></li>
-<li><a class="reference internal" href="#commentary">Commentary</a></li>
-<li><a class="reference internal" href="#names">Names</a><ul>
-<li><a class="reference internal" href="#package-names">Package names</a></li>
-<li><a class="reference internal" href="#getters">Getters</a></li>
-<li><a class="reference internal" href="#interface-names">Interface names</a></li>
+<li><a class="reference internal" href="#id3">フォーマット</a></li>
+<li><a class="reference internal" href="#id4">コメント</a></li>
+<li><a class="reference internal" href="#id5">命名</a><ul>
+<li><a class="reference internal" href="#id6">パッケージ名</a></li>
+<li><a class="reference internal" href="#getters">ゲッター</a></li>
+<li><a class="reference internal" href="#id8">インターフェース名</a></li>
 <li><a class="reference internal" href="#mixedcaps">MixedCaps</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#semicolons">Semicolons</a></li>
-<li><a class="reference internal" href="#control-structures">Control structures</a><ul>
+<li><a class="reference internal" href="#id9">セミコロン</a></li>
+<li><a class="reference internal" href="#control-structures">制御構造(Control structures)</a><ul>
 <li><a class="reference internal" href="#if">If</a></li>
 <li><a class="reference internal" href="#redeclaration-and-reassignment">Redeclaration and reassignment</a></li>
 <li><a class="reference internal" href="#for">For</a></li>
@@ -2745,65 +2745,65 @@ in a few lines.</p>
 <li><a class="reference internal" href="#type-switch">Type switch</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#functions">Functions</a><ul>
-<li><a class="reference internal" href="#multiple-return-values">Multiple return values</a></li>
-<li><a class="reference internal" href="#named-result-parameters">Named result parameters</a></li>
+<li><a class="reference internal" href="#id11">関数</a><ul>
+<li><a class="reference internal" href="#multiple-returns">多値返却</a></li>
+<li><a class="reference internal" href="#named-result-parameters">名前付き結果変数(Named result parameters)</a></li>
 <li><a class="reference internal" href="#defer">Defer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#data">Data</a><ul>
+<li><a class="reference internal" href="#data">データ(Data)</a><ul>
 <li><a class="reference internal" href="#allocation-with-new">Allocation with <code class="docutils literal notranslate"><span class="pre">new</span></code></a></li>
 <li><a class="reference internal" href="#constructors-and-composite-literals">Constructors and composite literals</a></li>
 <li><a class="reference internal" href="#allocation-with-make">Allocation with <code class="docutils literal notranslate"><span class="pre">make</span></code></a></li>
-<li><a class="reference internal" href="#arrays">Arrays</a></li>
-<li><a class="reference internal" href="#slices">Slices</a></li>
+<li><a class="reference internal" href="#id13">配列</a></li>
+<li><a class="reference internal" href="#id14">スライス</a></li>
 <li><a class="reference internal" href="#two-dimensional-slices">Two-dimensional slices</a></li>
 <li><a class="reference internal" href="#maps">Maps</a></li>
 <li><a class="reference internal" href="#printing">Printing</a></li>
 <li><a class="reference internal" href="#append">Append</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#initialization">Initialization</a><ul>
-<li><a class="reference internal" href="#constants">Constants</a></li>
-<li><a class="reference internal" href="#variables">Variables</a></li>
-<li><a class="reference internal" href="#the-init-function">The init function</a></li>
+<li><a class="reference internal" href="#initialization">初期化(Initialization)</a><ul>
+<li><a class="reference internal" href="#id16">定数</a></li>
+<li><a class="reference internal" href="#id21">変数</a></li>
+<li><a class="reference internal" href="#init">init関数</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#methods">Methods</a><ul>
-<li><a class="reference internal" href="#pointers-vs-values">Pointers vs. Values</a></li>
+<li><a class="reference internal" href="#id23">メソッド</a><ul>
+<li><a class="reference internal" href="#vs">ポインター vs 値</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#interfaces-and-other-types">Interfaces and other types</a><ul>
-<li><a class="reference internal" href="#interfaces">Interfaces</a></li>
+<li><a class="reference internal" href="#interfaces-and-types">インターフェースとその他の型</a><ul>
+<li><a class="reference internal" href="#id25">インターフェース</a></li>
 <li><a class="reference internal" href="#conversions">Conversions</a></li>
 <li><a class="reference internal" href="#interface-conversions-and-type-assertions">Interface conversions and type assertions</a></li>
 <li><a class="reference internal" href="#generality">Generality</a></li>
-<li><a class="reference internal" href="#interfaces-and-methods">Interfaces and methods</a></li>
+<li><a class="reference internal" href="#interface-methods">インターフェースとメソッド</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#the-blank-identifier">The blank identifier</a><ul>
+<li><a class="reference internal" href="#blank">空白の識別子</a><ul>
 <li><a class="reference internal" href="#the-blank-identifier-in-multiple-assignment">The blank identifier in multiple assignment</a></li>
 <li><a class="reference internal" href="#unused-imports-and-variables">Unused imports and variables</a></li>
 <li><a class="reference internal" href="#import-for-side-effect">Import for side effect</a></li>
 <li><a class="reference internal" href="#interface-checks">Interface checks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#embedding">Embedding</a></li>
-<li><a class="reference internal" href="#concurrency">Concurrency</a><ul>
-<li><a class="reference internal" href="#share-by-communicating">Share by communicating</a></li>
-<li><a class="reference internal" href="#goroutines">Goroutines</a></li>
-<li><a class="reference internal" href="#channels">Channels</a></li>
+<li><a class="reference internal" href="#id28">埋め込み</a></li>
+<li><a class="reference internal" href="#id29">並行処理</a><ul>
+<li><a class="reference internal" href="#sharing">通信による共有</a></li>
+<li><a class="reference internal" href="#id31">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id32">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#errors">Errors</a><ul>
+<li><a class="reference internal" href="#id33">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#a-web-server">A web server</a></li>
+<li><a class="reference internal" href="#web">Webサーバー</a></li>
 </ul>
 </li>
 </ul>
@@ -2811,25 +2811,25 @@ in a few lines.</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="../index.html" title="前の章へ">Go Note</a></li>
+      <li>Previous: <a href="../index.html" title="前の章へ">Effective Go</a></li>
   </ul></li>
 </ul>
 </div>
   <div role="note" aria-label="source link">
     <h3>このページ</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/documents/effective_go.rst.txt"
+      <li><a href="../_sources/documents/effective_go_ja.rst.txt"
             rel="nofollow">ソースコードを表示</a></li>
     </ul>
    </div><div>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 76832</li>
-            <li>非アスキー: 0</li>
-            <li>合計文字数: 76832</li>
-            <li>半角換算: 76832</li>
-            <li>全角換算: 38416.0</li>
+            <li>英数記号: 76501</li>
+            <li>非アスキー: 165</li>
+            <li>合計文字数: 76666</li>
+            <li>半角換算: 76831</li>
+            <li>全角換算: 38415.5</li>
         </ul>
     </p>
 </div>
@@ -2855,7 +2855,7 @@ in a few lines.</p>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../_sources/documents/effective_go.rst.txt"
+      <a href="../_sources/documents/effective_go_ja.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
