@@ -1,0 +1,26 @@
+{
+  "name": "go-introduction-book",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "gh-pages -d _build -m \"auto rebuilding site\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:d-tsuji/go-introduction-book.git"
+  },
+  "author": "d-tsuji",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d-tsuji/go-introduction-book/issues"
+  },
+  "homepage": "https://github.com/d-tsuji/go-introduction-book#readme",
+  "devDependencies": {
+    "gh-pages": "^2.2.0"
+  }
+}
