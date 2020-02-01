@@ -49,7 +49,7 @@
 <div class="section" id="id5">
 <h2>フォーマット<a class="headerlink" href="#id5" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。</p>
-<p>Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。<code class="docutils literal notranslate"><span class="pre">gofmt</span></code> プログラム（ソースファイルレベルではなくパッケージレベルで動作する <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">fmt</span></code> としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。</p>
+<p>Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。<strong>gofmt</strong> プログラム（ソースファイルレベルではなくパッケージレベルで動作する <strong>go fmt</strong> としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 <strong>gofmt</strong> を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。</p>
 <p>例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">T</span> <span class="kd">struct</span> <span class="p">{</span>
     <span class="nx">name</span> <span class="kt">string</span> <span class="c1">// name of the object</span>
@@ -64,14 +64,14 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>標準パッケージのすべてのGoのコードは <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> でフォーマットされています。</p>
+<p>標準パッケージのすべてのGoのコードは <strong>gofmt</strong> でフォーマットされています。</p>
 <p>その他の書式設定の詳細が残っています。 簡潔に説明します。</p>
 <dl class="simple">
-<dt>インデント</dt><dd><p>インデントにタブを使用し <code class="docutils literal notranslate"><span class="pre">gofmt</span></code> はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。</p>
+<dt>インデント</dt><dd><p>インデントにタブを使用し <strong>gofmt</strong> はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。</p>
 </dd>
 <dt>行の長さ</dt><dd><p>Goには行の長さの制限はありません。パンチされたカードがあふれる心配はありません。行が長すぎると感じる場合は、それを折り返し、追加のタブでインデントします。</p>
 </dd>
-<dt>括弧</dt><dd><p>Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( <code class="docutils literal notranslate"><span class="pre">if</span></code>, <code class="docutils literal notranslate"><span class="pre">for</span></code>, <code class="docutils literal notranslate"><span class="pre">switch</span></code> )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。</p>
+<dt>括弧</dt><dd><p>Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( <strong>if</strong>, <strong>for</strong>, <strong>switch</strong> )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。</p>
 </dd>
 </dl>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">x</span><span class="o">&lt;&lt;</span><span class="mi">8</span> <span class="o">+</span> <span class="nx">y</span><span class="o">&lt;&lt;</span><span class="mi">16</span>
@@ -769,46 +769,27 @@ block-based but function-based. In the section on <strong>panic</strong> and
 <strong>recover</strong> we'll see another example of its possibilities.</p>
 </div>
 </div>
-<div class="section" id="data">
-<h2>データ(Data)<a class="headerlink" href="#data" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="allocation-with-new">
-<span id="allocation-new"></span><h3>Allocation with <strong>new</strong><a class="headerlink" href="#allocation-with-new" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Go has two allocation primitives, the built-in functions <strong>new</strong> and
-<strong>make</strong>. They do different things and apply to different types, which
-can be confusing, but the rules are simple. Let's talk about <strong>new</strong>
-first. It's a built-in function that allocates memory, but unlike its
-namesakes in some other languages it does not <em>initialize</em> the memory,
-it only <em>zeros</em> it. That is, <strong>new(T)</strong> allocates zeroed storage for a
-new item of type <strong>T</strong> and returns its address, a value of type <strong>*T</strong>.
-In Go terminology, it returns a pointer to a newly allocated zero value
-of type <strong>T</strong>.</p>
-<p>Since the memory returned by <strong>new</strong> is zeroed, it's helpful to arrange
-when designing your data structures that the zero value of each type can
-be used without further initialization. This means a user of the data
-structure can create one with <strong>new</strong> and get right to work. For
-example, the documentation for <strong>bytes.Buffer</strong> states that &quot;the zero
-value for <strong>Buffer</strong> is an empty buffer ready to use.&quot; Similarly,
-<strong>sync.Mutex</strong> does not have an explicit constructor or <strong>Init</strong> method.
-Instead, the zero value for a <strong>sync.Mutex</strong> is defined to be an
-unlocked mutex.</p>
-<p>The zero-value-is-useful property works transitively. Consider this type
-declaration.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">type</span> <span class="n">SyncedBuffer</span> <span class="n">struct</span> <span class="p">{</span>
-    <span class="n">lock</span>    <span class="n">sync</span><span class="o">.</span><span class="n">Mutex</span>
-    <span class="n">buffer</span>  <span class="nb">bytes</span><span class="o">.</span><span class="n">Buffer</span>
+<div class="section" id="id15">
+<h2>データ<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="new">
+<h3><strong>new</strong> によるアロケーション<a class="headerlink" href="#new" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Goは2つのメモリアロケーションのプリミティブを持っています。組み込み関数である <strong>new</strong> と <strong>make</strong> です。それらは異なることを行い、異なる型に適用するため困惑するかもしれません。しかしルールはシンプルです。まず <strong>new</strong> について説明しましょう。これはメモリをアロケーションする組み込み関数ですが、他のいくつかの言語の同じ関数名のそれとは異なり、メモリを <strong>初期化</strong> せず、ゼロにするだけです。つまり <strong>new(T)</strong> は、型Tの新しい要素にゼロ化されたメモリを割り当て、型*Tの値であるアドレスを返します。 Goの用語では、型Tとして新しく割り当てられたゼロ値へのポインターを返します。</p>
+<p><strong>new</strong> によって返されるメモリはゼロ化されます。これはデータ構造を設計する際に、各タイプのゼロ値をさらに初期化せずに使用できるように設計すると役立ちます。 データ構造を用いる開発者が <strong>new</strong> で変数を作成し、適切に動作できることを意味します。 たとえば、 <strong>bytes.Buffer</strong> のドキュメントには、「Bufferのゼロ値はすぐに使用できる空のバッファーです」と記載されています。 同様に <strong>sync.Mutex</strong> には明示的なコンストラクターまたは <strong>Init</strong> メソッドがありません。 代わりに <strong>sync.Mutex</strong> のゼロ値は非ロック状態のミューテックスとして定義されます。</p>
+<p>ゼロ値の性質は推移的に機能します。以下の型宣言について考えてください。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">SyncedBuffer</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="nx">lock</span>    <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
+    <span class="nx">buffer</span>  <span class="nx">bytes</span><span class="p">.</span><span class="nx">Buffer</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Values of type <strong>SyncedBuffer</strong> are also ready to use immediately upon
-allocation or just declaration. In the next snippet, both <strong>p</strong> and
-<strong>v</strong> will work correctly without further arrangement.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">p</span> <span class="p">:</span><span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="n">SyncedBuffer</span><span class="p">)</span>  <span class="o">//</span> <span class="nb">type</span> <span class="o">*</span><span class="n">SyncedBuffer</span>
-<span class="n">var</span> <span class="n">v</span> <span class="n">SyncedBuffer</span>      <span class="o">//</span> <span class="nb">type</span>  <span class="n">SyncedBuffer</span>
+<p>型 <strong>SyncedBuffer</strong> の値も <strong>new</strong> によるメモリアロケーションや変数の宣言だけですぐに使用できます。次のスニペットでは <strong>p</strong> と <strong>v</strong> の両方が、追加のメソッドなどを用いることなく正しく機能します。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">p</span> <span class="o">:=</span> <span class="nb">new</span><span class="p">(</span><span class="nx">SyncedBuffer</span><span class="p">)</span>  <span class="c1">// type *SyncedBuffer</span>
+<span class="kd">var</span> <span class="nx">v</span> <span class="nx">SyncedBuffer</span>      <span class="c1">// type  SyncedBuffer</span>
 </pre></div>
 </div>
 </div>
-<div class="section" id="constructors-and-composite-literals">
-<span id="composite-literals"></span><h3>Constructors and composite literals<a class="headerlink" href="#constructors-and-composite-literals" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id16">
+<h3>コンストラクタと複合リテラル<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Sometimes the zero value isn't good enough and an initializing
 constructor is necessary, as in this example derived from package
 <strong>os</strong>.</p>
@@ -904,8 +885,8 @@ a pointer to a <strong>nil</strong> slice value.</p>
 does not return a pointer. To obtain an explicit pointer allocate with
 <strong>new</strong> or take the address of a variable explicitly.</p>
 </div>
-<div class="section" id="id15">
-<h3>配列<a class="headerlink" href="#id15" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id17">
+<h3>配列<a class="headerlink" href="#id17" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Arrays are useful when planning the detailed layout of memory and
 sometimes can help avoid allocation, but primarily they are a building
 block for slices, the subject of the next section. To lay the foundation
@@ -935,8 +916,8 @@ behavior and efficiency, you can pass a pointer to the array.</p>
 </div>
 <p>But even this style isn't idiomatic Go. Use slices instead.</p>
 </div>
-<div class="section" id="id16">
-<h3>スライス<a class="headerlink" href="#id16" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id18">
+<h3>スライス<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Slices wrap arrays to give a more general, powerful, and convenient
 interface to sequences of data. Except for items with explicit dimension
 such as transformation matrices, most array programming in Go is done
@@ -1004,7 +985,7 @@ structure holding the pointer, length, and capacity) is passed by value.</p>
 though, we need a little more information, so we'll return to it later.</p>
 </div>
 <div class="section" id="two-dimensional-slices">
-<span id="id17"></span><h3>Two-dimensional slices<a class="headerlink" href="#two-dimensional-slices" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id19"></span><h3>Two-dimensional slices<a class="headerlink" href="#two-dimensional-slices" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Go's arrays and slices are one-dimensional. To create the equivalent of
 a 2D array or slice, it is necessary to define an array-of-arrays or
 slice-of-slices, like this:</p>
@@ -1347,8 +1328,8 @@ initialization in C or C++, initialization in Go is more powerful.
 Complex structures can be built during initialization and the ordering
 issues among initialized objects, even among different packages, are
 handled correctly.</p>
-<div class="section" id="id18">
-<h3>定数<a class="headerlink" href="#id18" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id20">
+<h3>定数<a class="headerlink" href="#id20" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Constants in Go are just that—constant. They are created at compile
 time, even when defined as locals in functions, and can only be numbers,
 characters (runes), strings or booleans. Because of the compile-time
@@ -1359,14 +1340,14 @@ function call to <strong>math.Sin</strong> needs to happen at run time.</p>
 <p>In Go, enumerated constants are created using the <strong>iota</strong> enumerator.
 Since <strong>iota</strong> can be part of an expression and expressions can be
 implicitly repeated, it is easy to build intricate sets of values.</p>
-<p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^type ByteSize/` `/^)/<a href="#id19"><span class="problematic" id="id20">`</span></a>}}</p>
+<p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^type ByteSize/` `/^)/<a href="#id21"><span class="problematic" id="id22">`</span></a>}}</p>
 <p>The ability to attach a method such as <strong>String</strong> to any user-defined
 type makes it possible for arbitrary values to format themselves
 automatically for printing. Although you'll see it most often applied to
 structs, this technique is also useful for scalar types such as
 floating-point types like <strong>ByteSize</strong>.</p>
 <p>{{code &quot;/doc/progs/eff_bytesize.go&quot; `/^func.*ByteSize.*String/`
-`/^}/<a href="#id21"><span class="problematic" id="id22">`</span></a>}}</p>
+`/^}/<a href="#id23"><span class="problematic" id="id24">`</span></a>}}</p>
 <p>The expression <strong>YB</strong> prints as <strong>1.00YB</strong>, while <strong>ByteSize(1e13)</strong>
 prints as <strong>9.09TB</strong>.</p>
 <p>The use here of <strong>Sprintf</strong> to implement <strong>ByteSize</strong>'s <strong>String</strong>
@@ -1375,8 +1356,8 @@ conversion but because it calls <strong>Sprintf</strong> with <strong>%f</strong
 string format: <strong>Sprintf</strong> will only call the <strong>String</strong> method when it
 wants a string, and <strong>%f</strong> wants a floating-point value.</p>
 </div>
-<div class="section" id="id23">
-<h3>変数<a class="headerlink" href="#id23" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id25">
+<h3>変数<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Variables can be initialized just like constants but the initializer can
 be a general expression computed at run time.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">var</span> <span class="p">(</span>
@@ -1388,7 +1369,7 @@ be a general expression computed at run time.</p>
 </div>
 </div>
 <div class="section" id="init">
-<span id="id24"></span><h3>init関数<a class="headerlink" href="#init" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id26"></span><h3>init関数<a class="headerlink" href="#init" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Finally, each source file can define its own niladic <strong>init</strong> function
 to set up whatever state is required. (Actually each file can have
 multiple <strong>init</strong> functions.) And finally means finally: <strong>init</strong> is
@@ -1415,8 +1396,8 @@ the program state before real execution begins.</p>
 </div>
 </div>
 </div>
-<div class="section" id="id25">
-<h2>メソッド<a class="headerlink" href="#id25" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id27">
+<h2>メソッド<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="vs">
 <span id="pointers-vs-values"></span><h3>ポインター vs 値<a class="headerlink" href="#vs" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>As we saw with <strong>ByteSize</strong>, methods can be defined for any named type
@@ -1478,9 +1459,9 @@ to the implementation of <strong>bytes.Buffer</strong>.</p>
 </div>
 </div>
 <div class="section" id="interfaces-and-types">
-<span id="id26"></span><h2>インターフェースとその他の型<a class="headerlink" href="#interfaces-and-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="id27">
-<h3>インターフェース<a class="headerlink" href="#id27" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id28"></span><h2>インターフェースとその他の型<a class="headerlink" href="#interfaces-and-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id29">
+<h3>インターフェース<a class="headerlink" href="#id29" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Interfaces in Go provide a way to specify the behavior of an object: if
 something can do <em>this</em>, then it can be used <em>here</em>. We've seen a couple
 of simple examples already; custom printers can be implemented by a
@@ -1647,7 +1628,7 @@ constructor calls must be edited, but because the surrounding code must
 treat the result only as a <strong>Stream</strong>, it won't notice the difference.</p>
 </div>
 <div class="section" id="interface-methods">
-<span id="id28"></span><h3>インターフェースとメソッド<a class="headerlink" href="#interface-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id30"></span><h3>インターフェースとメソッド<a class="headerlink" href="#interface-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Since almost anything can have methods attached, almost anything can
 satisfy an interface. One illustrative example is in the <strong>http</strong>
 package, which defines the <strong>Handler</strong> interface. Any object that
@@ -1767,7 +1748,7 @@ methods, which can be defined for (almost) any type.</p>
 </div>
 </div>
 <div class="section" id="blank">
-<span id="id29"></span><h2>空白の識別子<a class="headerlink" href="#blank" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id31"></span><h2>空白の識別子<a class="headerlink" href="#blank" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>We've mentioned the blank identifier a couple of times now, in the
 context of <strong>`for</strong> <strong>range</strong> loops &lt;#for&gt;`__ and <a class="reference external" href="#maps">maps</a>. The
 blank identifier can be assigned or declared with any value of any type,
@@ -1896,8 +1877,8 @@ though. By convention, such declarations are only used when there are no
 static conversions already present in the code, which is a rare event.</p>
 </div>
 </div>
-<div class="section" id="id30">
-<h2>埋め込み<a class="headerlink" href="#id30" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id32">
+<h2>埋め込み<a class="headerlink" href="#id32" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Go does not provide the typical, type-driven notion of subclassing, but
 it does have the ability to “borrow” pieces of an implementation by
 <em>embedding</em> types within a struct or interface.</p>
@@ -2024,10 +2005,10 @@ protection against changes made to types embedded from outside; there is
 no problem if a field is added that conflicts with another field in
 another subtype if neither field is ever used.</p>
 </div>
-<div class="section" id="id31">
-<h2>並行処理<a class="headerlink" href="#id31" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id33">
+<h2>並行処理<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="sharing">
-<span id="id32"></span><h3>通信による共有<a class="headerlink" href="#sharing" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id34"></span><h3>通信による共有<a class="headerlink" href="#sharing" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -2055,8 +2036,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="id33">
-<h3>ゴルーチン<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id35">
+<h3>ゴルーチン<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -2089,8 +2070,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="id34">
-<h3>チャンネル<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id36">
+<h3>チャンネル<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <strong>make</strong>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -2393,8 +2374,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="id35">
-<h2>エラー<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id37">
+<h2>エラー<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2667,11 +2648,11 @@ const templateStr = `
 </pre></div>
 </div>
 <p>mainまでの部分は簡単に理解できるはずです。 1つのフラグは、サーバーのデフォルトHTTPポートを設定します。 テンプレート変数templは、面白いことが起こる場所です。 ページを表示するためにサーバーによって実行されるHTMLテンプレートを作成します。 それについてはすぐに説明します。</p>
-<p>メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 <code class="docutils literal notranslate"><span class="pre">QR</span></code> をサーバーのルートパスにバインドします。 次に、サーバーを起動するために <code class="docutils literal notranslate"><span class="pre">http.ListenAndServe</span></code> が呼び出されます。 サーバーの実行中はブロックされます。</p>
-<p><code class="docutils literal notranslate"><span class="pre">QR</span></code> はフォームデータを含むリクエストを受信し、 <code class="docutils literal notranslate"><span class="pre">s</span></code> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
-<p>テンプレートパッケージ <code class="docutils literal notranslate"><span class="pre">html/template</span></code> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <code class="docutils literal notranslate"><span class="pre">templ.Execute</span></code> に渡されるデータ項目（この場合はフォーム値）から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト（templateStr）内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <code class="docutils literal notranslate"><span class="pre">{{if</span> <span class="pre">.}}</span></code> から <code class="docutils literal notranslate"><span class="pre">{{end}}</span></code> の部分は、<code class="docutils literal notranslate"><span class="pre">.</span></code> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
-<p>2つのスニペット <code class="docutils literal notranslate"><span class="pre">{{.}}</span></code> は、テンプレートに提示されたデータ（クエリ文字列）をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
-<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id36"><span class="problematic" id="id37">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
+<p>メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 <strong>QR</strong> をサーバーのルートパスにバインドします。 次に、サーバーを起動するために <strong>http.ListenAndServe</strong> が呼び出されます。 サーバーの実行中はブロックされます。</p>
+<p><strong>QR</strong> はフォームデータを含むリクエストを受信し、 <strong>s</strong> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
+<p>テンプレートパッケージ <strong>html/template</strong> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <strong>templ.Execute</strong> に渡されるデータ項目（この場合はフォーム値）から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト（templateStr）内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <strong>{{if .}}</strong> から <strong>{{end}}</strong> の部分は、<strong>.</strong> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
+<p>2つのスニペット <strong>{{.}}</strong> は、テンプレートに提示されたデータ（クエリ文字列）をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
+<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id38"><span class="problematic" id="id39">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
 <p>数行のコードといくつかのデータ駆動型HTMLテキストの便利なWebサーバーをあなたは持っています。 Goは、数行で多くのことを実行できるほど強力です。</p>
 </div>
 </div>
@@ -2713,12 +2694,12 @@ const templateStr = `
 <li><a class="reference internal" href="#defer">Defer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#data">データ(Data)</a><ul>
-<li><a class="reference internal" href="#allocation-with-new">Allocation with <strong>new</strong></a></li>
-<li><a class="reference internal" href="#constructors-and-composite-literals">Constructors and composite literals</a></li>
+<li><a class="reference internal" href="#id15">データ</a><ul>
+<li><a class="reference internal" href="#new"><strong>new</strong> によるアロケーション</a></li>
+<li><a class="reference internal" href="#id16">コンストラクタと複合リテラル</a></li>
 <li><a class="reference internal" href="#allocation-with-make">Allocation with <strong>make</strong></a></li>
-<li><a class="reference internal" href="#id15">配列</a></li>
-<li><a class="reference internal" href="#id16">スライス</a></li>
+<li><a class="reference internal" href="#id17">配列</a></li>
+<li><a class="reference internal" href="#id18">スライス</a></li>
 <li><a class="reference internal" href="#two-dimensional-slices">Two-dimensional slices</a></li>
 <li><a class="reference internal" href="#maps">Maps</a></li>
 <li><a class="reference internal" href="#printing">Printing</a></li>
@@ -2726,17 +2707,17 @@ const templateStr = `
 </ul>
 </li>
 <li><a class="reference internal" href="#initialization">初期化(Initialization)</a><ul>
-<li><a class="reference internal" href="#id18">定数</a></li>
-<li><a class="reference internal" href="#id23">変数</a></li>
+<li><a class="reference internal" href="#id20">定数</a></li>
+<li><a class="reference internal" href="#id25">変数</a></li>
 <li><a class="reference internal" href="#init">init関数</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id25">メソッド</a><ul>
+<li><a class="reference internal" href="#id27">メソッド</a><ul>
 <li><a class="reference internal" href="#vs">ポインター vs 値</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#interfaces-and-types">インターフェースとその他の型</a><ul>
-<li><a class="reference internal" href="#id27">インターフェース</a></li>
+<li><a class="reference internal" href="#id29">インターフェース</a></li>
 <li><a class="reference internal" href="#conversions">Conversions</a></li>
 <li><a class="reference internal" href="#interface-conversions-and-type-assertions">Interface conversions and type assertions</a></li>
 <li><a class="reference internal" href="#generality">Generality</a></li>
@@ -2750,17 +2731,17 @@ const templateStr = `
 <li><a class="reference internal" href="#interface-checks">Interface checks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id30">埋め込み</a></li>
-<li><a class="reference internal" href="#id31">並行処理</a><ul>
+<li><a class="reference internal" href="#id32">埋め込み</a></li>
+<li><a class="reference internal" href="#id33">並行処理</a><ul>
 <li><a class="reference internal" href="#sharing">通信による共有</a></li>
-<li><a class="reference internal" href="#id33">ゴルーチン</a></li>
-<li><a class="reference internal" href="#id34">チャンネル</a></li>
+<li><a class="reference internal" href="#id35">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id36">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id35">エラー</a><ul>
+<li><a class="reference internal" href="#id37">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
@@ -2783,11 +2764,11 @@ const templateStr = `
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 70023</li>
-            <li>非アスキー: 3128</li>
-            <li>合計文字数: 73151</li>
-            <li>半角換算: 76279</li>
-            <li>全角換算: 38139.5</li>
+            <li>英数記号: 68737</li>
+            <li>非アスキー: 3743</li>
+            <li>合計文字数: 72480</li>
+            <li>半角換算: 76223</li>
+            <li>全角換算: 38111.5</li>
         </ul>
     </p>
 </div>
