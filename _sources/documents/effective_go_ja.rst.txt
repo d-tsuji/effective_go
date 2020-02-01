@@ -4,36 +4,14 @@ Effective Go
 イントロダクション
 ---------------------------------
 
-Go is a new language. Although it borrows ideas from existing languages,
-it has unusual properties that make effective Go programs different in
-character from programs written in its relatives. A straightforward
-translation of a C++ or Java program into Go is unlikely to produce a
-satisfactory result—Java programs are written in Java, not Go. On the
-other hand, thinking about the problem from a Go perspective could
-produce a successful but quite different program. In other words, to
-write Go well, it's important to understand its properties and idioms.
-It's also important to know the established conventions for programming
-in Go, such as naming, formatting, program construction, and so on, so
-that programs you write will be easy for other Go programmers to
-understand.
+Goは新しい言語です。既存の言語からアイデアを借りていますが、その言語の特徴で書かれたプログラムとは異なる、Goのプログラムを効果的にする興味深い特徴を持っています。C++やJavaで書かれたプログラムをそのままGoに移植しても、満足な結果は得られないでしょう。JavaのプログラムはGoではなく、Javaで書かれます。一方、Goの特徴を用いると、元のプログラムとは全く異なりますが、良いものが生まれるかもしれません。Goを適切に書くのは、その特徴とイディオムを理解することが重要です。そして、他のGoプログラマーが理解しやすいように、命名規則やフォーマット、プログラムの構成といったGoの慣習を知ることも重要です。
 
-This document gives tips for writing clear, idiomatic Go code. It
-augments the `language specification </ref/spec>`__, the `Tour of
-Go <//tour.golang.org/>`__, and `How to Write Go
-Code </doc/code.html>`__, all of which you should read first.
+このドキュメントは明確で慣用的なGoのコードを書くためのヒントを示します。`言語仕様 </ref/spec>`_ や `Tour of Go <//tour.golang.org/>`_ や `How to Write Go Code </doc/code.html>`_ を補強するもので、最初に読むべきものです。
 
 例
 ~~~~~~~~~~~~~~~~
 
-The `Go package sources </src/>`__ are intended to serve not only as the
-core library but also as examples of how to use the language. Moreover,
-many of the packages contain working, self-contained executable examples
-you can run directly from the `golang.org <//golang.org>`__ web site,
-such as `this one <//golang.org/pkg/strings/#example_Map>`__ (if
-necessary, click on the word "Example" to open it up). If you have a
-question about how to approach a problem or how something might be
-implemented, the documentation, code and examples in the library can
-provide answers, ideas and background.
+Go本体のパッケージのソースはコアライブラリとしてだけではなく、Goをどのように扱うかというサンプルでもあります。さらに、多くのパッケージでは `golang.org <//golang.org>`_ から直接実行できる、動作する自己完結型の実行可能サンプルが含まれています。 `この <//golang.org/pkg/strings/#example_Map>`_ ようなものです。必要に応じて "Example" のボタンを押すと開きます。問題へのアプローチ方法や実装方法について質問がある場合は、ライブラリのドキュメントやコード、サンプルから回答やアイデア、背景を知ることができるでしょう。
 
 フォーマット
 ---------------------
