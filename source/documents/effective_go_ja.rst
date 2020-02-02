@@ -77,7 +77,7 @@ comment should introduce the package and provide information relevant to
 the package as a whole. It will appear first on the **godoc** page and
 should set up the detailed documentation that follows.
 
-::
+.. code-block:: go
 
    /*
    Package regexp implements a simple library for regular expressions.
@@ -102,7 +102,7 @@ should set up the detailed documentation that follows.
 
 If the package is simple, the package comment can be brief.
 
-::
+.. code-block:: go
 
    // Package path implements utility routines for
    // manipulating slash-separated filename paths.
@@ -129,7 +129,7 @@ Doc comments work best as complete sentences, which allow a wide variety
 of automated presentations. The first sentence should be a one-sentence
 summary that starts with the name being declared.
 
-::
+.. code-block:: go
 
    // Compile parses a regular expression and returns, if successful,
    // a Regexp that can be used to match against text.
@@ -143,7 +143,7 @@ subcommand of the `go </cmd/go/>`__ tool and run the output through
 looking for the parsing function for regular expressions, so you ran the
 command,
 
-::
+.. code-block:: go
 
    $ go doc -all regexp | grep -i parse
 
@@ -152,7 +152,7 @@ If all the doc comments in the package began, "This function...",
 starts each doc comment with the name, you'd see something like this,
 which recalls the word you're looking for.
 
-::
+.. code-block:: go
 
    $ go doc -all regexp | grep -i parse
        Compile parses a regular expression and returns, if successful, a Regexp
@@ -165,7 +165,7 @@ comment can introduce a group of related constants or variables. Since
 the whole declaration is presented, such a comment can often be
 perfunctory.
 
-::
+.. code-block:: go
 
    // Error codes returned by failures to parse an expression.
    var (
@@ -178,7 +178,7 @@ perfunctory.
 Grouping can also indicate relationships between items, such as the fact
 that a set of variables is protected by a mutex.
 
-::
+.. code-block:: go
 
    var (
        countLock   sync.Mutex
@@ -199,7 +199,7 @@ that a set of variables is protected by a mutex.
 
 以下のように
 
-::
+.. code-block:: go
 
    import "bytes"
 
@@ -241,7 +241,7 @@ for export provides the hook to discriminate the field from the method.
 A setter function, if needed, will likely be called **SetOwner**. Both
 names read well in practice:
 
-::
+.. code-block:: go
 
    owner := obj.Owner()
    if owner != user {
@@ -284,7 +284,7 @@ The rule is this. If the last token before a newline is an identifier
 (which includes words like **int** and **float64**), a basic literal
 such as a number or string constant, or one of the tokens
 
-::
+.. code-block:: go
 
    break continue fallthrough return ++ -- ) }
 
@@ -295,7 +295,7 @@ statement, insert a semicolon”.
 A semicolon can also be omitted immediately before a closing brace, so a
 statement such as
 
-::
+.. code-block:: go
 
        go func() { for { dst <- <-src } }()
 
@@ -310,7 +310,7 @@ or **select**) on the next line. If you do, a semicolon will be inserted
 before the brace, which could cause unwanted effects. Write them like
 this
 
-::
+.. code-block:: go
 
    if i < f() {
        g()
@@ -318,7 +318,7 @@ this
 
 not like this
 
-::
+.. code-block:: go
 
    if i < f()  // wrong!
    {           // wrong!
@@ -343,7 +343,7 @@ If
 
 In Go a simple **if** looks like this:
 
-::
+.. code-block:: go
 
    if x > 0 {
        return y
@@ -356,7 +356,7 @@ contains a control statement such as a **return** or **break**.
 Since **if** and **switch** accept an initialization statement, it's
 common to see one used to set up a local variable.
 
-::
+.. code-block:: go
 
    if err := file.Chmod(0664); err != nil {
        log.Print(err)
@@ -368,7 +368,7 @@ flow into the next statement—that is, the body ends in **break**,
 **continue**, **goto**, or **return**—the unnecessary **else** is
 omitted.
 
-::
+.. code-block:: go
 
    f, err := os.Open(name)
    if err != nil {
@@ -382,7 +382,7 @@ of control runs down the page, eliminating error cases as they arise.
 Since error cases tend to end in **return** statements, the resulting
 code needs no **else** statements.
 
-::
+.. code-block:: go
 
    f, err := os.Open(name)
    if err != nil {
@@ -404,14 +404,14 @@ An aside: The last example in the previous section demonstrates a detail
 of how the **:=** short declaration form works. The declaration that
 calls **os.Open** reads,
 
-::
+.. code-block:: go
 
    f, err := os.Open(name)
 
 This statement declares two variables, **f** and **err**. A few lines
 later, the call to **f.Stat** reads,
 
-::
+.. code-block:: go
 
    d, err := f.Stat()
 
@@ -447,7 +447,7 @@ The Go **for** loop is similar to—but not the same as—C's. It unifies
 **for** and **while** and there is no **do-while**. There are three
 forms, only one of which has semicolons.
 
-::
+.. code-block:: go
 
    // Like a C for
    for init; condition; post { }
@@ -461,7 +461,7 @@ forms, only one of which has semicolons.
 Short declarations make it easy to declare the index variable right in
 the loop.
 
-::
+.. code-block:: go
 
    sum := 0
    for i := 0; i < 10; i++ {
@@ -471,7 +471,7 @@ the loop.
 If you're looping over an array, slice, string, or map, or reading from
 a channel, a **range** clause can manage the loop.
 
-::
+.. code-block:: go
 
    for key, value := range oldMap {
        newMap[key] = value
@@ -480,7 +480,7 @@ a channel, a **range** clause can manage the loop.
 If you only need the first item in the range (the key or index), drop
 the second:
 
-::
+.. code-block:: go
 
    for key := range m {
        if key.expired() {
@@ -491,7 +491,7 @@ the second:
 If you only need the second item in the range (the value), use the
 *blank identifier*, an underscore, to discard the first:
 
-::
+.. code-block:: go
 
    sum := 0
    for _, value := range array {
@@ -508,7 +508,7 @@ consume one byte and produce the replacement rune U+FFFD. (The name
 Unicode code point. See `the language
 specification </ref/spec#Rune_literals>`__ for details.) The loop
 
-::
+.. code-block:: go
 
    for pos, char := range "日本\x80語" { // \x80 is an illegal UTF-8 encoding
        fmt.Printf("character %#U starts at byte position %d\n", char, pos)
@@ -516,7 +516,7 @@ specification </ref/spec#Rune_literals>`__ for details.) The loop
 
 prints
 
-::
+.. code-block:: go
 
    character U+65E5 '日' starts at byte position 0
    character U+672C '本' starts at byte position 3
@@ -528,7 +528,7 @@ not expressions. Thus if you want to run multiple variables in a **for**
 you should use parallel assignment (although that precludes **++** and
 **--**).
 
-::
+.. code-block:: go
 
    // Reverse a
    for i, j := 0, len(a)-1; i < j; i, j = i+1, j-1 {
@@ -544,7 +544,7 @@ a match is found, and if the **switch** has no expression it switches on
 **true**. It's therefore possible—and idiomatic—to write an
 **if**-**else**-**if**-**else** chain as a **switch**.
 
-::
+.. code-block:: go
 
    func unhex(c byte) byte {
        switch {
@@ -561,7 +561,7 @@ a match is found, and if the **switch** has no expression it switches on
 There is no automatic fall through, but cases can be presented in
 comma-separated lists.
 
-::
+.. code-block:: go
 
    func shouldEscape(c byte) bool {
        switch c {
@@ -578,7 +578,7 @@ loop, not the switch, and in Go that can be accomplished by putting a
 label on the loop and "breaking" to that label. This example shows both
 uses.
 
-::
+.. code-block:: go
 
    Loop:
        for n := 0; n < len(src); n += size {
@@ -609,7 +609,7 @@ it applies only to loops.
 To close this section, here's a comparison routine for byte slices that
 uses two **switch** statements:
 
-::
+.. code-block:: go
 
    // Compare returns an integer comparing the two byte slices,
    // lexicographically.
@@ -645,7 +645,7 @@ type in each clause. It's also idiomatic to reuse the name in such
 cases, in effect declaring a new variable with the same name but a
 different type in each case.
 
-::
+.. code-block:: go
 
    var t interface{}
    t = functionOfSomeType()
@@ -681,7 +681,7 @@ count *and* an error: “Yes, you wrote some bytes but not all of them
 because you filled the device”. The signature of the **Write** method on
 files from package **os** is:
 
-::
+.. code-block:: go
 
    func (file *File) Write(b []byte) (n int, err error)
 
@@ -694,7 +694,7 @@ to simulate a reference parameter. Here's a simple-minded function to
 grab a number from a position in a byte slice, returning the number and
 the next position.
 
-::
+.. code-block:: go
 
    func nextInt(b []byte, i int) (int, int) {
        for ; i < len(b) && !isDigit(b[i]); i++ {
@@ -708,7 +708,7 @@ the next position.
 
 You could use it to scan the numbers in an input slice **b** like this:
 
-::
+.. code-block:: go
 
        for i := 0; i < len(b); {
            x, i = nextInt(b, i)
@@ -731,7 +731,7 @@ The names are not mandatory but they can make code shorter and clearer:
 they're documentation. If we name the results of **nextInt** it becomes
 obvious which returned **int** is which.
 
-::
+.. code-block:: go
 
    func nextInt(b []byte, pos int) (value, nextPos int) {
 
@@ -739,7 +739,7 @@ Because named results are initialized and tied to an unadorned return,
 they can simplify as well as clarify. Here's a version of
 **io.ReadFull** that uses them well:
 
-::
+.. code-block:: go
 
    func ReadFull(r Reader, buf []byte) (n int, err error) {
        for len(buf) > 0 && err == nil {
@@ -761,7 +761,7 @@ situations such as resources that must be released regardless of which
 path a function takes to return. The canonical examples are unlocking a
 mutex or closing a file.
 
-::
+.. code-block:: go
 
    // Contents returns the file's contents as a string.
    func Contents(filename string) (string, error) {
@@ -799,7 +799,7 @@ changing values as the function executes, this means that a single
 deferred call site can defer multiple function executions. Here's a
 silly example.
 
-::
+.. code-block:: go
 
    for i := 0; i < 5; i++ {
        defer fmt.Printf("%d ", i)
@@ -810,7 +810,7 @@ Deferred functions are executed in LIFO order, so this code will cause
 example is a simple way to trace function execution through the program.
 We could write a couple of simple tracing routines like this:
 
-::
+.. code-block:: go
 
    func trace(s string)   { fmt.Println("entering:", s) }
    func untrace(s string) { fmt.Println("leaving:", s) }
@@ -826,7 +826,7 @@ We can do better by exploiting the fact that arguments to deferred
 functions are evaluated when the **defer** executes. The tracing routine
 can set up the argument to the untracing routine. This example:
 
-::
+.. code-block:: go
 
    func trace(s string) string {
        fmt.Println("entering:", s)
@@ -854,7 +854,7 @@ can set up the argument to the untracing routine. This example:
 
 prints
 
-::
+.. code-block:: go
 
    entering: b
    in b
@@ -898,11 +898,9 @@ Goは2つのメモリアロケーションのプリミティブを持ってい�
 コンストラクタと複合リテラル
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Sometimes the zero value isn't good enough and an initializing
-constructor is necessary, as in this example derived from package
-**os**.
+パッケージ **os** から派生したこの例のように、ゼロ値では不十分な場合があり、初期化コンストラクターが必要になる場合があります。
 
-::
+.. code-block:: go
 
    func NewFile(fd int, name string) *File {
        if fd < 0 {
@@ -916,11 +914,9 @@ constructor is necessary, as in this example derived from package
        return f
    }
 
-There's a lot of boiler plate in there. We can simplify it using a
-*composite literal*, which is an expression that creates a new instance
-each time it is evaluated.
+上記はたくさんのボイラープレートがあり冗長です。複合リテラルを使用して単純化できます。複合リテラルは、評価されるたびに新しいインスタンスを作成する式です。
 
-::
+.. code-block:: go
 
    func NewFile(fd int, name string) *File {
        if fd < 0 {
@@ -930,72 +926,44 @@ each time it is evaluated.
        return &f
    }
 
-Note that, unlike in C, it's perfectly OK to return the address of a
-local variable; the storage associated with the variable survives after
-the function returns. In fact, taking the address of a composite literal
-allocates a fresh instance each time it is evaluated, so we can combine
-these last two lines.
+Cとは異なり、ローカル変数のアドレスを返すことはまったく問題ありません。 変数に関連付けられたアドレスは、関数がreturnされた後も生き残ります。 実際、複合リテラルのアドレスを取得すると、評価されるたびに新しいインスタンスが割り当てられるため、これらの最後の2行を結合できます。
 
-::
+.. code-block:: go
 
        return &File{fd, name, nil, 0}
 
-The fields of a composite literal are laid out in order and must all be
-present. However, by labeling the elements explicitly as
-*field*\ **:**\ *value* pairs, the initializers can appear in any order,
-with the missing ones left as their respective zero values. Thus we
-could say
+複合リテラルのフィールドは順番に配置され、すべて存在する必要があります。 ただし、要素に **field：value** のペアとして明示的にラベルを付けることができます。その場合、フィールドは任意の順序で表示でき、指定されていないフィールドはゼロ値で初期化されます。 したがって、上記の例は以下のように書きかえることができます。
 
-::
+.. code-block:: go
 
        return &File{fd: fd, name: name}
 
-As a limiting case, if a composite literal contains no fields at all, it
-creates a zero value for the type. The expressions **new(File)** and
-**&File{}** are equivalent.
+稀なケースとして、複合リテラルにフィールドがまったく含まれていない場合、その型のゼロ値が作成されます。式 **new(File)**と **&File{}** は同等です。
 
-Composite literals can also be created for arrays, slices, and maps,
-with the field labels being indices or map keys as appropriate. In these
-examples, the initializations work regardless of the values of
-**Enone**, **Eio**, and **Einval**, as long as they are distinct.
+複合リテラルは配列、スライス、マップも作成できます。フィールドラベルは、必要に応じてインデックスまたはマップのキーになります。 以下の例では、初期化は ``Eonee``, ``Eio`` および ``Einval`` が相異なっていれば、値に関係なく機能します。
 
-::
+.. code-block:: go
 
    a := [...]string   {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
    s := []string      {Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
    m := map[int]string{Enone: "no error", Eio: "Eio", Einval: "invalid argument"}
 
-.. _allocation_make:
+訳注: https://play.golang.org/p/2DaYxFnjE6X
 
-Allocation with **make**
+**make** によるアロケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Back to allocation. The built-in function **make(T,**\ *args*\ **)**
-serves a purpose different from **new(T)**. It creates slices, maps, and
-channels only, and it returns an *initialized* (not *zeroed*) value of
-type **T** (not ***T**). The reason for the distinction is that these
-three types represent, under the covers, references to data structures
-that must be initialized before use. A slice, for example, is a
-three-item descriptor containing a pointer to the data (inside an
-array), the length, and the capacity, and until those items are
-initialized, the slice is **nil**. For slices, maps, and channels,
-**make** initializes the internal data structure and prepares the value
-for use. For instance,
+メモリのアロケーションの話題に戻ります。 組み込み関数 **make(T, args)** は、**new(T)** とは異なる目的で用います。 スライス、マップ、およびチャンネルのみを作成し、型 **T** (\*T ではなく）で初期化された（ゼロではない）値を返します。**new(T)** と区別している理由は、これらの3つの型が、使用前に初期化する必要があるデータ構造への参照を内部的に表しているためです。 たとえば、スライスは、データ（配列内）へのポインター、長さ、および容量の3つの項目を持っています。これらの項目が初期化されるまで、スライスはnilです。 スライス、マップ、およびチャネルの場合 **make** は内部データ構造を初期化し、使用する値を準備します。 例えば、
 
-::
+.. code-block:: go
 
    make([]int, 10, 100)
 
-allocates an array of 100 ints and then creates a slice structure with
-length 10 and a capacity of 100 pointing at the first 10 elements of the
-array. (When making a slice, the capacity can be omitted; see the
-section on slices for more information.) In contrast, **new([]int)**
-returns a pointer to a newly allocated, zeroed slice structure, that is,
-a pointer to a **nil** slice value.
+100個のintの配列を割り当て、長さ10、配列の最初の10要素を指す容量100のスライス構造を作成します。 （スライスを作成するとき、容量は省略できます。詳細については、スライスに関するセクションを参照してください。）一方 ``new([]int)`` は、新しく割り当てられたゼロ化されたスライスへのポインター、つまり **nil** スライスのポインターを返します。
 
-These examples illustrate the difference between **new** and **make**.
+以下のサンプルは、 **new** と **make** の違いを示しています。
 
-::
+.. code-block:: go
 
    var p *[]int = new([]int)       // allocates slice structure; *p == nil; rarely useful
    var v  []int = make([]int, 100) // the slice v now refers to a new array of 100 ints
@@ -1007,32 +975,22 @@ These examples illustrate the difference between **new** and **make**.
    // Idiomatic:
    v := make([]int, 100)
 
-Remember that **make** applies only to maps, slices and channels and
-does not return a pointer. To obtain an explicit pointer allocate with
-**new** or take the address of a variable explicitly.
+**make** はマップ、スライス、およびチャンネルにのみ適用され、ポインターを返さないことに注意してください。明示的なポインタを取得するには、newで割り当てるか、変数のアドレスを明示的に取得します。
 
 配列
 ~~~~~~
 
-Arrays are useful when planning the detailed layout of memory and
-sometimes can help avoid allocation, but primarily they are a building
-block for slices, the subject of the next section. To lay the foundation
-for that topic, here are a few words about arrays.
+配列は、メモリレイアウトの詳細がわかっているときに役立ち、割り当てを回避するのに役立つ場合があります。しかし、主に次のセクションの主題であるスライスの素材として使われます。 そのスライスの基礎を築くために、配列に関するいくつかの言葉を以下に示します。
 
-There are major differences between the ways arrays work in Go and C. In
-Go,
+GoとCで配列が機能する方法には大きな違いがあります。Goでは
 
--  Arrays are values. Assigning one array to another copies all the
-   elements.
--  In particular, if you pass an array to a function, it will receive a
-   *copy* of the array, not a pointer to it.
--  The size of an array is part of its type. The types **[10]int** and
-   **[20]int** are distinct.
+- 配列は値です。ある配列を別の配列に割り当てると、すべての要素がコピーされます。
+- 特に、関数に配列を渡すと、配列へのポインターではなく配列のコピーを受け取ります。
+- 配列のサイズはその型の一部です。型 **[10]int** と **[20]int** は区別されます。
 
-The value property can be useful but also expensive; if you want C-like
-behavior and efficiency, you can pass a pointer to the array.
+配列が値である性質は便利ですが、高コストでもあります。 Cのような動作と効率が必要な場合は、配列のポインターを渡すことができます。
 
-::
+.. code-block:: go
 
    func Sum(a *[3]float64) (sum float64) {
        for _, v := range *a {
@@ -1044,42 +1002,28 @@ behavior and efficiency, you can pass a pointer to the array.
    array := [...]float64{7.0, 8.5, 9.1}
    x := Sum(&array)  // Note the explicit address-of operator
 
-But even this style isn't idiomatic Go. Use slices instead.
+しかしこの書き方はGoらしくありません。代わりにスライスを使います。
 
 スライス
 ~~~~~~~~~~~~~~~~
 
-Slices wrap arrays to give a more general, powerful, and convenient
-interface to sequences of data. Except for items with explicit dimension
-such as transformation matrices, most array programming in Go is done
-with slices rather than simple arrays.
+スライスは配列をラップして、連続データへのより一般的で強力かつ便利なインターフェイスを提供します。変換行列などの明示的な次元を持つ項目を除き、Goのほとんどの配列プログラミングは、単純な配列ではなくスライスを使用して行われます。
 
-Slices hold references to an underlying array, and if you assign one
-slice to another, both refer to the same array. If a function takes a
-slice argument, changes it makes to the elements of the slice will be
-visible to the caller, analogous to passing a pointer to the underlying
-array. A **Read** function can therefore accept a slice argument rather
-than a pointer and a count; the length within the slice sets an upper
-limit of how much data to read. Here is the signature of the **Read**
-method of the **File** type in package **os**:
+スライスは、基礎となる配列への参照を保持します。あるスライスを別のスライスに割り当てると、両方とも同じ配列を参照します。 関数がスライスを引数を取る場合、スライスの要素に加えられた変更は呼び出し元に表示されます。これは、基礎となる配列へのポインターの受け渡しに似ています。 したがって ``Read`` 関数の引数には、ポインターと要素数の値ではなくスライスを受け入れることができます。 スライス内の長さは、読み取るデータ量の上限を設定します。 パッケージ ``os`` の型 ``File`` の ``Read`` メソッドのシグネチャは次のとおりです。
 
-::
+.. code-block:: go
 
    func (f *File) Read(buf []byte) (n int, err error)
 
-The method returns the number of bytes read and an error value, if any.
-To read into the first 32 bytes of a larger buffer **buf**, *slice*
-(here used as a verb) the buffer.
+このメソッドは、読み取られたバイト数とエラー値（存在する場合）を返します。大きなバッファー ``buf`` の最初の32バイトに読み込むには、バッファーを小さくスライスします。
 
-::
+.. code-block:: go
 
        n, err := f.Read(buf[0:32])
 
-Such slicing is common and efficient. In fact, leaving efficiency aside
-for the moment, the following snippet would also read the first 32 bytes
-of the buffer.
+このようなスライスは一般的で効率的です。実際、効率性を無視すれば、次のスニペットはバッファーの最初の32バイトを読み取ります。
 
-::
+.. code-block:: go
 
        var n int
        var err error
@@ -1092,16 +1036,9 @@ of the buffer.
            }
        }
 
-The length of a slice may be changed as long as it still fits within the
-limits of the underlying array; just assign it to a slice of itself. The
-*capacity* of a slice, accessible by the built-in function **cap**,
-reports the maximum length the slice may assume. Here is a function to
-append data to a slice. If the data exceeds the capacity, the slice is
-reallocated. The resulting slice is returned. The function uses the fact
-that **len** and **cap** are legal when applied to the **nil** slice,
-and return 0.
+スライスの長さは、もとになる配列の制限内に収まる限り変更できます。 それを自分自身のスライスに割り当てるだけです。 組み込み関数 **cap** でアクセス可能なスライスの容量は、スライスが想定できる最大長を報告します。 以下の **append** はスライスにデータを追加する関数です。 データが容量を超える場合、再割り当てされたスライスが返されます。 この関数は **nil** スライスに適用されるときに **len** と **cap** が有効であることを使用し、0を返します。
 
-::
+.. code-block:: go
 
    func Append(slice, data []byte) []byte {
        l := len(slice)
@@ -1117,33 +1054,23 @@ and return 0.
        return slice
    }
 
-We must return the slice afterwards because, although **Append** can
-modify the elements of **slice**, the slice itself (the run-time data
-structure holding the pointer, length, and capacity) is passed by value.
+Appendはスライスの要素を変更できますが、スライス自体（ポインター、長さ、および容量を保持する実行時のデータ構造）は値によって渡されるため、あとからスライスを返すべきです。
 
-The idea of appending to a slice is so useful it's captured by the
-**append** built-in function. To understand that function's design,
-though, we need a little more information, so we'll return to it later.
+スライスに追加するという考え方は非常に便利で、組み込みの **append** 関数によって実現できます。 ただし、その関数の設計を理解するには、もう少し情報が必要なので、後で説明します。
 
-.. _two_dimensional_slices:
-
-Two-dimensional slices
+二次元スライス
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Go's arrays and slices are one-dimensional. To create the equivalent of
-a 2D array or slice, it is necessary to define an array-of-arrays or
-slice-of-slices, like this:
+Goの配列とスライスは1次元です。 二次元配列またはスライスに相当するものを作成するには、次のように配列の配列またはスライスのスライスを定義する必要があります。
 
-::
+.. code-block:: go
 
    type Transform [3][3]float64  // A 3x3 array, really an array of arrays.
    type LinesOfText [][]byte     // A slice of byte slices.
 
-Because slices are variable-length, it is possible to have each inner
-slice be a different length. That can be a common situation, as in our
-**LinesOfText** example: each line has an independent length.
+スライスは可変長であるため、スライスの中にあるスライスを異なる長さにすることができます。 ``LinesOfText`` の例のように、これは一般的な状況です。各行には独立した長さがあります。
 
-::
+.. code-block:: go
 
    text := LinesOfText{
        []byte("Now is the time"),
@@ -1151,17 +1078,9 @@ slice be a different length. That can be a common situation, as in our
        []byte("to bring some fun to the party."),
    }
 
-Sometimes it's necessary to allocate a 2D slice, a situation that can
-arise when processing scan lines of pixels, for instance. There are two
-ways to achieve this. One is to allocate each slice independently; the
-other is to allocate a single array and point the individual slices into
-it. Which to use depends on your application. If the slices might grow
-or shrink, they should be allocated independently to avoid overwriting
-the next line; if not, it can be more efficient to construct the object
-with a single allocation. For reference, here are sketches of the two
-methods. First, a line at a time:
+場合によっては、二次元スライスを割り当てる必要があります。これは、たとえば、ピクセル行をスキャンするときに発生する可能性がある状況です。 これを達成するには2つの方法があります。 1つは、各スライスを個別に割り当てることです。 もう1つは、単一の配列を割り当て、個々のスライスをその配列に向けることです。 どちらを使用するかは、アプリケーションによって異なります。 スライスが拡大または縮小する可能性がある場合は、次の行を上書きしないように、個別に割り当てる必要があります。 そうでない場合は、単一の割り当てでオブジェクトを構築する方が効率的です。 参考のために、2つの方法の概要を以下に示します。 まず、1行ずつことなる長さを割り当てる場合です。
 
-::
+.. code-block:: go
 
    // Allocate the top-level slice.
    picture := make([][]uint8, YSize) // One row per unit of y.
@@ -1170,9 +1089,9 @@ methods. First, a line at a time:
        picture[i] = make([]uint8, XSize)
    }
 
-And now as one allocation, sliced into lines:
+次に、1つのスライスに行を割り当てる方法です。
 
-::
+.. code-block:: go
 
    // Allocate the top-level slice, the same as before.
    picture := make([][]uint8, YSize) // One row per unit of y.
@@ -1183,25 +1102,14 @@ And now as one allocation, sliced into lines:
        picture[i], pixels = pixels[:XSize], pixels[XSize:]
    }
 
-Maps
-~~~~
+マップ
+~~~~~~
 
-Maps are a convenient and powerful built-in data structure that
-associate values of one type (the *key*) with values of another type
-(the *element* or *value*). The key can be of any type for which the
-equality operator is defined, such as integers, floating point and
-complex numbers, strings, pointers, interfaces (as long as the dynamic
-type supports equality), structs and arrays. Slices cannot be used as
-map keys, because equality is not defined on them. Like slices, maps
-hold references to an underlying data structure. If you pass a map to a
-function that changes the contents of the map, the changes will be
-visible in the caller.
+マップは、ある型（キー）の値を別の型（要素または値）の値に関連付ける便利で強力な組み込みのデータ構造です。 キーは、整数、浮動小数点および複素数、文字列、ポインター、インターフェイス（動的な型が等価をサポートしている限り）、構造体、配列など、等号演算子が定義されている任意の型にすることができます。 スライスは等価が定義されていないため、マップのキーとして使用できません。 スライスと同様に、マップは背後にあるデータ構造への参照を保持します。 マップの内容を変更する関数にマップを渡すと、変更は呼び出し元に表示されます。
 
-Maps can be constructed using the usual composite literal syntax with
-colon-separated key-value pairs, so it's easy to build them during
-initialization.
+マップは、コロンで区切られたキーと値のペアを使用した通常の複合リテラル構文を使用して構築できるため、簡単に初期化することができます。
 
-::
+.. code-block:: go
 
    var timeZone = map[string]int{
        "UTC":  0*60*60,
@@ -1211,22 +1119,15 @@ initialization.
        "PST": -8*60*60,
    }
 
-Assigning and fetching map values looks syntactically just like doing
-the same for arrays and slices except that the index doesn't need to be
-an integer.
+マップへの値の割り当てと取得は、キーが整数でなくてもよいことを除いて、配列とスライスの場合と同じような構文に見えます。
 
-::
+.. code-block:: go
 
    offset := timeZone["EST"]
 
-An attempt to fetch a map value with a key that is not present in the
-map will return the zero value for the type of the entries in the map.
-For instance, if the map contains integers, looking up a non-existent
-key will return **0**. A set can be implemented as a map with value type
-**bool**. Set the map entry to **true** to put the value in the set, and
-then test it by simple indexing.
+マップに存在しないキーを使用してマップから値を取得しようとすると、マップ内のエントリの型のゼロ値が返されます。 たとえば、マップの値として整数が含まれている場合、存在しないキーを検索すると0が返されます。Setのデータ構造は、boolを値として保持するマップとして実装できます。 マップエントリをtrueに設定して値をセットに入れてから、単純なインデックス作成によってテストします。
 
-::
+.. code-block:: go
 
    attended := map[string]bool{
        "Ann": true,
@@ -1238,23 +1139,17 @@ then test it by simple indexing.
        fmt.Println(person, "was at the meeting")
    }
 
-Sometimes you need to distinguish a missing entry from a zero value. Is
-there an entry for **"UTC"** or is that 0 because it's not in the map at
-all? You can discriminate with a form of multiple assignment.
+存在しないエントリをゼロ値と区別する必要がある場合があります。 「UTC」のエントリはあるか、マップに存在せずゼロ値になるかのどちらかです。 多値を同時に割り当てる形式で区別できます。
 
-::
+.. code-block:: go
 
    var seconds int
    var ok bool
    seconds, ok = timeZone[tz]
 
-For obvious reasons this is called the “comma ok” idiom. In this
-example, if **tz** is present, **seconds** will be set appropriately and
-**ok** will be true; if not, **seconds** will be set to zero and **ok**
-will be false. Here's a function that puts it together with a nice error
-report:
+自明な理由により、上記は「コンマOK」イディオムと呼ばれます。 この例では、tzのエントリが存在する場合、秒が適切に設定され、okがtrueになります。 そうでない場合、秒はゼロに設定され、okはfalseになります。 以下は、素晴らしいエラーメッセージと一緒に機能する関数です。
 
-::
+.. code-block:: go
 
    func offset(tz string) int {
        if seconds, ok := timeZone[tz]; ok {
@@ -1264,91 +1159,68 @@ report:
        return 0
    }
 
-To test for presence in the map without worrying about the actual value,
-you can use the `blank identifier <#blank>`__ (**_**) in place of the
-usual variable for the value.
+実際の値を気にせずにマップ内の存在をテストするには、値の変数として通常の変数の代わりに `空白の識別子 <#blank>`_ を使用できます。
 
-::
+.. code-block:: go
 
    _, present := timeZone[tz]
 
-To delete a map entry, use the **delete** built-in function, whose
-arguments are the map and the key to be deleted. It's safe to do this
-even if the key is already absent from the map.
+マップエントリを削除するには組み込み関数である **delete** を使用します。この組み込み関数の引数は、マップと削除するキーです。キーがマップに既に存在しない場合でも、これを行うのは安全です。
 
-::
+.. code-block:: go
 
    delete(timeZone, "PDT")  // Now on Standard Time
 
-Printing
+プリント
 ~~~~~~~~~~~~~~~~
 
-Formatted printing in Go uses a style similar to C's **printf** family
-but is richer and more general. The functions live in the **fmt**
-package and have capitalized names: **fmt.Printf**, **fmt.Fprintf**,
-**fmt.Sprintf** and so on. The string functions (**Sprintf** etc.)
-return a string rather than filling in a provided buffer.
+Goの書式付きプリントでは、Cのprintfファミリーに似たスタイルが使用されますが、より機能的で一般的です。 関数は **fmt** パッケージに存在し、大文字の名前が付いています。``fmt.Printf`` , ``fmt.Fprintf`` , ``fmt.Sprintf`` などです。文字列関数( ``Sprintf``など) は、提供されたバッファを埋めるのではなく、文字列を返します。
 
-You don't need to provide a format string. For each of **Printf**,
-**Fprintf** and **Sprintf** there is another pair of functions, for
-instance **Print** and **Println**. These functions do not take a format
-string but instead generate a default format for each argument. The
-**Println** versions also insert a blank between arguments and append a
-newline to the output while the **Print** versions add blanks only if
-the operand on neither side is a string. In this example each line
-produces the same output.
+書式文字列を提供する必要はありません。``Printf`` , ``Fprintf`` , ``Sprintf`` のそれぞれについて、別のペアの関数、たとえば ``Print`` と ``Println`` があります。 これらの関数はフォーマット文字列を取りませんが、代わりに各引数のデフォルトフォーマットを生成します。また ``Println`` 版は引数の間に空白を挿入し、出力に改行を追加します。しかし ``Print`` 版は隣り合うどちらの側のオペランドも ``string`` でない場合にのみ空白を追加します。 この例では、各行は同じ出力を生成します。
 
-::
+.. code-block:: go
 
    fmt.Printf("Hello %d\n", 23)
    fmt.Fprint(os.Stdout, "Hello ", 23, "\n")
    fmt.Println("Hello", 23)
    fmt.Println(fmt.Sprint("Hello ", 23))
 
-The formatted print functions **fmt.Fprint** and friends take as a first
-argument any object that implements the **io.Writer** interface; the
-variables **os.Stdout** and **os.Stderr** are familiar instances.
+フォーマットされたプリント関数 **fmt.Fprint** と類似する関数は **io.Writer** インターフェイスを実装するオブジェクトを最初の引数として受け取ります。変数 **os.Stdout** と **os.Stderr** はよく知られたインスタンスです。
 
-Here things start to diverge from C. First, the numeric formats such as
-**%d** do not take flags for signedness or size; instead, the printing
-routines use the type of the argument to decide these properties.
+ここからCと異なります。最初に **%d** などの数値形式は、符号付きまたは大きさのフラグを取りません。 代わりに、プリントルーチンは引数の型を使用してこれらのプロパティを決定します。
 
-::
+.. code-block:: go
 
    var x uint64 = 1<<64 - 1
    fmt.Printf("%d %x; %d %x\n", x, x, int64(x), int64(x))
 
-prints
+上記は以下のように表示されます。
 
-::
+.. code-block:: go
 
    18446744073709551615 ffffffffffffffff; -1 -1
 
-If you just want the default conversion, such as decimal for integers,
-you can use the catchall format **%v** (for “value”); the result is
-exactly what **Print** and **Println** would produce. Moreover, that
-format can print *any* value, even arrays, slices, structs, and maps.
-Here is a print statement for the time zone map defined in the previous
-section.
+整数の小数など、デフォルトの変換だけが必要な場合は、すべてで用いることのできる形式 **%v** を使用できます。 結果はPrintとPrintlnが生成するものとまったく同じです。 さらに、その形式では、配列、スライス、構造体、マップなど、任意の値を出力できます。 これは、前のセクションで定義したタイムゾーンマップのprintステートメントです。
 
-::
+.. code-block:: go
 
    fmt.Printf("%v\n", timeZone)  // or just fmt.Println(timeZone)
 
-which gives output:
+以下のように表示されます。
 
-::
+.. code-block:: go
 
    map[CST:-21600 EST:-18000 MST:-25200 PST:-28800 UTC:0]
 
-For maps, **Printf** and friends sort the output lexicographically by
-key.
+マップの場合、 **Printf** や周辺の関数は、キーの辞書順でソートして表示します。
+
+構造体をプリントする場合、拡張された形式 **%+v** は構造体のフィールドに名前を付けて注釈を付けます。値があれば代替の形式 **%#v** は値を完全なGo構文でプリントします。
 
 When printing a struct, the modified format **%+v** annotates the fields
 of the structure with their names, and for any value the alternate
 format **%#v** prints the value in full Go syntax.
 
-::
+.. code-block:: go
 
    type T struct {
        a int
@@ -1361,69 +1233,49 @@ format **%#v** prints the value in full Go syntax.
    fmt.Printf("%#v\n", t)
    fmt.Printf("%#v\n", timeZone)
 
-prints
+以下のように表示されます。
 
-::
+.. code-block:: go
 
    &{7 -2.35 abc   def}
    &{a:7 b:-2.35 c:abc     def}
    &main.T{a:7, b:-2.35, c:"abc\tdef"}
    map[string]int{"CST":-21600, "EST":-18000, "MST":-25200, "PST":-28800, "UTC":0}
 
-(Note the ampersands.) That quoted string format is also available
-through **%q** when applied to a value of type **string** or **[]byte**.
-The alternate format **%#q** will use backquotes instead if possible.
-(The **%q** format also applies to integers and runes, producing a
-single-quoted rune constant.) Also, **%x** works on strings, byte arrays
-and byte slices as well as on integers, generating a long hexadecimal
-string, and with a space in the format (**% x**) it puts spaces between
-the bytes.
+（アンパサンド ``&`` に注意してください。）この引用符付き文字列形式は **string** 型または **[]byte** 型の値に適用される場合 **%q** でも使用できます。 別の書式 **%#q** は、可能であれば代わりにバッククォートを使用します。 ( **%q** 形式は、整数とルーンにも適用され、単一引用符で囲まれたルーン定数を生成します。）また **%x** は、文字列、バイト配列、バイトスライス、および整数で機能し、長い16進数文字列を生成し、スペースを使用します フォーマット( **%x** )では、バイト間にスペースを入れます。
 
-Another handy format is **%T**, which prints the *type* of a value.
+もう1つの便利な形式は **%T** です。これは、値の型を出力します。
 
-::
+.. code-block:: go
 
    fmt.Printf("%T\n", timeZone)
 
-prints
+以下のように表示されます。
 
-::
+.. code-block:: go
 
    map[string]int
 
-If you want to control the default format for a custom type, all that's
-required is to define a method with the signature **String() string** on
-the type. For our simple type **T**, that might look like this.
+デフォルトの書式を拡張したい場合 **String() string** のシグネチャを持つメソッドを型に定義する必要があります。以下のシンプルな型Tは以下のようになります。
 
-::
+.. code-block:: go
 
    func (t *T) String() string {
        return fmt.Sprintf("%d/%g/%q", t.a, t.b, t.c)
    }
    fmt.Printf("%v\n", t)
 
-to print in the format
+フォーマットの出力をします。
 
-::
+.. code-block:: go
 
    7/-2.35/"abc\tdef"
 
-(If you need to print *values* of type **T** as well as pointers to
-**T**, the receiver for **String** must be of value type; this example
-used a pointer because that's more efficient and idiomatic for struct
-types. See the section below on `pointers vs. value
-receivers <#pointers_vs_values>`__ for more information.)
+（T型と*T型でプリントする必要がある場合、Stringのレシーバーは値型でなければなりません。この例では、構造体型の方が効率的で慣用的であるため、ポインターを使用しました。 詳細については `ポインター vs 値のレシーバ <#pointers_vs_values>`_ をご覧ください。）
 
-Our **String** method is able to call **Sprintf** because the print
-routines are fully reentrant and can be wrapped this way. There is one
-important detail to understand about this approach, however: don't
-construct a **String** method by calling **Sprintf** in a way that will
-recur into your **String** method indefinitely. This can happen if the
-**Sprintf** call attempts to print the receiver directly as a string,
-which in turn will invoke the method again. It's a common and easy
-mistake to make, as this example shows.
+String() メソッドは、プリントルーチンが完全にリエントラントであり、このようにラップできるため、Sprintfを呼び出すことができます。 ただし、このアプローチについて理解する必要がある重要な詳細が1つあります。Sprintfを呼び出してStringメソッドを無期限に再帰する方法で実装しないでください。 これは、Sprintfの呼び出しがレシーバーを文字列として直接プリントしようとした場合に発生する可能性があり、その結果、メソッドが再度呼び出されます。 この例が示すように、これはよくある間違いです。
 
-::
+.. code-block:: go
 
    type MyString string
 
@@ -1431,54 +1283,41 @@ mistake to make, as this example shows.
        return fmt.Sprintf("MyString=%s", m) // Error: will recur forever.
    }
 
-It's also easy to fix: convert the argument to the basic string type,
-which does not have the method.
+.. todo:: 詳細を示す
 
-::
+修正も簡単です。引数をメソッドを持たない基本的なstring型に変換します。
+
+.. code-block:: go
 
    type MyString string
    func (m MyString) String() string {
        return fmt.Sprintf("MyString=%s", string(m)) // OK: note conversion.
    }
 
-In the `initialization section <#initialization>`__ we'll see another
-technique that avoids this recursion.
+初期化セクションでは、この再帰を回避する別の手法を紹介します。
 
-Another printing technique is to pass a print routine's arguments
-directly to another such routine. The signature of **Printf** uses the
-type **...interface{}** for its final argument to specify that an
-arbitrary number of parameters (of arbitrary type) can appear after the
-format.
+別のプリントするテクニックは、プリントルーチンの引数を別のルーチンに直接渡すことです。 Printfのシグネチャは、最後の引数に型 **...interface{}** を使用して、フォーマットの後に任意の数のパラメーター（任意の型）を表示できることを指定します。
 
-::
+.. code-block:: go
 
    func Printf(format string, v ...interface{}) (n int, err error) {
 
-Within the function **Printf**, **v** acts like a variable of type
-**[]interface{}** but if it is passed to another variadic function, it
-acts like a regular list of arguments. Here is the implementation of the
-function **log.Println** we used above. It passes its arguments directly
-to **fmt.Sprintln** for the actual formatting.
+Printf関数内では v は **[]interface{}** 型の変数のように機能しますが、別の可変長引数を持つ関数に渡されると、通常の引数リストのように機能します。 上記で使用した ``log.Println`` 関数の実装を次に示します。 実際の書式設定のために、引数をfmt.Sprintlnに直接渡します。
 
-::
+.. code-block:: go
 
    // Println prints to the standard logger in the manner of fmt.Println.
    func Println(v ...interface{}) {
        std.Output(2, fmt.Sprintln(v...))  // Output takes parameters (int, string)
    }
 
-We write **...** after **v** in the nested call to **Sprintln** to tell
-the compiler to treat **v** as a list of arguments; otherwise it would
-just pass **v** as a single slice argument.
+Sprintlnへのネストされた呼び出しでvの後に **...** を記述して、vを引数のリストとして扱うようコンパイラーに指示します。それ以外の場合は、vを単一のスライス引数として渡します。
 
-There's even more to printing than we've covered here. See the **godoc**
-documentation for package **fmt** for the details.
+ここで説明した以外にも、プリントにはさらに多くの機能があります。詳細については、パッケージfmtのgodocドキュメントを参照してください。
 
-By the way, a **...** parameter can be of a specific type, for instance
-**...int** for a min function that chooses the least of a list of
-integers:
+ちなみに **...** パラメータは型として指定することができます。たとえば、整数のリストの最小のものを選択するmin関数の場合、パラメータの引数の型は **...int** です。
 
-::
+.. code-block:: go
 
    func Min(a ...int) int {
        min := int(^uint(0) >> 1)  // largest int
@@ -1493,47 +1332,34 @@ integers:
 Append
 ~~~~~~
 
-Now we have the missing piece we needed to explain the design of the
-**append** built-in function. The signature of **append** is different
-from our custom **Append** function above. Schematically, it's like
-this:
+これで **append** 組み込み関数の設計を説明するために必要な準備が揃いました。appendのシグネチャは、上記で説明したカスタムAppend関数とは異なります。概略的には、次のようなものです。
 
-::
+.. code-block:: go
 
    func append(slice []T, elements ...T) []T
 
-where *T* is a placeholder for any given type. You can't actually write
-a function in Go where the type **T** is determined by the caller.
-That's why **append** is built in: it needs support from the compiler.
+ここで **T** は任意の型のプレースホルダーです。 Goでは、呼び出し側によって型Tが決定される関数を実際に書くことはできません。それがappendが組み込まれている理由です：コンパイラからのサポートが必要です。
 
-What **append** does is append the elements to the end of the slice and
-return the result. The result needs to be returned because, as with our
-hand-written **Append**, the underlying array may change. This simple
-example
+**append** が実施するのは、要素をスライスの最後に追加して、結果のスライスを返すことです。カスタムのAppend関数と同様に、もとになる配列が変更される可能性があるため、結果を返す必要があります。この簡単な例を示します。
 
-::
+.. code-block:: go
 
    x := []int{1,2,3}
    x = append(x, 4, 5, 6)
    fmt.Println(x)
 
-prints **[1 2 3 4 5 6]**. So **append** works a little like **Printf**,
-collecting an arbitrary number of arguments.
+[1 2 3 4 5 6]をプリントします。したがって、appendはPrintfのように機能し、任意の数の引数を受け取ります。
 
-But what if we wanted to do what our **Append** does and append a slice
-to a slice? Easy: use **...** at the call site, just as we did in the
-call to **Output** above. This snippet produces identical output to the
-one above.
+しかしカスタムのAppendが行うことを行い、スライスにスライスを追加する場合はどうでしょうか。答えは簡単です。：上記のOutputの呼び出しで行ったように、呼び出す側で **...** を使用します。このスニペットは、上記のものと同じ出力を生成します。
 
-::
+.. code-block:: go
 
    x := []int{1,2,3}
    y := []int{4,5,6}
    x = append(x, y...)
    fmt.Println(x)
 
-Without that **...**, it wouldn't compile because the types would be
-wrong; **y** is not of type **int**.
+**...** の識別子がなければ、型が間違っているためコンパイルできません。 yは **int** 型ではありません。
 
 初期化(Initialization)
 --------------------------------------------------
@@ -1585,7 +1411,7 @@ wants a string, and **%f** wants a floating-point value.
 Variables can be initialized just like constants but the initializer can
 be a general expression computed at run time.
 
-::
+.. code-block:: go
 
    var (
        home   = os.Getenv("HOME")
@@ -1609,7 +1435,7 @@ Besides initializations that cannot be expressed as declarations, a
 common use of **init** functions is to verify or repair correctness of
 the program state before real execution begins.
 
-::
+.. code-block:: go
 
    func init() {
        if user == "" {
@@ -1642,7 +1468,7 @@ can define it as a method on slices instead. To do this, we first
 declare a named type to which we can bind the method, and then make the
 receiver for the method a value of that type.
 
-::
+.. code-block:: go
 
    type ByteSlice []byte
 
@@ -1655,7 +1481,7 @@ eliminate that clumsiness by redefining the method to take a *pointer*
 to a **ByteSlice** as its receiver, so the method can overwrite the
 caller's slice.
 
-::
+.. code-block:: go
 
    func (p *ByteSlice) Append(data []byte) {
        slice := *p
@@ -1666,7 +1492,7 @@ caller's slice.
 In fact, we can do even better. If we modify our function so it looks
 like a standard **Write** method, like this,
 
-::
+.. code-block:: go
 
    func (p *ByteSlice) Write(data []byte) (n int, err error) {
        slice := *p
@@ -1678,7 +1504,7 @@ like a standard **Write** method, like this,
 then the type ***ByteSlice** satisfies the standard interface
 **io.Writer**, which is handy. For instance, we can print into one.
 
-::
+.. code-block:: go
 
        var b ByteSlice
        fmt.Fprintf(&b, "This hour has %d days\n", 7)
@@ -1733,7 +1559,7 @@ The **String** method of **Sequence** is recreating the work that
 is poor.) We can share the effort (and also speed it up) if we convert
 the **Sequence** to a plain **[]int** before calling **Sprint**.
 
-::
+.. code-block:: go
 
    func (s Sequence) String() string {
        s = s.Copy()
@@ -1753,7 +1579,7 @@ It's an idiom in Go programs to convert the type of an expression to
 access a different set of methods. As an example, we could use the
 existing type **sort.IntSlice** to reduce the entire example to this:
 
-::
+.. code-block:: go
 
    type Sequence []int
 
@@ -1783,7 +1609,7 @@ already a string, we want the actual string value held by the interface,
 while if it has a **String** method we want the result of calling the
 method.
 
-::
+.. code-block:: go
 
    type Stringer interface {
        String() string
@@ -1807,7 +1633,7 @@ interface value and extracts from it a value of the specified explicit
 type. The syntax borrows from the clause opening a type switch, but with
 an explicit type rather than the **type** keyword:
 
-::
+.. code-block:: go
 
    value.(typeName)
 
@@ -1816,7 +1642,7 @@ type must either be the concrete type held by the interface, or a second
 interface type that the value can be converted to. To extract the string
 we know is in the value, we could write:
 
-::
+.. code-block:: go
 
    str := value.(string)
 
@@ -1824,7 +1650,7 @@ But if it turns out that the value does not contain a string, the
 program will crash with a run-time error. To guard against that, use the
 "comma, ok" idiom to test, safely, whether the value is a string:
 
-::
+.. code-block:: go
 
    str, ok := value.(string)
    if ok {
@@ -1839,7 +1665,7 @@ string, but it will have the zero value, an empty string.
 As an illustration of the capability, here's an **if**-**else**
 statement that's equivalent to the type switch that opened this section.
 
-::
+.. code-block:: go
 
    if str, ok := value.(string); ok {
        return str
@@ -1875,7 +1701,7 @@ knowing the details of the block encryption.
 
 The **crypto/cipher** interfaces look like this:
 
-::
+.. code-block:: go
 
    type Block interface {
        BlockSize() int
@@ -1891,7 +1717,7 @@ Here's the definition of the counter mode (CTR) stream, which turns a
 block cipher into a streaming cipher; notice that the block cipher's
 details are abstracted away:
 
-::
+.. code-block:: go
 
    // NewCTR returns a Stream that encrypts/decrypts using the given Block in
    // counter mode. The length of iv must be the same as the Block's block size.
@@ -1914,7 +1740,7 @@ satisfy an interface. One illustrative example is in the **http**
 package, which defines the **Handler** interface. Any object that
 implements **Handler** can serve HTTP requests.
 
-::
+.. code-block:: go
 
    type Handler interface {
        ServeHTTP(ResponseWriter, *Request)
@@ -1931,7 +1757,7 @@ GETs; that simplification does not affect the way the handlers are set
 up. Here's a trivial but complete implementation of a handler to count
 the number of times the page is visited.
 
-::
+.. code-block:: go
 
    // Simple counter server.
    type Counter struct {
@@ -1947,7 +1773,7 @@ the number of times the page is visited.
 **http.ResponseWriter**.) For reference, here's how to attach such a
 server to a node on the URL tree.
 
-::
+.. code-block:: go
 
    import "net/http"
    ...
@@ -1958,7 +1784,7 @@ But why make **Counter** a struct? An integer is all that's needed. (The
 receiver needs to be a pointer so the increment is visible to the
 caller.)
 
-::
+.. code-block:: go
 
    // Simpler counter server.
    type Counter int
@@ -1971,7 +1797,7 @@ caller.)
 What if your program has some internal state that needs to be notified
 that a page has been visited? Tie a channel to the web page.
 
-::
+.. code-block:: go
 
    // A channel that sends a notification on each visit.
    // (Probably want the channel to be buffered.)
@@ -1986,7 +1812,7 @@ Finally, let's say we wanted to present on **/args** the arguments used
 when invoking the server binary. It's easy to write a function to print
 the arguments.
 
-::
+.. code-block:: go
 
    func ArgServer() {
        fmt.Println(os.Args)
@@ -1998,7 +1824,7 @@ Since we can define a method for any type except pointers and
 interfaces, we can write a method for a function. The **http** package
 contains this code:
 
-::
+.. code-block:: go
 
    // The HandlerFunc type is an adapter to allow the use of
    // ordinary functions as HTTP handlers.  If f is a function
@@ -2020,7 +1846,7 @@ being a channel and the method sending on the channel.
 To make **ArgServer** into an HTTP server, we first modify it to have
 the right signature.
 
-::
+.. code-block:: go
 
    // Argument server.
    func ArgServer(w http.ResponseWriter, req *http.Request) {
@@ -2032,7 +1858,7 @@ converted to that type to access its methods, just as we converted
 **Sequence** to **IntSlice** to access **IntSlice.Sort**. The code to
 set it up is concise:
 
-::
+.. code-block:: go
 
    http.Handle("/args", http.HandlerFunc(ArgServer))
 
@@ -2076,7 +1902,7 @@ instance, when calling a function that returns a value and an error, but
 only the error is important, use the blank identifier to discard the
 irrelevant value.
 
-::
+.. code-block:: go
 
    if _, err := os.Stat(path); os.IsNotExist(err) {
        fmt.Printf("%s does not exist\n", path)
@@ -2086,7 +1912,7 @@ Occasionally you'll see code that discards the error value in order to
 ignore the error; this is terrible practice. Always check error returns;
 they're provided for a reason.
 
-::
+.. code-block:: go
 
    // Bad! This code will crash if path does not exist.
    fi, _ := os.Stat(path)
@@ -2140,7 +1966,7 @@ need only the handler registration and access the data through a web
 page. To import the package only for its side effects, rename the
 package to the blank identifier:
 
-::
+.. code-block:: go
 
    import _ "net/http/pprof"
 
@@ -2170,7 +1996,7 @@ instead of doing the standard conversion. The encoder checks this
 property at run time with a `type assertion <#interface_conversions>`__
 like:
 
-::
+.. code-block:: go
 
    m, ok := val.(json.Marshaler)
 
@@ -2178,7 +2004,7 @@ If it's necessary only to ask whether a type implements an interface,
 without actually using the interface itself, perhaps as part of an error
 check, use the blank identifier to ignore the type-asserted value:
 
-::
+.. code-block:: go
 
    if _, ok := val.(json.Marshaler); ok {
        fmt.Printf("value %v of type %T implements json.Marshaler\n", val, val)
@@ -2195,7 +2021,7 @@ implementation. To guarantee that the implementation is correct, a
 global declaration using the blank identifier can be used in the
 package:
 
-::
+.. code-block:: go
 
    var _ json.Marshaler = (*RawMessage)(nil)
 
@@ -2221,7 +2047,7 @@ it does have the ability to “borrow” pieces of an implementation by
 Interface embedding is very simple. We've mentioned the **io.Reader**
 and **io.Writer** interfaces before; here are their definitions.
 
-::
+.. code-block:: go
 
    type Reader interface {
        Read(p []byte) (n int, err error)
@@ -2238,7 +2064,7 @@ We could specify **io.ReadWriter** by listing the two methods
 explicitly, but it's easier and more evocative to embed the two
 interfaces to form the new one, like this:
 
-::
+.. code-block:: go
 
    // ReadWriter is the interface that combines the Reader and Writer interfaces.
    type ReadWriter interface {
@@ -2259,7 +2085,7 @@ also implements a buffered reader/writer, which it does by combining a
 reader and a writer into one struct using embedding: it lists the types
 within the struct but does not give them field names.
 
-::
+.. code-block:: go
 
    // ReadWriter stores pointers to a Reader and a Writer.
    // It implements io.ReadWriter.
@@ -2272,7 +2098,7 @@ The embedded elements are pointers to structs and of course must be
 initialized to point to valid structs before they can be used. The
 **ReadWriter** struct could be written as
 
-::
+.. code-block:: go
 
    type ReadWriter struct {
        reader *Reader
@@ -2282,7 +2108,7 @@ initialized to point to valid structs before they can be used. The
 but then to promote the methods of the fields and to satisfy the **io**
 interfaces, we would also need to provide forwarding methods, like this:
 
-::
+.. code-block:: go
 
    func (rw *ReadWriter) Read(p []byte) (n int, err error) {
        return rw.reader.Read(p)
@@ -2305,7 +2131,7 @@ field of the **ReadWriter**, not the **ReadWriter** itself.
 Embedding can also be a simple convenience. This example shows an
 embedded field alongside a regular, named field.
 
-::
+.. code-block:: go
 
    type Job struct {
        Command string
@@ -2317,7 +2143,7 @@ other methods of ***log.Logger**. We could have given the **Logger** a
 field name, of course, but it's not necessary to do so. And now, once
 initialized, we can log to the **Job**:
 
-::
+.. code-block:: go
 
    job.Println("starting now...")
 
@@ -2325,7 +2151,7 @@ The **Logger** is a regular field of the **Job** struct, so we can
 initialize it in the usual way inside the constructor for **Job**, like
 this,
 
-::
+.. code-block:: go
 
    func NewJob(command string, logger *log.Logger) *Job {
        return &Job{command, logger}
@@ -2333,7 +2159,7 @@ this,
 
 or with a composite literal,
 
-::
+.. code-block:: go
 
    job := &Job{command, log.New(os.Stderr, "Job: ", log.Ldate)}
 
@@ -2344,7 +2170,7 @@ to access the ***log.Logger** of a **Job** variable **job**, we would
 write **job.Logger**, which would be useful if we wanted to refine the
 methods of **Logger**.
 
-::
+.. code-block:: go
 
    func (job *Job) Printf(format string, args ...interface{}) {
        job.Logger.Printf("%q: %s", job.Command, fmt.Sprintf(format, args...))
@@ -2422,13 +2248,13 @@ in a new goroutine. When the call completes, the goroutine exits,
 silently. (The effect is similar to the Unix shell's **&** notation for
 running a command in the background.)
 
-::
+.. code-block:: go
 
    go list.Sort()  // run list.Sort concurrently; don't wait for it.
 
 A function literal can be handy in a goroutine invocation.
 
-::
+.. code-block:: go
 
    func Announce(message string, delay time.Duration) {
        go func() {
@@ -2452,7 +2278,7 @@ acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
 The default is zero, for an unbuffered or synchronous channel.
 
-::
+.. code-block:: go
 
    ci := make(chan int)            // unbuffered channel of integers
    cj := make(chan int, 0)         // unbuffered channel of integers
@@ -2467,7 +2293,7 @@ started. In the previous section we launched a sort in the background. A
 channel can allow the launching goroutine to wait for the sort to
 complete.
 
-::
+.. code-block:: go
 
    c := make(chan int)  // Allocate a channel.
    // Start the sort in a goroutine; when it completes, signal on the channel.
@@ -2491,7 +2317,7 @@ receives a value from the channel to ready the “semaphore” for the next
 consumer. The capacity of the channel buffer limits the number of
 simultaneous calls to **process**.
 
-::
+.. code-block:: go
 
    var sem = make(chan int, MaxOutstanding)
 
@@ -2520,7 +2346,7 @@ deficiency by changing **Serve** to gate the creation of the goroutines.
 Here's an obvious solution, but beware it has a bug we'll fix
 subsequently:
 
-::
+.. code-block:: go
 
    func Serve(queue chan *Request) {
        for req := range queue {
@@ -2538,7 +2364,7 @@ That's not what we want. We need to make sure that **req** is unique for
 each goroutine. Here's one way to do that, passing the value of **req**
 as an argument to the closure in the goroutine:
 
-::
+.. code-block:: go
 
    func Serve(queue chan *Request) {
        for req := range queue {
@@ -2554,7 +2380,7 @@ Compare this version with the previous to see the difference in how the
 closure is declared and run. Another solution is just to create a new
 variable with the same name, as in this example:
 
-::
+.. code-block:: go
 
    func Serve(queue chan *Request) {
        for req := range queue {
@@ -2569,7 +2395,7 @@ variable with the same name, as in this example:
 
 It may seem odd to write
 
-::
+.. code-block:: go
 
    req := req
 
@@ -2585,7 +2411,7 @@ This **Serve** function also accepts a channel on which it will be told
 to exit; after launching the goroutines it blocks receiving from that
 channel.
 
-::
+.. code-block:: go
 
    func handle(queue chan *Request) {
        for r := range queue {
@@ -2617,7 +2443,7 @@ that type includes a channel on which to reply, each client can provide
 its own path for the answer. Here's a schematic definition of type
 **Request**.
 
-::
+.. code-block:: go
 
    type Request struct {
        args        []int
@@ -2628,7 +2454,7 @@ its own path for the answer. Here's a schematic definition of type
 The client provides a function and its arguments, as well as a channel
 inside the request object on which to receive the answer.
 
-::
+.. code-block:: go
 
    func sum(a []int) (s int) {
        for _, v := range a {
@@ -2645,7 +2471,7 @@ inside the request object on which to receive the answer.
 
 On the server side, the handler function is the only thing that changes.
 
-::
+.. code-block:: go
 
    func handle(queue chan *Request) {
        for req := range queue {
@@ -2671,7 +2497,7 @@ Let's say we have an expensive operation to perform on a vector of
 items, and that the value of the operation on each item is independent,
 as in this idealized example.
 
-::
+.. code-block:: go
 
    type Vector []float64
 
@@ -2688,7 +2514,7 @@ complete in any order but it doesn't matter; we just count the
 completion signals by draining the channel after launching all the
 goroutines.
 
-::
+.. code-block:: go
 
    const numCPU = 4 // number of CPU cores
 
@@ -2708,7 +2534,7 @@ Rather than create a constant value for numCPU, we can ask the runtime
 what value is appropriate. The function **runtime.NumCPU** returns the
 number of hardware CPU cores in the machine, so we could write
 
-::
+.. code-block:: go
 
    var numCPU = runtime.NumCPU()
 
@@ -2720,7 +2546,7 @@ or by calling the function with a positive number. Calling it with zero
 just queries the value. Therefore if we want to honor the user's
 resource request, we should write
 
-::
+.. code-block:: go
 
    var numCPU = runtime.GOMAXPROCS(0)
 
@@ -2746,7 +2572,7 @@ and uses a buffered channel to represent it. If the channel is empty, a
 new buffer gets allocated. Once the message buffer is ready, it's sent
 to the server on **serverChan**.
 
-::
+.. code-block:: go
 
    var freeList = make(chan *Buffer, 100)
    var serverChan = make(chan *Buffer)
@@ -2770,7 +2596,7 @@ to the server on **serverChan**.
 The server loop receives each message from the client, processes it, and
 returns the buffer to the free list.
 
-::
+.. code-block:: go
 
    func server() {
        for {
@@ -2809,7 +2635,7 @@ describes what went wrong.
 
 By convention, errors have type **error**, a simple built-in interface.
 
-::
+.. code-block:: go
 
    type error interface {
        Error() string
@@ -2822,7 +2648,7 @@ return value, **os.Open** also returns an error value. If the file is
 opened successfully, the error will be **nil**, but when there is a
 problem, it will hold an **os.PathError**:
 
-::
+.. code-block:: go
 
    // PathError records an error and the operation and
    // file path that caused it.
@@ -2838,7 +2664,7 @@ problem, it will hold an **os.PathError**:
 
 **PathError**'s **Error** generates a string like this:
 
-::
+.. code-block:: go
 
    open /etc/passwx: no such file or directory
 
@@ -2857,7 +2683,7 @@ or a type assertion to look for specific errors and extract details. For
 **PathErrors** this might include examining the internal **Err** field
 for recoverable failures.
 
-::
+.. code-block:: go
 
    for try := 0; try < 2; try++ {
        file, err = os.Create(filename)
@@ -2892,7 +2718,7 @@ string—to be printed as the program dies. It's also a way to indicate
 that something impossible has happened, such as exiting an infinite
 loop.
 
-::
+.. code-block:: go
 
    // A toy implementation of cube root using Newton's method.
    func CubeRoot(x float64) float64 {
@@ -2915,7 +2741,7 @@ program. One possible counterexample is during initialization: if the
 library truly cannot set itself up, it might be reasonable to panic, so
 to speak.
 
-::
+.. code-block:: go
 
    var user = os.Getenv("USER")
 
@@ -2945,7 +2771,7 @@ functions.
 One application of **recover** is to shut down a failing goroutine
 inside a server without killing the other executing goroutines.
 
-::
+.. code-block:: go
 
    func server(workChan <-chan *Work) {
        for work := range workChan {
@@ -2982,7 +2808,7 @@ parsing errors by calling **panic** with a local error type. Here's the
 definition of **Error**, an **error** method, and the **Compile**
 function.
 
-::
+.. code-block:: go
 
    // Error is the type of a parse error; it satisfies the error interface.
    type Error string
@@ -3024,7 +2850,7 @@ method bound to a type, it's fine, even natural, for it to have the same
 name as the builtin **error** type) makes it easy to report parse errors
 without worrying about unwinding the parse stack by hand:
 
-::
+.. code-block:: go
 
    if pos == 0 {
        re.error("'*' illegal at start of expression")
@@ -3053,6 +2879,7 @@ Webサーバー
 ここに完全なプログラムがあります。以下に従って説明します。
 
 .. literalinclude:: progs/eff_qr.go
+    :language: go
 
 mainまでの部分は簡単に理解できるはずです。 1つのフラグは、サーバーのデフォルトHTTPポートを設定します。 テンプレート変数templは、面白いことが起こる場所です。 ページを表示するためにサーバーによって実行されるHTMLテンプレートを作成します。 それについてはすぐに説明します。
 
