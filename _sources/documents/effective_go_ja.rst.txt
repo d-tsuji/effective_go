@@ -58,24 +58,11 @@ Goでは、通常とは異なるアプローチを採用し、ほとんどのフ
 コメント
 ------------------
 
-Go provides C-style **/* */** block comments and C++-style **//** line
-comments. Line comments are the norm; block comments appear mostly as
-package comments, but are useful within an expression or to disable
-large swaths of code.
+Goは、Cスタイルの ``/* */`` のブロックコメントとC++スタイルの ``//`` 行コメントを提供します。行コメントは標準です。ブロックコメントは、ほとんどがパッケージコメントとして用いられますが、式の中や大量のコードを無効にするのに役立ちます。
 
-The program—and web server—**godoc** processes Go source files to
-extract documentation about the contents of the package. Comments that
-appear before top-level declarations, with no intervening newlines, are
-extracted along with the declaration to serve as explanatory text for
-the item. The nature and style of these comments determines the quality
-of the documentation **godoc** produces.
+**godoc** と呼ばれるプログラム(およびWebサーバー)は、Goソースファイルを解析して、パッケージの内容に関するドキュメントを抽出します。 トップレベルの宣言の前に表示され、改行を挿入しないコメントは、宣言とともにその項目の説明文となります。 これらのコメントの性質とスタイルは **godoc** が作成するドキュメントの質を決定します。
 
-Every package should have a *package comment*, a block comment preceding
-the package clause. For multi-file packages, the package comment only
-needs to be present in one file, and any one will do. The package
-comment should introduce the package and provide information relevant to
-the package as a whole. It will appear first on the **godoc** page and
-should set up the detailed documentation that follows.
+すべてのパッケージには、パッケージコメント、パッケージ句の前のブロックコメントが必要です。 複数ファイルで構成されるパッケージの場合、パッケージコメントは1つのファイルにあれば十分です。パッケージコメントは、パッケージを紹介し、パッケージ全体に関連する情報を提供する必要があります。 godocページの最初に表示され、詳細なドキュメントに続くように設定する必要があります。
 
 .. code-block:: go
 
@@ -100,34 +87,20 @@ should set up the detailed documentation that follows.
    */
    package regexp
 
-If the package is simple, the package comment can be brief.
+パッケージが単純な場合、パッケージのコメントは簡潔にすることができます。
 
 .. code-block:: go
 
    // Package path implements utility routines for
    // manipulating slash-separated filename paths.
 
-Comments do not need extra formatting such as banners of stars. The
-generated output may not even be presented in a fixed-width font, so
-don't depend on spacing for alignment—**godoc**, like **gofmt**, takes
-care of that. The comments are uninterpreted plain text, so HTML and
-other annotations such as **_this_** will reproduce *verbatim* and
-should not be used. One adjustment **godoc** does do is to display
-indented text in a fixed-width font, suitable for program snippets. The
-package comment for the **`fmt** package </pkg/fmt/>`__ uses this to
-good effect.
+コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 **godoc** は **gofmt** のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 **godoc** が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 `fmt package <>`_ のパッケージコメントは、これを有効に使用しています。
 
-Depending on the context, **godoc** might not even reformat comments, so
-make sure they look good straight up: use correct spelling, punctuation,
-and sentence structure, fold long lines, and so on.
+コンテキストによっては **godoc** はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。
 
-Inside a package, any comment immediately preceding a top-level
-declaration serves as a *doc comment* for that declaration. Every
-exported (capitalized) name in a program should have a doc comment.
+パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。
 
-Doc comments work best as complete sentences, which allow a wide variety
-of automated presentations. The first sentence should be a one-sentence
-summary that starts with the name being declared.
+ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。
 
 .. code-block:: go
 
@@ -135,22 +108,13 @@ summary that starts with the name being declared.
    // a Regexp that can be used to match against text.
    func Compile(str string) (*Regexp, error) {
 
-If every doc comment begins with the name of the item it describes, you
-can use the
-`doc </cmd/go/#hdr-Show_documentation_for_package_or_symbol>`__
-subcommand of the `go </cmd/go/>`__ tool and run the output through
-**grep**. Imagine you couldn't remember the name "Compile" but were
-looking for the parsing function for regular expressions, so you ran the
-command,
+すべてのdocコメントが説明する項目の名前で始まる場合、goツールのdocサブコマンドを使用して、grepを介して出力を実行できます。 「Compile」という名前を思い出せなかったが、正規表現の解析関数を探していたので、コマンドを実行したとします。
 
 .. code-block:: go
 
    $ go doc -all regexp | grep -i parse
 
-If all the doc comments in the package began, "This function...",
-**grep** wouldn't help you remember the name. But because the package
-starts each doc comment with the name, you'd see something like this,
-which recalls the word you're looking for.
+パッケージ内のすべてのドキュメントコメントが「This function ...」で始まった場合、grepは名前を検索することには役に立ちません。しかし、パッケージは各docコメントを名前で開始するため、このようなものが表示され、探している単語が思い出されます。
 
 .. code-block:: go
 
@@ -160,10 +124,7 @@ which recalls the word you're looking for.
        parsed. It simplifies safe initialization of global variables holding
    $
 
-Go's declaration syntax allows grouping of declarations. A single doc
-comment can introduce a group of related constants or variables. Since
-the whole declaration is presented, such a comment can often be
-perfunctory.
+Goの宣言構文では、宣言をグループ化できます。単一のdocコメントで、関連する定数または変数のグループを紹介できます。宣言全体が提示されているため、このようなコメントはしばしばおかしなものになります。
 
 .. code-block:: go
 
@@ -175,8 +136,7 @@ perfunctory.
        ...
    )
 
-Grouping can also indicate relationships between items, such as the fact
-that a set of variables is protected by a mutex.
+グループ化は、変数のセットがミューテックスによって保護されているという事実など、項目の関係を示すこともできます。
 
 .. code-block:: go
 

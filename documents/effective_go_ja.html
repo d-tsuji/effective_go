@@ -81,22 +81,9 @@
 </div>
 <div class="section" id="id6">
 <h2>コメント<a class="headerlink" href="#id6" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Go provides C-style <strong>/* */</strong> block comments and C++-style <strong>//</strong> line
-comments. Line comments are the norm; block comments appear mostly as
-package comments, but are useful within an expression or to disable
-large swaths of code.</p>
-<p>The program—and web server—<strong>godoc</strong> processes Go source files to
-extract documentation about the contents of the package. Comments that
-appear before top-level declarations, with no intervening newlines, are
-extracted along with the declaration to serve as explanatory text for
-the item. The nature and style of these comments determines the quality
-of the documentation <strong>godoc</strong> produces.</p>
-<p>Every package should have a <em>package comment</em>, a block comment preceding
-the package clause. For multi-file packages, the package comment only
-needs to be present in one file, and any one will do. The package
-comment should introduce the package and provide information relevant to
-the package as a whole. It will appear first on the <strong>godoc</strong> page and
-should set up the detailed documentation that follows.</p>
+<p>Goは、Cスタイルの <code class="docutils literal notranslate"><span class="pre">/*</span> <span class="pre">*/</span></code> のブロックコメントとC++スタイルの <code class="docutils literal notranslate"><span class="pre">//</span></code> 行コメントを提供します。行コメントは標準です。ブロックコメントは、ほとんどがパッケージコメントとして用いられますが、式の中や大量のコードを無効にするのに役立ちます。</p>
+<p><strong>godoc</strong> と呼ばれるプログラム(およびWebサーバー)は、Goソースファイルを解析して、パッケージの内容に関するドキュメントを抽出します。 トップレベルの宣言の前に表示され、改行を挿入しないコメントは、宣言とともにその項目の説明文となります。 これらのコメントの性質とスタイルは <strong>godoc</strong> が作成するドキュメントの質を決定します。</p>
+<p>すべてのパッケージには、パッケージコメント、パッケージ句の前のブロックコメントが必要です。 複数ファイルで構成されるパッケージの場合、パッケージコメントは1つのファイルにあれば十分です。パッケージコメントは、パッケージを紹介し、パッケージ全体に関連する情報を提供する必要があります。 godocページの最初に表示され、詳細なドキュメントに続くように設定する必要があります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="cm">/*</span>
 <span class="cm">Package regexp implements a simple library for regular expressions.</span>
 
@@ -119,48 +106,25 @@ should set up the detailed documentation that follows.</p>
 <span class="kn">package</span> <span class="nx">regexp</span>
 </pre></div>
 </div>
-<p>If the package is simple, the package comment can be brief.</p>
+<p>パッケージが単純な場合、パッケージのコメントは簡潔にすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Package path implements utility routines for</span>
 <span class="c1">// manipulating slash-separated filename paths.</span>
 </pre></div>
 </div>
-<p>Comments do not need extra formatting such as banners of stars. The
-generated output may not even be presented in a fixed-width font, so
-don't depend on spacing for alignment—<strong>godoc</strong>, like <strong>gofmt</strong>, takes
-care of that. The comments are uninterpreted plain text, so HTML and
-other annotations such as <strong>_this_</strong> will reproduce <em>verbatim</em> and
-should not be used. One adjustment <strong>godoc</strong> does do is to display
-indented text in a fixed-width font, suitable for program snippets. The
-package comment for the <strong>`fmt</strong> package &lt;/pkg/fmt/&gt;`__ uses this to
-good effect.</p>
-<p>Depending on the context, <strong>godoc</strong> might not even reformat comments, so
-make sure they look good straight up: use correct spelling, punctuation,
-and sentence structure, fold long lines, and so on.</p>
-<p>Inside a package, any comment immediately preceding a top-level
-declaration serves as a <em>doc comment</em> for that declaration. Every
-exported (capitalized) name in a program should have a doc comment.</p>
-<p>Doc comments work best as complete sentences, which allow a wide variety
-of automated presentations. The first sentence should be a one-sentence
-summary that starts with the name being declared.</p>
+<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id48"><span class="problematic" id="id49">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
+<p>コンテキストによっては <strong>godoc</strong> はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。</p>
+<p>パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。</p>
+<p>ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Compile parses a regular expression and returns, if successful,</span>
 <span class="c1">// a Regexp that can be used to match against text.</span>
 <span class="kd">func</span> <span class="nx">Compile</span><span class="p">(</span><span class="nx">str</span> <span class="kt">string</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">Regexp</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
 </pre></div>
 </div>
-<p>If every doc comment begins with the name of the item it describes, you
-can use the
-<a class="reference external" href="/cmd/go/#hdr-Show_documentation_for_package_or_symbol">doc</a>
-subcommand of the <a class="reference external" href="/cmd/go/">go</a> tool and run the output through
-<strong>grep</strong>. Imagine you couldn't remember the name &quot;Compile&quot; but were
-looking for the parsing function for regular expressions, so you ran the
-command,</p>
+<p>すべてのdocコメントが説明する項目の名前で始まる場合、goツールのdocサブコマンドを使用して、grepを介して出力を実行できます。 「Compile」という名前を思い出せなかったが、正規表現の解析関数を探していたので、コマンドを実行したとします。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span>$ go doc -all regexp | grep -i parse
 </pre></div>
 </div>
-<p>If all the doc comments in the package began, &quot;This function...&quot;,
-<strong>grep</strong> wouldn't help you remember the name. But because the package
-starts each doc comment with the name, you'd see something like this,
-which recalls the word you're looking for.</p>
+<p>パッケージ内のすべてのドキュメントコメントが「This function ...」で始まった場合、grepは名前を検索することには役に立ちません。しかし、パッケージは各docコメントを名前で開始するため、このようなものが表示され、探している単語が思い出されます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span>$ go doc -all regexp | grep -i parse
     Compile parses a regular expression and returns, if successful, a Regexp
     MustCompile is like Compile but panics if the expression cannot be parsed.
@@ -168,10 +132,7 @@ which recalls the word you're looking for.</p>
 $
 </pre></div>
 </div>
-<p>Go's declaration syntax allows grouping of declarations. A single doc
-comment can introduce a group of related constants or variables. Since
-the whole declaration is presented, such a comment can often be
-perfunctory.</p>
+<p>Goの宣言構文では、宣言をグループ化できます。単一のdocコメントで、関連する定数または変数のグループを紹介できます。宣言全体が提示されているため、このようなコメントはしばしばおかしなものになります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Error codes returned by failures to parse an expression.</span>
 <span class="kd">var</span> <span class="p">(</span>
     <span class="nx">ErrInternal</span>      <span class="p">=</span> <span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;regexp: internal error&quot;</span><span class="p">)</span>
@@ -181,8 +142,7 @@ perfunctory.</p>
 <span class="p">)</span>
 </pre></div>
 </div>
-<p>Grouping can also indicate relationships between items, such as the fact
-that a set of variables is protected by a mutex.</p>
+<p>グループ化は、変数のセットがミューテックスによって保護されているという事実など、項目の関係を示すこともできます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="p">(</span>
     <span class="nx">countLock</span>   <span class="nx">sync</span><span class="p">.</span><span class="nx">Mutex</span>
     <span class="nx">inputCount</span>  <span class="kt">uint32</span>
@@ -2549,11 +2509,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 52274</li>
-            <li>非アスキー: 11447</li>
-            <li>合計文字数: 63721</li>
-            <li>半角換算: 75168</li>
-            <li>全角換算: 37584.0</li>
+            <li>英数記号: 49376</li>
+            <li>非アスキー: 12791</li>
+            <li>合計文字数: 62167</li>
+            <li>半角換算: 74958</li>
+            <li>全角換算: 37479.0</li>
         </ul>
     </p>
 </div>
