@@ -1946,12 +1946,9 @@ static conversions already present in the code, which is a rare event.
 埋め込み
 -----------------
 
-Go does not provide the typical, type-driven notion of subclassing, but
-it does have the ability to “borrow” pieces of an implementation by
-*embedding* types within a struct or interface.
+Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。
 
-Interface embedding is very simple. We've mentioned the **io.Reader**
-and **io.Writer** interfaces before; here are their definitions.
+インターフェイスの埋め込みは非常に簡単です。 以前に **io.Reader** および **io.Writer** インターフェースについて言及しました。定義は次のとおりです。
 
 .. code-block:: go
 
@@ -1963,12 +1960,7 @@ and **io.Writer** interfaces before; here are their definitions.
        Write(p []byte) (n int, err error)
    }
 
-The **io** package also exports several other interfaces that specify
-objects that can implement several such methods. For instance, there is
-**io.ReadWriter**, an interface containing both **Read** and **Write**.
-We could specify **io.ReadWriter** by listing the two methods
-explicitly, but it's easier and more evocative to embed the two
-interfaces to form the new one, like this:
+ioパッケージは、そのようないくつかのメソッドを実装できるオブジェクトを持つインターフェースも公開しています。 たとえば、読み取りと書き込みの両方を含むインターフェイスである **io.ReadWriter** があります。 2つのメソッドを明示的にリストすることで **io.ReadWriter** を指定できますが、次のように2つのインターフェイスを埋め込んで新しいインターフェイスを作成する方が簡単で示唆に富んでいます。
 
 .. code-block:: go
 
@@ -1978,18 +1970,9 @@ interfaces to form the new one, like this:
        Writer
    }
 
-This says just what it looks like: A **ReadWriter** can do what a
-**Reader** does *and* what a **Writer** does; it is a union of the
-embedded interfaces (which must be disjoint sets of methods). Only
-interfaces can be embedded within interfaces.
+これは、見た目だけを示しています。 **ReadWriter** は、Readerの機能とWriterの機能を実行できます。 これは、組み込みインターフェース(メソッドの互いに素なセットでなければなりません)の結合です。 インターフェイスにのみ埋め込むことができます。
 
-The same basic idea applies to structs, but with more far-reaching
-implications. The **bufio** package has two struct types,
-**bufio.Reader** and **bufio.Writer**, each of which of course
-implements the analogous interfaces from package **io**. And **bufio**
-also implements a buffered reader/writer, which it does by combining a
-reader and a writer into one struct using embedding: it lists the types
-within the struct but does not give them field names.
+同じ基本的な考え方は構造体にも当てはまりますが、より広範囲に影響を及ぼします。 **bufio** パッケージには、bufio.Readerとbufio.Writerの2つの構造体タイプがあり、それぞれがパッケージioから類似のインターフェースを実装しています。 またbufioは、バッファー付きの Reader/Writer も実装します。これは、埋め込みを使用して Reader と Writer を1つの構造に結合することで行います。構造内の型をリストしますが、フィールド名は付けません。
 
 .. code-block:: go
 
@@ -2000,9 +1983,7 @@ within the struct but does not give them field names.
        *Writer  // *bufio.Writer
    }
 
-The embedded elements are pointers to structs and of course must be
-initialized to point to valid structs before they can be used. The
-**ReadWriter** struct could be written as
+埋め込まれた要素は構造体へのポインタであり、使用する前に有効な構造体を指すように初期化する必要があります。 **ReadWriter** 構造体は次のように記述できます。
 
 .. code-block:: go
 
@@ -2011,8 +1992,7 @@ initialized to point to valid structs before they can be used. The
        writer *Writer
    }
 
-but then to promote the methods of the fields and to satisfy the **io**
-interfaces, we would also need to provide forwarding methods, like this:
+しかし、フィールドのメソッドを用いるためioインターフェースを満たすために、次のような転送するメソッドも提供する必要があります。
 
 .. code-block:: go
 
@@ -2020,22 +2000,11 @@ interfaces, we would also need to provide forwarding methods, like this:
        return rw.reader.Read(p)
    }
 
-By embedding the structs directly, we avoid this bookkeeping. The
-methods of embedded types come along for free, which means that
-**bufio.ReadWriter** not only has the methods of **bufio.Reader** and
-**bufio.Writer**, it also satisfies all three interfaces: **io.Reader**,
-**io.Writer**, and **io.ReadWriter**.
+構造体を直接埋め込むことにより、この問題を回避します。埋め込みした型のメソッドは透過的に提供されます。つまりbufio.ReadWriterにはbufio.Readerとbufio.Writerのメソッドがあるだけでなく、io.Reader、io.Writer、およびio.ReadWriterの3つのすべてのインターフェイスも満たします。
 
-There's an important way in which embedding differs from subclassing.
-When we embed a type, the methods of that type become methods of the
-outer type, but when they are invoked the receiver of the method is the
-inner type, not the outer one. In our example, when the **Read** method
-of a **bufio.ReadWriter** is invoked, it has exactly the same effect as
-the forwarding method written out above; the receiver is the **reader**
-field of the **ReadWriter**, not the **ReadWriter** itself.
+埋め込みがサブクラス化と異なる重要な点があります。型を埋め込むと、その型のメソッドは外側の型のメソッドになりますが、呼び出されると、メソッドのレシーバーは外側の型ではなく内側の型になります。 この例では、bufio.ReadWriterのReadメソッドが呼び出されると、上記の転送するメソッドとまったく同じ効果があります。レシーバーは、ReadWriter自体ではなく、ReadWriterのreaderフィールド(の型)です。
 
-Embedding can also be a simple convenience. This example shows an
-embedded field alongside a regular, named field.
+埋め込みも簡単にできます。次の例では埋め込みフィールドと通常の名前つきフィールドとが一緒になったものです。
 
 .. code-block:: go
 
@@ -2044,18 +2013,13 @@ embedded field alongside a regular, named field.
        *log.Logger
    }
 
-The **Job** type now has the **Print**, **Printf**, **Println** and
-other methods of ***log.Logger**. We could have given the **Logger** a
-field name, of course, but it's not necessary to do so. And now, once
-initialized, we can log to the **Job**:
+Jobの構造体には、Print、Printf、Println、および *log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。
 
 .. code-block:: go
 
    job.Println("starting now...")
 
-The **Logger** is a regular field of the **Job** struct, so we can
-initialize it in the usual way inside the constructor for **Job**, like
-this,
+LoggerはJob構造体の通常のフィールドなので、このようにJobのコンストラクター内で通常の方法で初期化できます。
 
 .. code-block:: go
 
@@ -2063,18 +2027,13 @@ this,
        return &Job{command, logger}
    }
 
-or with a composite literal,
+複合リテラルを使用した場合は以下のとおりです。
 
 .. code-block:: go
 
    job := &Job{command, log.New(os.Stderr, "Job: ", log.Ldate)}
 
-If we need to refer to an embedded field directly, the type name of the
-field, ignoring the package qualifier, serves as a field name, as it did
-in the **Read** method of our **ReadWriter** struct. Here, if we needed
-to access the ***log.Logger** of a **Job** variable **job**, we would
-write **job.Logger**, which would be useful if we wanted to refine the
-methods of **Logger**.
+埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 ``job`` の *log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。
 
 .. code-block:: go
 
@@ -2082,25 +2041,12 @@ methods of **Logger**.
        job.Logger.Printf("%q: %s", job.Command, fmt.Sprintf(format, args...))
    }
 
-Embedding types introduces the problem of name conflicts but the rules
-to resolve them are simple. First, a field or method **X** hides any
-other item **X** in a more deeply nested part of the type. If
-**log.Logger** contained a field or method called **Command**, the
-**Command** field of **Job** would dominate it.
+型を埋め込むと、名前の競合の問題が発生しますが、それらを解決するルールは簡単です。 まず、フィールドまたはメソッドXは奥深くにネストされた型のXを隠してしまいます。 log.LoggerにCommandというフィールドまたはメソッドが含まれている場合、JobのCommandフィールドが優先されます。
 
-Second, if the same name appears at the same nesting level, it is
-usually an error; it would be erroneous to embed **log.Logger** if the
-**Job** struct contained another field or method called **Logger**.
-However, if the duplicate name is never mentioned in the program outside
-the type definition, it is OK. This qualification provides some
-protection against changes made to types embedded from outside; there is
-no problem if a field is added that conflicts with another field in
-another subtype if neither field is ever used.
+次に、同じ名前が同じネストレベルにある場合、通常はエラーになります。 Job構造体にLoggerという別のフィールドまたはメソッドが含まれている場合、log.Loggerを埋め込むのは誤りです。 ただし、型定義以外のプログラムから重複した名前が参照されていない場合は、問題になりません。この制限は、外部から埋め込まれた型の変更から元のプログラムを守ります。重複している名前のフィールドが使用されていない場合、競合するフィールドが追加されても問題はありません。
 
 並行処理
 -------------------
-
-.. _sharing:
 
 通信による共有
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
