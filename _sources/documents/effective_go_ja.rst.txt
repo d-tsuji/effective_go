@@ -667,32 +667,20 @@ different type in each case.
 
 .. _multiple-returns:
 
-多値返却
+複数の戻り値
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One of Go's unusual features is that functions and methods can return
-multiple values. This form can be used to improve on a couple of clumsy
-idioms in C programs: in-band error returns such as **-1** for **EOF**
-and modifying an argument passed by address.
+Goの珍しい機能の1つは、関数とメソッドが複数の値を返すことができることです。 この形式は、Cプログラムのいくつかの不格好なイディオムを改善するために使用できます。EOFに対して-1などの in-band エラーが返され、アドレスによって渡された引数を変更するといったものです。
 
-In C, a write error is signaled by a negative count with the error code
-secreted away in a volatile location. In Go, **Write** can return a
-count *and* an error: “Yes, you wrote some bytes but not all of them
-because you filled the device”. The signature of the **Write** method on
-files from package **os** is:
+Cでは、書き込みエラーは、負の数によって通知され、エラーコードは揮発性の場所に隠されてしまいます。Goでは Write はカウント数とエラーを同時に戻すことができます。エラーは「デバイスが一杯になったため、一部のバイト数は書き込めたが、全てを書き込むことはできませんでした」といったものです。os パッケージの **Write** メソッドのシグネチャは以下のものです。
 
 .. code-block:: go
 
    func (file *File) Write(b []byte) (n int, err error)
 
-and as the documentation says, it returns the number of bytes written
-and a non-nil **error** when **n** **!=** **len(b)**. This is a common
-style; see the section on error handling for more examples.
+そして、ドキュメントのように、``n！= len(b)`` の場合、書き込まれたバイト数と非nilエラーを返します。 これは一般的なスタイルです。 その他の例については、エラー処理のセクションを参照してください。
 
-A similar approach obviates the need to pass a pointer to a return value
-to simulate a reference parameter. Here's a simple-minded function to
-grab a number from a position in a byte slice, returning the number and
-the next position.
+同様のアプローチにより、参照パラメーターをシミュレートするためにポインターを戻り値に渡す必要がなくなります。 バイトスライスの位置から数値を取得し、その数値と次の位置を返す単純な関数を次に示します。
 
 .. code-block:: go
 
@@ -706,7 +694,7 @@ the next position.
        return x, i
    }
 
-You could use it to scan the numbers in an input slice **b** like this:
+これを使用して、次のように入力スライス ``b`` の数値をスキャンできます。
 
 .. code-block:: go
 
@@ -715,29 +703,18 @@ You could use it to scan the numbers in an input slice **b** like this:
            fmt.Println(x)
        }
 
-.. _named-results:
-
-名前付き結果変数(Named result parameters)
+名前付けされた戻り値
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The return or result "parameters" of a Go function can be given names
-and used as regular variables, just like the incoming parameters. When
-named, they are initialized to the zero values for their types when the
-function begins; if the function executes a **return** statement with no
-arguments, the current values of the result parameters are used as the
-returned values.
+Goの関数の戻り値は、入力パラメーターと同様に、名前を付けて通常の変数として使用できます。名前が付けられると、関数の開始時にそれらの型のゼロ値で初期化されます。 関数が引数なしでreturnステートメントを実行する場合、結果パラメーターの現在の値が戻り値として使用されます。
 
-The names are not mandatory but they can make code shorter and clearer:
-they're documentation. If we name the results of **nextInt** it becomes
-obvious which returned **int** is which.
+名前は必須ではありませんが、コードをより短く明確にすることができます。それらはドキュメントです。nextIntの返り値に名前を付けると、返されたintがどれであるかが明らかになります。
 
 .. code-block:: go
 
    func nextInt(b []byte, pos int) (value, nextPos int) {
 
-Because named results are initialized and tied to an unadorned return,
-they can simplify as well as clarify. Here's a version of
-**io.ReadFull** that uses them well:
+名前付きの戻り値は初期化され、return ステートメントの戻り値に紐付いているため、単純化および明確化できます。これらをうまく使用するio.ReadFullのバージョンは次のとおりです。
 
 .. code-block:: go
 
@@ -754,12 +731,7 @@ they can simplify as well as clarify. Here's a version of
 Defer
 ~~~~~
 
-Go's **defer** statement schedules a function call (the *deferred*
-function) to be run immediately before the function executing the
-**defer** returns. It's an unusual but effective way to deal with
-situations such as resources that must be released regardless of which
-path a function takes to return. The canonical examples are unlocking a
-mutex or closing a file.
+Goの **defer** ステートメントは、deferを実行する関数が戻る直前に実行される関数呼び出し(遅延関数)をスケジュールします。 これは、関数がどのパスを返すかに関係なく解放する必要があるリソースなどの状況に対処するための、珍しい方法ですが、効果的な方法です。 標準的な例は、ミューテックスのロック解除またはファイルのクローズです。
 
 .. code-block:: go
 
@@ -786,18 +758,9 @@ mutex or closing a file.
        return string(result), nil // f will be closed if we return here.
    }
 
-Deferring a call to a function such as **Close** has two advantages.
-First, it guarantees that you will never forget to close the file, a
-mistake that's easy to make if you later edit the function to add a new
-return path. Second, it means that the close sits near the open, which
-is much clearer than placing it at the end of the function.
+Closeなどの関数の呼び出しを遅延することには、2つの利点があります。 まず、ファイルを閉じることを決して忘れないことを保証します。これは、後で関数を編集して新しい戻りパスを追加する場合によくある間違いです。 2つ目にClose関数がOpen関数の近くにあることを意味します。これは、関数の最後に配置するよりもずっと明確です。
 
-The arguments to the deferred function (which include the receiver if
-the function is a method) are evaluated when the *defer* executes, not
-when the *call* executes. Besides avoiding worries about variables
-changing values as the function executes, this means that a single
-deferred call site can defer multiple function executions. Here's a
-silly example.
+遅延関数(関数がメソッドの場合はレシーバーを含む)の引数は、関数呼び出しの実行時ではなく ``defer`` の実行時に評価されます。関数の実行時に変数が値を変更する心配を防ぎます。また、これは、単一の遅延呼び出しの場所で複数の関数の実行を遅延できることを意味します。これは簡単な例です。
 
 .. code-block:: go
 
@@ -805,10 +768,7 @@ silly example.
        defer fmt.Printf("%d ", i)
    }
 
-Deferred functions are executed in LIFO order, so this code will cause
-**4 3 2 1 0** to be printed when the function returns. A more plausible
-example is a simple way to trace function execution through the program.
-We could write a couple of simple tracing routines like this:
+遅延関数はLIFOの順序で実行されるため、このコードにより、関数が戻るときに **4 3 2 1 0** が出力されます。 より妥当な例は、プログラムを通して関数の実行をトレースする簡単な方法です。 次のような簡単なトレースルーチンをいくつか作成できます。
 
 .. code-block:: go
 
@@ -821,6 +781,8 @@ We could write a couple of simple tracing routines like this:
        defer untrace("a")
        // do something....
    }
+
+遅延された関数の引数が ``defer`` の実行時に評価されるという事実を活用することで、より良い結果を得ることができます。トレースルーチンは、トレース解除ルーチンへの引数を設定できます。以下のような例です。
 
 We can do better by exploiting the fact that arguments to deferred
 functions are evaluated when the **defer** executes. The tracing routine
@@ -852,7 +814,7 @@ can set up the argument to the untracing routine. This example:
        b()
    }
 
-prints
+以下のように表示します。
 
 .. code-block:: go
 
@@ -863,11 +825,7 @@ prints
    leaving: a
    leaving: b
 
-For programmers accustomed to block-level resource management from other
-languages, **defer** may seem peculiar, but its most interesting and
-powerful applications come precisely from the fact that it's not
-block-based but function-based. In the section on **panic** and
-**recover** we'll see another example of its possibilities.
+他の言語のブロックレベルのリソース管理に慣れているプログラマーにとって **defer** は独特のように思えるかもしれません。しかし、その最も興味深く、強力なアプリケーションは、ブロックベースではなく機能ベースであるという事実からきています。 パニックと回復のセクションでは、別の例を見るでしょう。
 
 データ
 --------------------
@@ -1364,11 +1322,7 @@ Append
 初期化(Initialization)
 --------------------------------------------------
 
-Although it doesn't look superficially very different from
-initialization in C or C++, initialization in Go is more powerful.
-Complex structures can be built during initialization and the ordering
-issues among initialized objects, even among different packages, are
-handled correctly.
+見た目はCやC++の初期化と大きく異なりませんが、Goの初期化はより強力です。 初期化中に複雑な構造を構築でき、異なるパッケージ間であっても、初期化されたオブジェクト間の順序の問題は正しく処理されます。
 
 定数
 ~~~~~~~~~~~~~~~~~
