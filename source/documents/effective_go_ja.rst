@@ -165,41 +165,14 @@ Goの宣言構文では、宣言をグループ化できます。単一のdocコ
 
 とパッケージをインポートすると、 **bytes.Buffer** としてパッケージを使うことができます。パッケージを使う人が同じ名前でパッケージのコンテンツを参照すると便利です。これはパッケージ名が適切であることを意味します。短く完結で分かりやすくあるべきです。慣例としてパッケージ名は小文字の単一の単語名にします。アンダースコアやmixedCapsである必要はありません。多くの人がパッケージ名を打ち込むことを考えて、簡潔すぎるほど簡潔にしてしまう場合があります。その場合でも衝突を心配する必要はありません。パッケージ名はインポートするときのデフォルトでしかないからです。ソースコード全体で唯一である必要はありません。衝突するようなまれな場合、インポートするパッケージ名に異なる名前をつけることができます。どのような場合でも、インポート機能においてファイル名がどのパッケージで使用されるかを決めるので、混乱することはまれです。別の慣例として、パッケージ名はソースディレクトリの名前であるこということです。 **src/encoding/base64** にあるパッケージは **"encoding/base64"** としてインポートされます。名前は **base64** であって、 **encoding_base64** でも **encodingBase64** でもありません。
 
-The importer of a package will use the name to refer to its contents, so
-exported names in the package can use that fact to avoid stutter. (Don't
-use the **import .** notation, which can simplify tests that must run
-outside the package they are testing, but should otherwise be avoided.)
-For instance, the buffered reader type in the **bufio** package is
-called **Reader**, not **BufReader**, because users see it as
-**bufio.Reader**, which is a clear, concise name. Moreover, because
-imported entities are always addressed with their package name,
-**bufio.Reader** does not conflict with **io.Reader**. Similarly, the
-function to make new instances of **ring.Ring**—which is the definition
-of a *constructor* in Go—would normally be called **NewRing**, but since
-**Ring** is the only type exported by the package, and since the package
-is called **ring**, it's called just **New**, which clients of the
-package see as **ring.New**. Use the package structure to help you
-choose good names.
+パッケージのインポートするときはパッケージ名を使用してそのコンテンツを参照します。 **import .** という表記をしないでください。パッケージの外部でテストを動かくときに簡素化できますが、そうでない場合は避けてください。)たとえば **bufio** パッケージのバッフ付きのReaderはBufReaderではなくReaderと呼ばれます。これは、ユーザーが **bufio.Reader** という明確で簡潔な名前として表示するためです。さらに、インポートされた要素は常にパッケージ名でアドレス指定されるため、bufio.Readerはio.Readerと競合しません。同様に、ring.Ringの新しいインスタンスを作成するコンストラクターは通常、NewRingとなりますが、Ringはパッケージによってエクスポートされる唯一のタイプであり、パッケージはringであることから **New** となります。パッケージのクライアントはring.Newと使用します。適切な名前を選択するには、パッケージ構造を使用してください。
 
-Another short example is **once.Do**; **once.Do(setup)** reads well and
-would not be improved by writing **once.DoOrWaitUntilDone(setup)**. Long
-names don't automatically make things more readable. A helpful doc
-comment can often be more valuable than an extra long name.
-
-.. _Getters:
+もう1つの短い例は **once.Do** です。once.Do(setup)は読みやすく、 **once.DoOrWaitUntilDone(setup)** としても読みやすくはなりません。長い命名は可読性に役に立ちません。長い命名をするとよりも、ドキュメンテーションコメントは、充実されるほうが価値がある場合がよくあります。
 
 ゲッター
 ~~~~~~~~~~~~~~~~~~
 
-Go doesn't provide automatic support for getters and setters. There's
-nothing wrong with providing getters and setters yourself, and it's
-often appropriate to do so, but it's neither idiomatic nor necessary to
-put **Get** into the getter's name. If you have a field called **owner**
-(lower case, unexported), the getter method should be called **Owner**
-(upper case, exported), not **GetOwner**. The use of upper-case names
-for export provides the hook to discriminate the field from the method.
-A setter function, if needed, will likely be called **SetOwner**. Both
-names read well in practice:
+Goはgetterおよびsetterの自動サポートする機能はありません。getterとsetterを記述することは何の問題もありません。そうすることはしばしば適切ですが、 **Get** をゲッターの名前に入れることは慣用的でもないし、必要でもありません。 owner(小文字、エクスポートされていない)というフィールドがある場合、getterメソッドはGetOwnerではなくOwner(大文字、エクスポートされている)と呼ばれる必要があります。 エクスポートに大文字の名前を使用すると、フィールドをメソッドから区別することができます。必要に応じて、setter関数はSetOwnerと呼ばれます。
 
 .. code-block:: go
 
@@ -211,64 +184,35 @@ names read well in practice:
 インターフェース名
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-By convention, one-method interfaces are named by the method name plus
-an -er suffix or similar modification to construct an agent noun:
-**Reader**, **Writer**, **Formatter**, **CloseNotifier** etc.
+慣例により、1つのメソッドのみを持つインターフェイスには、メソッド名やフィールド名に ``-er`` という接尾辞(Reader、Writer、Formatter、CloseNotifierなど)を付けた名前が付けられます。
 
-There are a number of such names and it's productive to honor them and
-the function names they capture. **Read**, **Write**, **Close**,
-**Flush**, **String** and so on have canonical signatures and meanings.
-To avoid confusion, don't give your method one of those names unless it
-has the same signature and meaning. Conversely, if your type implements
-a method with the same meaning as a method on a well-known type, give it
-the same name and signature; call your string-converter method
-**String** not **ToString**.
-
-.. _mixed-caps:
+そのような名前は多数あり、それらとそれらが意味する関数名を尊重することは生産的です。 Read、Write、Close、Flush、Stringなどには、標準的なシグネチャと意味があります。混乱を避けるために、同じシグネチャと意味を持たない限り、メソッドにこれらの名前の1つを与えないでください。 逆に、型が既知の型のメソッドと同じ意味を持つメソッドを実装する場合、同じ名前とシグネチャを付けます。文字列に変換するメソッドは ToString ではなく String() を呼び出します。
 
 MixedCaps
 ~~~~~~~~~~~~~~~~~
 
-Finally, the convention in Go is to use **MixedCaps** or **mixedCaps**
-rather than underscores to write multiword names.
+最後に、Goの慣例では、複数の単語を含むとき、アンダースコアではなく**MixedCaps**または **mixedCaps** を使用します。
 
 セミコロン
 ------------------
 
-Like C, Go's formal grammar uses semicolons to terminate statements, but
-unlike in C, those semicolons do not appear in the source. Instead the
-lexer uses a simple rule to insert semicolons automatically as it scans,
-so the input text is mostly free of them.
+Cのように、Goの形式的な文法ではセミコロンを使用してステートメントを終了しますが、Cとは異なり、これらのセミコロンはソースには表れません。代わりに、字句解析器が単純なルールを使用して解析時にセミコロンを自動的に挿入するため、ソースコードにはほとんどセミコロンが含まれていません。
 
-The rule is this. If the last token before a newline is an identifier
-(which includes words like **int** and **float64**), a basic literal
-such as a number or string constant, or one of the tokens
+ルールは以下です。改行の直前のトークンが識別子(intやfloat64などの単語を含む)の場合、数値や文字列定数などの基本的なリテラル、または以下のトークンの1つであるとき、字句解析器は常にトークンの後にセミコロンを挿入します。これは、「改行がステートメントを終了できるトークンの後に来る場合、セミコロンを挿入する」と要約できます。
 
 .. code-block:: go
 
    break continue fallthrough return ++ -- ) }
 
-the lexer always inserts a semicolon after the token. This could be
-summarized as, “if the newline comes after a token that could end a
-statement, insert a semicolon”.
-
-A semicolon can also be omitted immediately before a closing brace, so a
-statement such as
+セミコロンは右中括弧の直前でも省略できるため、次のようなステートメントはセミコロンは不要です。
 
 .. code-block:: go
 
        go func() { for { dst <- <-src } }()
 
-needs no semicolons. Idiomatic Go programs have semicolons only in
-places such as **for** loop clauses, to separate the initializer,
-condition, and continuation elements. They are also necessary to
-separate multiple statements on a line, should you write code that way.
+慣例的にGoのプログラムには、forループ句中の初期化要素、条件要素、および継続要素を分離する場所にのみセミコロンがあります。また、コードをそのように記述する場合、1行で複数のステートメントを分離するためにも必要です。
 
-One consequence of the semicolon insertion rules is that you cannot put
-the opening brace of a control structure (**if**, **for**, **switch**,
-or **select**) on the next line. If you do, a semicolon will be inserted
-before the brace, which could cause unwanted effects. Write them like
-this
+セミコロン挿入ルールの結果の1つは、次の行に(if, for, switch, selectの)制御構造を開始する左中括弧を配置できないことです。挿入すると、括弧の前にセミコロンが挿入され、望ましくない効果が生じる可能性があります。 次のように記述してください。
 
 .. code-block:: go
 
@@ -276,7 +220,7 @@ this
        g()
    }
 
-not like this
+以下のように書いてはいけません。
 
 .. code-block:: go
 
@@ -1441,29 +1385,49 @@ to the implementation of **bytes.Buffer**.
 インターフェース
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interfaces in Go provide a way to specify the behavior of an object: if
-something can do *this*, then it can be used *here*. We've seen a couple
-of simple examples already; custom printers can be implemented by a
-**String** method while **Fprintf** can generate output to anything with
-a **Write** method. Interfaces with only one or two methods are common
-in Go code, and are usually given a name derived from the method, such
-as **io.Writer** for something that implements **Write**.
+Goのインターフェイスは、オブジェクトの振る舞いを提供します。このセクションではインタフェースにより実現できることすべてを説明します。すでにいくつかの簡単な例を見てきました。カスタムの出力はStringメソッドで実装できますが、FprintfはWriteメソッドであらゆるものに出力できます。1つまたは2つのメソッドのみを持つインターフェイスはGoコードでは一般的であり、通常は、Writeを実装するio.Writerなど、メソッドから派生した名前が付けられます。
 
-A type can implement multiple interfaces. For instance, a collection can
-be sorted by the routines in package **sort** if it implements
-**sort.Interface**, which contains **Len()**, **Less(i, j int) bool**,
-and **Swap(i, j int)**, and it could also have a custom formatter. In
-this contrived example **Sequence** satisfies both.
+型は複数のインターフェースを実装できます。 たとえば、コレクションは **Len()** , **Less(i, j int) bool** , **Swap(i、j int)** を含むsort.Interfaceを実装している場合、パッケージsortのメソッドを用いてソートできます。カスタム出力も同様です。以下の ``Sequence`` 構造体の例では、どちらのインターフェースも満たしています。
 
-{{code "/doc/progs/eff_sequence.go" \`/^type/\` "$"}}
+.. code-block:: go
 
-Conversions
+    type Sequence []int
+
+    // Methods required by sort.Interface.
+    func (s Sequence) Len() int {
+        return len(s)
+    }
+    func (s Sequence) Less(i, j int) bool {
+        return s[i] < s[j]
+    }
+    func (s Sequence) Swap(i, j int) {
+        s[i], s[j] = s[j], s[i]
+    }
+
+    // Copy returns a copy of the Sequence.
+    func (s Sequence) Copy() Sequence {
+        copy := make(Sequence, 0, len(s))
+        return append(copy, s...)
+    }
+
+    // Method for printing - sorts the elements before printing.
+    func (s Sequence) String() string {
+        s = s.Copy() // Make a copy; don't overwrite argument.
+        sort.Sort(s)
+        str := "["
+        for i, elem := range s { // Loop is O(N²); will fix that in next example.
+            if i > 0 {
+                str += " "
+            }
+            str += fmt.Sprint(elem)
+        }
+        return str + "]"
+    }
+
+変換
 ~~~~~~~~~~~~~~~~~~~
 
-The **String** method of **Sequence** is recreating the work that
-**Sprint** already does for slices. (It also has complexity O(N²), which
-is poor.) We can share the effort (and also speed it up) if we convert
-the **Sequence** to a plain **[]int** before calling **Sprint**.
+SequenceのStringメソッドは、Sprintがスライスに対してすでに行っている内容を再作成しています。(複雑なO(N²)もあります。これはナイーブな実装です。)Sprintを呼び出す前にSequenceを純粋な **[]int** に変換すると、既存の処理を利用することができます(また、高速化できます)。
 
 .. code-block:: go
 
@@ -1473,17 +1437,9 @@ the **Sequence** to a plain **[]int** before calling **Sprint**.
        return fmt.Sprint([]int(s))
    }
 
-This method is another example of the conversion technique for calling
-**Sprintf** safely from a **String** method. Because the two types
-(**Sequence** and **[]int**) are the same if we ignore the type name,
-it's legal to convert between them. The conversion doesn't create a new
-value, it just temporarily acts as though the existing value has a new
-type. (There are other legal conversions, such as from integer to
-floating point, that do create a new value.)
+このメソッドは、StringメソッドからSprintfを安全に呼び出すための変換手法の別の例です。 型名を無視する場合、2つの型( **Sequence** と **[]int** )は同じであるため、それらの間で変換することは正当です。 変換は新しい値を作成するのではなく、既存の値に新しい型があるかのように一時的に動作するだけです。(整数から浮動小数点への変換など、新しい値を作成する他の有効な変換があります。)
 
-It's an idiom in Go programs to convert the type of an expression to
-access a different set of methods. As an example, we could use the
-existing type **sort.IntSlice** to reduce the entire example to this:
+式の型を変換して別のメソッドセットにアクセスすることは、Goプログラムのイディオムです。例として、既存のsort.IntSlice型を使用して、例全体を以下のように実装量を削減することができます。
 
 .. code-block:: go
 
@@ -1496,13 +1452,7 @@ existing type **sort.IntSlice** to reduce the entire example to this:
        return fmt.Sprint([]int(s))
    }
 
-Now, instead of having **Sequence** implement multiple interfaces
-(sorting and printing), we're using the ability of a data item to be
-converted to multiple types (**Sequence**, **sort.IntSlice** and
-**[]int**), each of which does some part of the job. That's more unusual
-in practice but can be effective.
-
-.. _interface_conversions:
+現在、Sequenceに複数のインターフェイス(ソートとプリント)を実装する代わりに、データ項目の機能を使用して、複数の型(Sequence、sort.IntSlice、[]int)に変換します。これは実際にはほとんどありませんが、効果的です。
 
 Interface conversions and type assertions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
