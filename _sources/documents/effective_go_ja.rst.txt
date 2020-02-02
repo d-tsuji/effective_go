@@ -1441,29 +1441,49 @@ to the implementation of **bytes.Buffer**.
 インターフェース
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Interfaces in Go provide a way to specify the behavior of an object: if
-something can do *this*, then it can be used *here*. We've seen a couple
-of simple examples already; custom printers can be implemented by a
-**String** method while **Fprintf** can generate output to anything with
-a **Write** method. Interfaces with only one or two methods are common
-in Go code, and are usually given a name derived from the method, such
-as **io.Writer** for something that implements **Write**.
+Goのインターフェイスは、オブジェクトの振る舞いを提供します。このセクションではインタフェースにより実現できることすべてを説明します。すでにいくつかの簡単な例を見てきました。カスタムの出力はStringメソッドで実装できますが、FprintfはWriteメソッドであらゆるものに出力できます。1つまたは2つのメソッドのみを持つインターフェイスはGoコードでは一般的であり、通常は、Writeを実装するio.Writerなど、メソッドから派生した名前が付けられます。
 
-A type can implement multiple interfaces. For instance, a collection can
-be sorted by the routines in package **sort** if it implements
-**sort.Interface**, which contains **Len()**, **Less(i, j int) bool**,
-and **Swap(i, j int)**, and it could also have a custom formatter. In
-this contrived example **Sequence** satisfies both.
+型は複数のインターフェースを実装できます。 たとえば、コレクションは **Len()** , **Less(i, j int) bool** , **Swap(i、j int)** を含むsort.Interfaceを実装している場合、パッケージsortのメソッドを用いてソートできます。カスタム出力も同様です。以下の ``Sequence`` 構造体の例では、どちらのインターフェースも満たしています。
 
-{{code "/doc/progs/eff_sequence.go" \`/^type/\` "$"}}
+.. code-block:: go
 
-Conversions
+    type Sequence []int
+
+    // Methods required by sort.Interface.
+    func (s Sequence) Len() int {
+        return len(s)
+    }
+    func (s Sequence) Less(i, j int) bool {
+        return s[i] < s[j]
+    }
+    func (s Sequence) Swap(i, j int) {
+        s[i], s[j] = s[j], s[i]
+    }
+
+    // Copy returns a copy of the Sequence.
+    func (s Sequence) Copy() Sequence {
+        copy := make(Sequence, 0, len(s))
+        return append(copy, s...)
+    }
+
+    // Method for printing - sorts the elements before printing.
+    func (s Sequence) String() string {
+        s = s.Copy() // Make a copy; don't overwrite argument.
+        sort.Sort(s)
+        str := "["
+        for i, elem := range s { // Loop is O(N²); will fix that in next example.
+            if i > 0 {
+                str += " "
+            }
+            str += fmt.Sprint(elem)
+        }
+        return str + "]"
+    }
+
+変換
 ~~~~~~~~~~~~~~~~~~~
 
-The **String** method of **Sequence** is recreating the work that
-**Sprint** already does for slices. (It also has complexity O(N²), which
-is poor.) We can share the effort (and also speed it up) if we convert
-the **Sequence** to a plain **[]int** before calling **Sprint**.
+SequenceのStringメソッドは、Sprintがスライスに対してすでに行っている内容を再作成しています。(複雑なO(N²)もあります。これはナイーブな実装です。)Sprintを呼び出す前にSequenceを純粋な **[]int** に変換すると、既存の処理を利用することができます(また、高速化できます)。
 
 .. code-block:: go
 
@@ -1473,17 +1493,9 @@ the **Sequence** to a plain **[]int** before calling **Sprint**.
        return fmt.Sprint([]int(s))
    }
 
-This method is another example of the conversion technique for calling
-**Sprintf** safely from a **String** method. Because the two types
-(**Sequence** and **[]int**) are the same if we ignore the type name,
-it's legal to convert between them. The conversion doesn't create a new
-value, it just temporarily acts as though the existing value has a new
-type. (There are other legal conversions, such as from integer to
-floating point, that do create a new value.)
+このメソッドは、StringメソッドからSprintfを安全に呼び出すための変換手法の別の例です。 型名を無視する場合、2つの型( **Sequence** と **[]int** )は同じであるため、それらの間で変換することは正当です。 変換は新しい値を作成するのではなく、既存の値に新しい型があるかのように一時的に動作するだけです。(整数から浮動小数点への変換など、新しい値を作成する他の有効な変換があります。)
 
-It's an idiom in Go programs to convert the type of an expression to
-access a different set of methods. As an example, we could use the
-existing type **sort.IntSlice** to reduce the entire example to this:
+式の型を変換して別のメソッドセットにアクセスすることは、Goプログラムのイディオムです。例として、既存のsort.IntSlice型を使用して、例全体を以下のように実装量を削減することができます。
 
 .. code-block:: go
 
@@ -1496,13 +1508,7 @@ existing type **sort.IntSlice** to reduce the entire example to this:
        return fmt.Sprint([]int(s))
    }
 
-Now, instead of having **Sequence** implement multiple interfaces
-(sorting and printing), we're using the ability of a data item to be
-converted to multiple types (**Sequence**, **sort.IntSlice** and
-**[]int**), each of which does some part of the job. That's more unusual
-in practice but can be effective.
-
-.. _interface_conversions:
+現在、Sequenceに複数のインターフェイス(ソートとプリント)を実装する代わりに、データ項目の機能を使用して、複数の型(Sequence、sort.IntSlice、[]int)に変換します。これは実際にはほとんどありませんが、効果的です。
 
 Interface conversions and type assertions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

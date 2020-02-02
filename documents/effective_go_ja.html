@@ -111,7 +111,7 @@
 <span class="c1">// manipulating slash-separated filename paths.</span>
 </pre></div>
 </div>
-<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id48"><span class="problematic" id="id49">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
+<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id49"><span class="problematic" id="id50">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
 <p>コンテキストによっては <strong>godoc</strong> はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。</p>
 <p>パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。</p>
 <p>ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。</p>
@@ -1203,26 +1203,46 @@ to the implementation of <strong>bytes.Buffer</strong>.</p>
 <span id="id32"></span><h2>インターフェースとその他の型<a class="headerlink" href="#interfaces-and-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id33">
 <h3>インターフェース<a class="headerlink" href="#id33" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Interfaces in Go provide a way to specify the behavior of an object: if
-something can do <em>this</em>, then it can be used <em>here</em>. We've seen a couple
-of simple examples already; custom printers can be implemented by a
-<strong>String</strong> method while <strong>Fprintf</strong> can generate output to anything with
-a <strong>Write</strong> method. Interfaces with only one or two methods are common
-in Go code, and are usually given a name derived from the method, such
-as <strong>io.Writer</strong> for something that implements <strong>Write</strong>.</p>
-<p>A type can implement multiple interfaces. For instance, a collection can
-be sorted by the routines in package <strong>sort</strong> if it implements
-<strong>sort.Interface</strong>, which contains <strong>Len()</strong>, <strong>Less(i, j int) bool</strong>,
-and <strong>Swap(i, j int)</strong>, and it could also have a custom formatter. In
-this contrived example <strong>Sequence</strong> satisfies both.</p>
-<p>{{code &quot;/doc/progs/eff_sequence.go&quot; `/^type/` &quot;$&quot;}}</p>
+<p>Goのインターフェイスは、オブジェクトの振る舞いを提供します。このセクションではインタフェースにより実現できることすべてを説明します。すでにいくつかの簡単な例を見てきました。カスタムの出力はStringメソッドで実装できますが、FprintfはWriteメソッドであらゆるものに出力できます。1つまたは2つのメソッドのみを持つインターフェイスはGoコードでは一般的であり、通常は、Writeを実装するio.Writerなど、メソッドから派生した名前が付けられます。</p>
+<p>型は複数のインターフェースを実装できます。 たとえば、コレクションは <strong>Len()</strong> , <strong>Less(i, j int) bool</strong> , <strong>Swap(i、j int)</strong> を含むsort.Interfaceを実装している場合、パッケージsortのメソッドを用いてソートできます。カスタム出力も同様です。以下の <code class="docutils literal notranslate"><span class="pre">Sequence</span></code> 構造体の例では、どちらのインターフェースも満たしています。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Sequence</span> <span class="p">[]</span><span class="kt">int</span>
+
+<span class="c1">// Methods required by sort.Interface.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">Len</span><span class="p">()</span> <span class="kt">int</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">Less</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="kt">bool</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="p">&lt;</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">Swap</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="nx">j</span> <span class="kt">int</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span> <span class="p">=</span> <span class="nx">s</span><span class="p">[</span><span class="nx">j</span><span class="p">],</span> <span class="nx">s</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// Copy returns a copy of the Sequence.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">Copy</span><span class="p">()</span> <span class="nx">Sequence</span> <span class="p">{</span>
+    <span class="nx">copy</span> <span class="o">:=</span> <span class="nb">make</span><span class="p">(</span><span class="nx">Sequence</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">s</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">append</span><span class="p">(</span><span class="nx">copy</span><span class="p">,</span> <span class="nx">s</span><span class="o">...</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// Method for printing - sorts the elements before printing.</span>
+<span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
+    <span class="nx">s</span> <span class="p">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">Copy</span><span class="p">()</span> <span class="c1">// Make a copy; don&#39;t overwrite argument.</span>
+    <span class="nx">sort</span><span class="p">.</span><span class="nx">Sort</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
+    <span class="nx">str</span> <span class="o">:=</span> <span class="s">&quot;[&quot;</span>
+    <span class="k">for</span> <span class="nx">i</span><span class="p">,</span> <span class="nx">elem</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">s</span> <span class="p">{</span> <span class="c1">// Loop is O(N²); will fix that in next example.</span>
+        <span class="k">if</span> <span class="nx">i</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
+            <span class="nx">str</span> <span class="o">+=</span> <span class="s">&quot; &quot;</span>
+        <span class="p">}</span>
+        <span class="nx">str</span> <span class="o">+=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprint</span><span class="p">(</span><span class="nx">elem</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">str</span> <span class="o">+</span> <span class="s">&quot;]&quot;</span>
+<span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="conversions">
-<h3>Conversions<a class="headerlink" href="#conversions" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>The <strong>String</strong> method of <strong>Sequence</strong> is recreating the work that
-<strong>Sprint</strong> already does for slices. (It also has complexity O(N²), which
-is poor.) We can share the effort (and also speed it up) if we convert
-the <strong>Sequence</strong> to a plain <strong>[]int</strong> before calling <strong>Sprint</strong>.</p>
+</div>
+<div class="section" id="id34">
+<h3>変換<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>SequenceのStringメソッドは、Sprintがスライスに対してすでに行っている内容を再作成しています。(複雑なO(N²)もあります。これはナイーブな実装です。)Sprintを呼び出す前にSequenceを純粋な <strong>[]int</strong> に変換すると、既存の処理を利用することができます(また、高速化できます)。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">s</span> <span class="nx">Sequence</span><span class="p">)</span> <span class="nx">String</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
     <span class="nx">s</span> <span class="p">=</span> <span class="nx">s</span><span class="p">.</span><span class="nx">Copy</span><span class="p">()</span>
     <span class="nx">sort</span><span class="p">.</span><span class="nx">Sort</span><span class="p">(</span><span class="nx">s</span><span class="p">)</span>
@@ -1230,16 +1250,8 @@ the <strong>Sequence</strong> to a plain <strong>[]int</strong> before calling <
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This method is another example of the conversion technique for calling
-<strong>Sprintf</strong> safely from a <strong>String</strong> method. Because the two types
-(<strong>Sequence</strong> and <strong>[]int</strong>) are the same if we ignore the type name,
-it's legal to convert between them. The conversion doesn't create a new
-value, it just temporarily acts as though the existing value has a new
-type. (There are other legal conversions, such as from integer to
-floating point, that do create a new value.)</p>
-<p>It's an idiom in Go programs to convert the type of an expression to
-access a different set of methods. As an example, we could use the
-existing type <strong>sort.IntSlice</strong> to reduce the entire example to this:</p>
+<p>このメソッドは、StringメソッドからSprintfを安全に呼び出すための変換手法の別の例です。 型名を無視する場合、2つの型( <strong>Sequence</strong> と <strong>[]int</strong> )は同じであるため、それらの間で変換することは正当です。 変換は新しい値を作成するのではなく、既存の値に新しい型があるかのように一時的に動作するだけです。(整数から浮動小数点への変換など、新しい値を作成する他の有効な変換があります。)</p>
+<p>式の型を変換して別のメソッドセットにアクセスすることは、Goプログラムのイディオムです。例として、既存のsort.IntSlice型を使用して、例全体を以下のように実装量を削減することができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Sequence</span> <span class="p">[]</span><span class="kt">int</span>
 
 <span class="c1">// Method for printing - sorts the elements before printing</span>
@@ -1250,14 +1262,10 @@ existing type <strong>sort.IntSlice</strong> to reduce the entire example to thi
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Now, instead of having <strong>Sequence</strong> implement multiple interfaces
-(sorting and printing), we're using the ability of a data item to be
-converted to multiple types (<strong>Sequence</strong>, <strong>sort.IntSlice</strong> and
-<strong>[]int</strong>), each of which does some part of the job. That's more unusual
-in practice but can be effective.</p>
+<p>現在、Sequenceに複数のインターフェイス(ソートとプリント)を実装する代わりに、データ項目の機能を使用して、複数の型(Sequence、sort.IntSlice、[]int)に変換します。これは実際にはほとんどありませんが、効果的です。</p>
 </div>
 <div class="section" id="interface-conversions-and-type-assertions">
-<span id="interface-conversions"></span><h3>Interface conversions and type assertions<a class="headerlink" href="#interface-conversions-and-type-assertions" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h3>Interface conversions and type assertions<a class="headerlink" href="#interface-conversions-and-type-assertions" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><a class="reference external" href="#type_switch">Type switches</a> are a form of conversion: they take an
 interface and, for each case in the switch, in a sense convert it to the
 type of that case. Here's a simplified version of how the code under
@@ -1369,7 +1377,7 @@ constructor calls must be edited, but because the surrounding code must
 treat the result only as a <strong>Stream</strong>, it won't notice the difference.</p>
 </div>
 <div class="section" id="interface-methods">
-<span id="id34"></span><h3>インターフェースとメソッド<a class="headerlink" href="#interface-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<span id="id35"></span><h3>インターフェースとメソッド<a class="headerlink" href="#interface-methods" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Since almost anything can have methods attached, almost anything can
 satisfy an interface. One illustrative example is in the <strong>http</strong>
 package, which defines the <strong>Handler</strong> interface. Any object that
@@ -1489,7 +1497,7 @@ methods, which can be defined for (almost) any type.</p>
 </div>
 </div>
 <div class="section" id="blank">
-<span id="id35"></span><h2>空白の識別子<a class="headerlink" href="#blank" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<span id="id36"></span><h2>空白の識別子<a class="headerlink" href="#blank" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>We've mentioned the blank identifier a couple of times now, in the
 context of <strong>`for</strong> <strong>range</strong> loops &lt;#for&gt;`__ and <a class="reference external" href="#maps">maps</a>. The
 blank identifier can be assigned or declared with any value of any type,
@@ -1618,8 +1626,8 @@ though. By convention, such declarations are only used when there are no
 static conversions already present in the code, which is a rare event.</p>
 </div>
 </div>
-<div class="section" id="id36">
-<h2>埋め込み<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id37">
+<h2>埋め込み<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。</p>
 <p>インターフェイスの埋め込みは非常に簡単です。 以前に <strong>io.Reader</strong> および <strong>io.Writer</strong> インターフェースについて言及しました。定義は次のとおりです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Reader</span> <span class="kd">interface</span> <span class="p">{</span>
@@ -1671,7 +1679,7 @@ static conversions already present in the code, which is a rare event.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Jobの構造体には、Print、Printf、Println、および <a href="#id37"><span class="problematic" id="id38">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
+<p>Jobの構造体には、Print、Printf、Println、および <a href="#id38"><span class="problematic" id="id39">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;starting now...&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1685,7 +1693,7 @@ static conversions already present in the code, which is a rare event.</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Job</span><span class="p">{</span><span class="nx">command</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;Job: &quot;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">)}</span>
 </pre></div>
 </div>
-<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id39"><span class="problematic" id="id40">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
+<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id40"><span class="problematic" id="id41">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">job</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">args</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
     <span class="nx">job</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%q: %s&quot;</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">args</span><span class="o">...</span><span class="p">))</span>
 <span class="p">}</span>
@@ -1694,10 +1702,10 @@ static conversions already present in the code, which is a rare event.</p>
 <p>型を埋め込むと、名前の競合の問題が発生しますが、それらを解決するルールは簡単です。 まず、フィールドまたはメソッドXは奥深くにネストされた型のXを隠してしまいます。 log.LoggerにCommandというフィールドまたはメソッドが含まれている場合、JobのCommandフィールドが優先されます。</p>
 <p>次に、同じ名前が同じネストレベルにある場合、通常はエラーになります。 Job構造体にLoggerという別のフィールドまたはメソッドが含まれている場合、log.Loggerを埋め込むのは誤りです。 ただし、型定義以外のプログラムから重複した名前が参照されていない場合は、問題になりません。この制限は、外部から埋め込まれた型の変更から元のプログラムを守ります。重複している名前のフィールドが使用されていない場合、競合するフィールドが追加されても問題はありません。</p>
 </div>
-<div class="section" id="id41">
-<h2>並行処理<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id42">
-<h3>通信による共有<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>並行処理<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id43">
+<h3>通信による共有<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -1725,8 +1733,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="id43">
-<h3>ゴルーチン<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id44">
+<h3>ゴルーチン<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -1759,8 +1767,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="id44">
-<h3>チャンネル<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id45">
+<h3>チャンネル<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <strong>make</strong>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -2063,8 +2071,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="id45">
-<h2>エラー<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id46">
+<h2>エラー<a class="headerlink" href="#id46" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2341,7 +2349,7 @@ exercise for the reader.</p>
 <p><strong>QR</strong> はフォームデータを含むリクエストを受信し、 <strong>s</strong> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
 <p>テンプレートパッケージ <strong>html/template</strong> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <strong>templ.Execute</strong> に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <strong>{{if .}}</strong> から <strong>{{end}}</strong> の部分は、<strong>.</strong> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
 <p>2つのスニペット <strong>{{.}}</strong> は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
-<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id46"><span class="problematic" id="id47">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
+<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id47"><span class="problematic" id="id48">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
 <p>数行のコードといくつかのデータ駆動型HTMLテキストの便利なWebサーバーをあなたは持っています。 Goは、数行で多くのことを実行できるほど強力です。</p>
 </div>
 </div>
@@ -2407,7 +2415,7 @@ exercise for the reader.</p>
 </li>
 <li><a class="reference internal" href="#interfaces-and-types">インターフェースとその他の型</a><ul>
 <li><a class="reference internal" href="#id33">インターフェース</a></li>
-<li><a class="reference internal" href="#conversions">Conversions</a></li>
+<li><a class="reference internal" href="#id34">変換</a></li>
 <li><a class="reference internal" href="#interface-conversions-and-type-assertions">Interface conversions and type assertions</a></li>
 <li><a class="reference internal" href="#generality">Generality</a></li>
 <li><a class="reference internal" href="#interface-methods">インターフェースとメソッド</a></li>
@@ -2420,17 +2428,17 @@ exercise for the reader.</p>
 <li><a class="reference internal" href="#interface-checks">Interface checks</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id36">埋め込み</a></li>
-<li><a class="reference internal" href="#id41">並行処理</a><ul>
-<li><a class="reference internal" href="#id42">通信による共有</a></li>
-<li><a class="reference internal" href="#id43">ゴルーチン</a></li>
-<li><a class="reference internal" href="#id44">チャンネル</a></li>
+<li><a class="reference internal" href="#id37">埋め込み</a></li>
+<li><a class="reference internal" href="#id42">並行処理</a><ul>
+<li><a class="reference internal" href="#id43">通信による共有</a></li>
+<li><a class="reference internal" href="#id44">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id45">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id45">エラー</a><ul>
+<li><a class="reference internal" href="#id46">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
@@ -2453,11 +2461,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 42881</li>
-            <li>非アスキー: 15615</li>
-            <li>合計文字数: 58496</li>
-            <li>半角換算: 74111</li>
-            <li>全角換算: 37055.5</li>
+            <li>英数記号: 41119</li>
+            <li>非アスキー: 16358</li>
+            <li>合計文字数: 57477</li>
+            <li>半角換算: 73835</li>
+            <li>全角換算: 36917.5</li>
         </ul>
     </p>
 </div>
