@@ -232,7 +232,7 @@ Cのように、Goの形式的な文法ではセミコロンを使用してス�
 制御構造(Control structures)
 --------------------------------------------------------------------
 
-Goの制御構造はCの制御構造に関連していますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
+Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
 
 If
 ~~
@@ -266,11 +266,7 @@ Goライブラリでは、ifステートメントが次のステートメント�
    }
    codeUsing(f)
 
-This is an example of a common situation where code must guard against a
-sequence of error conditions. The code reads well if the successful flow
-of control runs down the page, eliminating error cases as they arise.
-Since error cases tend to end in **return** statements, the resulting
-code needs no **else** statements.
+これは、よくある一連のエラー判定をするようなケースです。処理が成功と判断されたときは、エラー処理はスキップし、処理が下方へと流れていくので読みやすいコードとなっています。エラーケースはreturnステートメントで終わることが多いため、elseステートメントは必要ありません。
 
 .. code-block:: go
 
@@ -287,55 +283,37 @@ code needs no **else** statements.
 
 .. _redeclaration:
 
-Redeclaration and reassignment
+再宣言と再割り当て
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An aside: The last example in the previous section demonstrates a detail
-of how the **:=** short declaration form works. The declaration that
-calls **os.Open** reads,
+余談ですが、直前のセクションの最後の例は ``:=`` という短い宣言方法がどのように動作するか示しています。 ``os.Open`` は以下のように宣言していました。
 
 .. code-block:: go
 
    f, err := os.Open(name)
 
-This statement declares two variables, **f** and **err**. A few lines
-later, the call to **f.Stat** reads,
+このステートメントは、fとerrという2つの変数を宣言します。数行後、以下のf.Statの呼び出しは
 
 .. code-block:: go
 
    d, err := f.Stat()
 
-which looks as if it declares **d** and **err**. Notice, though, that
-**err** appears in both statements. This duplication is legal: **err**
-is declared by the first statement, but only *re-assigned* in the
-second. This means that the call to **f.Stat** uses the existing **err**
-variable declared above, and just gives it a new value.
+dとerrを宣言しています。両方のステートメントに ``err` があることに注意してください。このように変数を割り当てることは問題ありません。``err`` は最初のステートメントで宣言されますが、2番目のステートメントでは再割り当てがされます。つまり、f.Statの呼び出しは、上記で宣言された既存の ``err`` 変数を使用し、新しい値を与えるだけです。
 
-In a **:=** declaration a variable **v** may appear even if it has
-already been declared, provided:
+``:=`` という宣言では、変数vが既に宣言されている場合でも表示されます。ただし、
 
--  this declaration is in the same scope as the existing declaration of
-   **v** (if **v** is already declared in an outer scope, the
-   declaration will create a new variable §),
--  the corresponding value in the initialization is assignable to **v**,
-   and
--  there is at least one other variable that is created by the
-   declaration.
+- この宣言は、vと同じスコープ内に宣言されています(vが外部スコープで既に宣言されている場合、新しい変数を作成します)。
+- 初期化の対応する値はvに割り当て可能(な型)である必要があります。
+- 新たに宣言されている変数に少なくとも1つの他の新しい変数があります。
 
-This unusual property is pure pragmatism, making it easy to use a single
-**err** value, for example, in a long **if-else** chain. You'll see it
-used often.
+この珍しい特徴は実用的です。たとえば長いif-else句で単一のerr値を使用できます。よく見かけるでしょう。
 
-§ It's worth noting here that in Go the scope of function parameters and
-return values is the same as the function body, even though they appear
-lexically outside the braces that enclose the body.
+Goでは、関数のパラメーターと戻り値のスコープは中括弧の外側で記述されますが、関数の記述と同じスコープであることに注意してください。
 
 For
 ~~~
 
-The Go **for** loop is similar to—but not the same as—C's. It unifies
-**for** and **while** and there is no **do-while**. There are three
-forms, only one of which has semicolons.
+GoのforループはCに似ていますが、同じではありません。Go言語のforループは、C言語のforとwhileループを兼ねていますが、do-whileループに相当するものはありません。forループには3つの形式がありますが、セミコロンを使うのはそのうちひとつだけです。
 
 .. code-block:: go
 
@@ -348,8 +326,7 @@ forms, only one of which has semicolons.
    // Like a C for(;;)
    for { }
 
-Short declarations make it easy to declare the index variable right in
-the loop.
+短い宣言により、ループ内で用いるインデックス変数を簡単に宣言できます。
 
 .. code-block:: go
 
@@ -358,8 +335,7 @@ the loop.
        sum += i
    }
 
-If you're looping over an array, slice, string, or map, or reading from
-a channel, a **range** clause can manage the loop.
+配列、スライス、文字列、またはマップをループしている場合、またはチャンネルから読み込んでいる場合 ``range`` 句でループを管理できます。
 
 .. code-block:: go
 
@@ -367,8 +343,7 @@ a channel, a **range** clause can manage the loop.
        newMap[key] = value
    }
 
-If you only need the first item in the range (the key or index), drop
-the second:
+範囲内の最初の項目(キーまたはインデックス)のみが必要な場合は、2番目の項目を削除します。
 
 .. code-block:: go
 
@@ -378,8 +353,7 @@ the second:
        }
    }
 
-If you only need the second item in the range (the value), use the
-*blank identifier*, an underscore, to discard the first:
+範囲内の2番目の項目(値)のみが必要な場合は、空白識別子であるアンダースコアを使用して、最初の項目を破棄します。
 
 .. code-block:: go
 
@@ -388,8 +362,7 @@ If you only need the second item in the range (the value), use the
        sum += value
    }
 
-The blank identifier has many uses, as described in `a later
-section <#blank>`__.
+`ブランク識別子 <#blank>`_ には、後のセクションで説明するように、多くの用途があります。
 
 For strings, the **range** does more work for you, breaking out
 individual Unicode code points by parsing the UTF-8. Erroneous encodings
@@ -673,10 +646,6 @@ Closeなどの関数の呼び出しを遅延することには、2つの利点�
    }
 
 遅延された関数の引数が ``defer`` の実行時に評価されるという事実を活用することで、より良い結果を得ることができます。トレースルーチンは、トレース解除ルーチンへの引数を設定できます。以下のような例です。
-
-We can do better by exploiting the fact that arguments to deferred
-functions are evaluated when the **defer** executes. The tracing routine
-can set up the argument to the untracing routine. This example:
 
 .. code-block:: go
 
@@ -1007,7 +976,7 @@ Goの配列とスライスは1次元です。 二次元配列またはスライ�
        return 0
    }
 
-実際の値を気にせずにマップ内の存在をテストするには、値の変数として通常の変数の代わりに `空白の識別子 <#blank>`_ を使用できます。
+実際の値を気にせずにマップ内の存在をテストするには、値の変数として通常の変数の代わりに `ブランク識別子 <#blank>`_ を使用できます。
 
 .. code-block:: go
 
@@ -1591,10 +1560,7 @@ treat the result only as a **Stream**, it won't notice the difference.
 インターフェースとメソッド
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since almost anything can have methods attached, almost anything can
-satisfy an interface. One illustrative example is in the **http**
-package, which defines the **Handler** interface. Any object that
-implements **Handler** can serve HTTP requests.
+ほとんどすべての型にメソッドを実装でき、インターフェースを満たすことができます。 1つの実例は **http** パッケージにあり、これは **Handler** インターフェースを定義します。 Handler を実装するオブジェクトは、HTTPリクエストを処理できます。
 
 .. code-block:: go
 
@@ -1602,16 +1568,9 @@ implements **Handler** can serve HTTP requests.
        ServeHTTP(ResponseWriter, *Request)
    }
 
-**ResponseWriter** is itself an interface that provides access to the
-methods needed to return the response to the client. Those methods
-include the standard **Write** method, so an **http.ResponseWriter** can
-be used wherever an **io.Writer** can be used. **Request** is a struct
-containing a parsed representation of the request from the client.
+ResponseWriter自体は、クライアントに応答を返すために必要なメソッドを提供するインターフェースです。これらのメソッドには標準のWriteメソッドが含まれているため ``io.Writer`` を用いてhttp.ResponseWriterを使用できます。リクエストは、クライアントからのリクエストを解析した結果を含む構造体です。
 
-For brevity, let's ignore POSTs and assume HTTP requests are always
-GETs; that simplification does not affect the way the handlers are set
-up. Here's a trivial but complete implementation of a handler to count
-the number of times the page is visited.
+簡潔のために、POSTを無視し、HTTPリクエストは常にGETであると仮定しましょう。この仮定は Handler のセットアップ方法には影響しません。これは、ページがアクセスされた回数をカウントするための Handler の簡易的な実装ですが、完全です。
 
 .. code-block:: go
 
@@ -1625,9 +1584,7 @@ the number of times the page is visited.
        fmt.Fprintf(w, "counter = %d\n", ctr.n)
    }
 
-(Keeping with our theme, note how **Fprintf** can print to an
-**http.ResponseWriter**.) For reference, here's how to attach such a
-server to a node on the URL tree.
+(今回のテーマに気を留めながら ``Fprintf`` が ``http.ResponseWriter`` に出力する方法に注意してください。)参考のために、このようなサーバーをURLのパスとして表現する方法を示します。
 
 .. code-block:: go
 
@@ -1636,9 +1593,7 @@ server to a node on the URL tree.
    ctr := new(Counter)
    http.Handle("/counter", ctr)
 
-But why make **Counter** a struct? An integer is all that's needed. (The
-receiver needs to be a pointer so the increment is visible to the
-caller.)
+しかし、なぜCounterを構造体にするのでしょうか？必要なのは整数だけです。(レシーバは、呼び出し元に増えたカウント n が参照できるようにポインターである必要があります。)
 
 .. code-block:: go
 
@@ -1650,8 +1605,7 @@ caller.)
        fmt.Fprintf(w, "counter = %d\n", *ctr)
    }
 
-What if your program has some internal state that needs to be notified
-that a page has been visited? Tie a channel to the web page.
+自作プログラムが内部ステータスを持っていて、そこにページが訪問されたことを通知しなければならないとしたらどうすればよいでしょうか。このようなときは、次のようにチャネルとウェブページとを関連付けてください。
 
 .. code-block:: go
 
@@ -1664,9 +1618,7 @@ that a page has been visited? Tie a channel to the web page.
        fmt.Fprint(w, "notification sent")
    }
 
-Finally, let's say we wanted to present on **/args** the arguments used
-when invoking the server binary. It's easy to write a function to print
-the arguments.
+最後に、サーバーバイナリを呼び出すときに使用される引数を ``/args`` に渡したいとします。引数を出力する関数を書くのは簡単です。
 
 .. code-block:: go
 
@@ -1674,11 +1626,7 @@ the arguments.
        fmt.Println(os.Args)
    }
 
-How do we turn that into an HTTP server? We could make **ArgServer** a
-method of some type whose value we ignore, but there's a cleaner way.
-Since we can define a method for any type except pointers and
-interfaces, we can write a method for a function. The **http** package
-contains this code:
+これをどのようにしてHTTPサーバーに変換しますか?ArgServerを、値を無視するタイプのメソッドにすることもできますが、より明確な方法があります。ポインターとインターフェイスを除くすべての型にメソッドを定義できるため、関数のメソッドを記述できます。httpパッケージには次のコードが含まれています。
 
 .. code-block:: go
 
@@ -1693,14 +1641,9 @@ contains this code:
        f(w, req)
    }
 
-**HandlerFunc** is a type with a method, **ServeHTTP**, so values of
-that type can serve HTTP requests. Look at the implementation of the
-method: the receiver is a function, **f**, and the method calls **f**.
-That may seem odd but it's not that different from, say, the receiver
-being a channel and the method sending on the channel.
+**HandlerFunc** は **ServeHTTP** というメソッドを持つ型であるため、その型の値はHTTPリクエストを処理できます。メソッドの実装を見てください。レシーバは関数 ``f`` であり、メソッドは ``f`` を呼び出します。それは不思議に思えるかもしれませんが、例えば、レシーバーがチャンネルであり、チャンネルで送信するメソッドとそれほど違いはありません。
 
-To make **ArgServer** into an HTTP server, we first modify it to have
-the right signature.
+ArgServerをHTTPサーバーにするには、まずHTTPリクエストを処理できるようにシグネチャを変更します。
 
 .. code-block:: go
 
@@ -1709,29 +1652,17 @@ the right signature.
        fmt.Fprintln(w, os.Args)
    }
 
-**ArgServer** now has same signature as **HandlerFunc**, so it can be
-converted to that type to access its methods, just as we converted
-**Sequence** to **IntSlice** to access **IntSlice.Sort**. The code to
-set it up is concise:
+ArgServerは **HandlerFunc** と同じシグネチャを持つようになったので、メソッドにアクセスするためにその型に変換できます。前のセクションでSequenceの型をIntSliceの型に変換してIntSlice.Sortにアクセスしたようなものです。実装するコードは簡潔です。
 
 .. code-block:: go
 
    http.Handle("/args", http.HandlerFunc(ArgServer))
 
-When someone visits the page **/args**, the handler installed at that
-page has value **ArgServer** and type **HandlerFunc**. The HTTP server
-will invoke the method **ServeHTTP** of that type, with **ArgServer** as
-the receiver, which will in turn call **ArgServer** (via the invocation
-**f(w, req)** inside **HandlerFunc.ServeHTTP**). The arguments will then
-be displayed.
+誰かがパス ``/args`` にアクセスすると、そのパスに紐付いているハンドラーの値はArgServerであり、HandlerFuncと入力されます。 HTTPサーバーは、ArgServerをレシーバーとして、そのタイプのServeHTTPメソッドを呼び出します。これは、ArgServerを呼び出します(HandlerFunc.ServeHTTP内の呼び出し **f(w, req)** を経由します)。そして、引数が表示されます。
 
-In this section we have made an HTTP server from a struct, an integer, a
-channel, and a function, all because interfaces are just sets of
-methods, which can be defined for (almost) any type.
+このセクションでは、構造体、整数、チャネル、および関数からHTTPサーバーを作成しました。これは、インターフェイスがほとんど任意の型に対して定義できる単なるメソッドのセットであることを示すためです。
 
-.. _blank:
-
-空白の識別子
+ブランク識別子
 ------------------------------------
 
 We've mentioned the blank identifier a couple of times now, in the
