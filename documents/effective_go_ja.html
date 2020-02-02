@@ -111,7 +111,7 @@
 <span class="c1">// manipulating slash-separated filename paths.</span>
 </pre></div>
 </div>
-<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id44"><span class="problematic" id="id45">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
+<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id48"><span class="problematic" id="id49">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
 <p>コンテキストによっては <strong>godoc</strong> はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。</p>
 <p>パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。</p>
 <p>ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。</p>
@@ -1620,11 +1620,8 @@ static conversions already present in the code, which is a rare event.</p>
 </div>
 <div class="section" id="id36">
 <h2>埋め込み<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Go does not provide the typical, type-driven notion of subclassing, but
-it does have the ability to “borrow” pieces of an implementation by
-<em>embedding</em> types within a struct or interface.</p>
-<p>Interface embedding is very simple. We've mentioned the <strong>io.Reader</strong>
-and <strong>io.Writer</strong> interfaces before; here are their definitions.</p>
+<p>Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。</p>
+<p>インターフェイスの埋め込みは非常に簡単です。 以前に <strong>io.Reader</strong> および <strong>io.Writer</strong> インターフェースについて言及しました。定義は次のとおりです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Reader</span> <span class="kd">interface</span> <span class="p">{</span>
     <span class="nx">Read</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span>
 <span class="p">}</span>
@@ -1634,12 +1631,7 @@ and <strong>io.Writer</strong> interfaces before; here are their definitions.</p
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The <strong>io</strong> package also exports several other interfaces that specify
-objects that can implement several such methods. For instance, there is
-<strong>io.ReadWriter</strong>, an interface containing both <strong>Read</strong> and <strong>Write</strong>.
-We could specify <strong>io.ReadWriter</strong> by listing the two methods
-explicitly, but it's easier and more evocative to embed the two
-interfaces to form the new one, like this:</p>
+<p>ioパッケージは、そのようないくつかのメソッドを実装できるオブジェクトを持つインターフェースも公開しています。 たとえば、読み取りと書き込みの両方を含むインターフェイスである <strong>io.ReadWriter</strong> があります。 2つのメソッドを明示的にリストすることで <strong>io.ReadWriter</strong> を指定できますが、次のように2つのインターフェイスを埋め込んで新しいインターフェイスを作成する方が簡単で示唆に富んでいます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ReadWriter is the interface that combines the Reader and Writer interfaces.</span>
 <span class="kd">type</span> <span class="nx">ReadWriter</span> <span class="kd">interface</span> <span class="p">{</span>
     <span class="nx">Reader</span>
@@ -1647,17 +1639,8 @@ interfaces to form the new one, like this:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This says just what it looks like: A <strong>ReadWriter</strong> can do what a
-<strong>Reader</strong> does <em>and</em> what a <strong>Writer</strong> does; it is a union of the
-embedded interfaces (which must be disjoint sets of methods). Only
-interfaces can be embedded within interfaces.</p>
-<p>The same basic idea applies to structs, but with more far-reaching
-implications. The <strong>bufio</strong> package has two struct types,
-<strong>bufio.Reader</strong> and <strong>bufio.Writer</strong>, each of which of course
-implements the analogous interfaces from package <strong>io</strong>. And <strong>bufio</strong>
-also implements a buffered reader/writer, which it does by combining a
-reader and a writer into one struct using embedding: it lists the types
-within the struct but does not give them field names.</p>
+<p>これは、見た目だけを示しています。 <strong>ReadWriter</strong> は、Readerの機能とWriterの機能を実行できます。 これは、組み込みインターフェース(メソッドの互いに素なセットでなければなりません)の結合です。 インターフェイスにのみ埋め込むことができます。</p>
+<p>同じ基本的な考え方は構造体にも当てはまりますが、より広範囲に影響を及ぼします。 <strong>bufio</strong> パッケージには、bufio.Readerとbufio.Writerの2つの構造体タイプがあり、それぞれがパッケージioから類似のインターフェースを実装しています。 またbufioは、バッファー付きの Reader/Writer も実装します。これは、埋め込みを使用して Reader と Writer を1つの構造に結合することで行います。構造内の型をリストしますが、フィールド名は付けません。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// ReadWriter stores pointers to a Reader and a Writer.</span>
 <span class="c1">// It implements io.ReadWriter.</span>
 <span class="kd">type</span> <span class="nx">ReadWriter</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -1666,90 +1649,55 @@ within the struct but does not give them field names.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The embedded elements are pointers to structs and of course must be
-initialized to point to valid structs before they can be used. The
-<strong>ReadWriter</strong> struct could be written as</p>
+<p>埋め込まれた要素は構造体へのポインタであり、使用する前に有効な構造体を指すように初期化する必要があります。 <strong>ReadWriter</strong> 構造体は次のように記述できます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">ReadWriter</span> <span class="kd">struct</span> <span class="p">{</span>
     <span class="nx">reader</span> <span class="o">*</span><span class="nx">Reader</span>
     <span class="nx">writer</span> <span class="o">*</span><span class="nx">Writer</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>but then to promote the methods of the fields and to satisfy the <strong>io</strong>
-interfaces, we would also need to provide forwarding methods, like this:</p>
+<p>しかし、フィールドのメソッドを用いるためioインターフェースを満たすために、次のような転送するメソッドも提供する必要があります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">rw</span> <span class="o">*</span><span class="nx">ReadWriter</span><span class="p">)</span> <span class="nx">Read</span><span class="p">(</span><span class="nx">p</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">rw</span><span class="p">.</span><span class="nx">reader</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">p</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>By embedding the structs directly, we avoid this bookkeeping. The
-methods of embedded types come along for free, which means that
-<strong>bufio.ReadWriter</strong> not only has the methods of <strong>bufio.Reader</strong> and
-<strong>bufio.Writer</strong>, it also satisfies all three interfaces: <strong>io.Reader</strong>,
-<strong>io.Writer</strong>, and <strong>io.ReadWriter</strong>.</p>
-<p>There's an important way in which embedding differs from subclassing.
-When we embed a type, the methods of that type become methods of the
-outer type, but when they are invoked the receiver of the method is the
-inner type, not the outer one. In our example, when the <strong>Read</strong> method
-of a <strong>bufio.ReadWriter</strong> is invoked, it has exactly the same effect as
-the forwarding method written out above; the receiver is the <strong>reader</strong>
-field of the <strong>ReadWriter</strong>, not the <strong>ReadWriter</strong> itself.</p>
-<p>Embedding can also be a simple convenience. This example shows an
-embedded field alongside a regular, named field.</p>
+<p>構造体を直接埋め込むことにより、この問題を回避します。埋め込みした型のメソッドは透過的に提供されます。つまりbufio.ReadWriterにはbufio.Readerとbufio.Writerのメソッドがあるだけでなく、io.Reader、io.Writer、およびio.ReadWriterの3つのすべてのインターフェイスも満たします。</p>
+<p>埋め込みがサブクラス化と異なる重要な点があります。型を埋め込むと、その型のメソッドは外側の型のメソッドになりますが、呼び出されると、メソッドのレシーバーは外側の型ではなく内側の型になります。 この例では、bufio.ReadWriterのReadメソッドが呼び出されると、上記の転送するメソッドとまったく同じ効果があります。レシーバーは、ReadWriter自体ではなく、ReadWriterのreaderフィールド(の型)です。</p>
+<p>埋め込みも簡単にできます。次の例では埋め込みフィールドと通常の名前つきフィールドとが一緒になったものです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Job</span> <span class="kd">struct</span> <span class="p">{</span>
     <span class="nx">Command</span> <span class="kt">string</span>
     <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The <strong>Job</strong> type now has the <strong>Print</strong>, <strong>Printf</strong>, <strong>Println</strong> and
-other methods of <strong>*log.Logger</strong>. We could have given the <strong>Logger</strong> a
-field name, of course, but it's not necessary to do so. And now, once
-initialized, we can log to the <strong>Job</strong>:</p>
+<p>Jobの構造体には、Print、Printf、Println、および <a href="#id37"><span class="problematic" id="id38">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;starting now...&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <strong>Logger</strong> is a regular field of the <strong>Job</strong> struct, so we can
-initialize it in the usual way inside the constructor for <strong>Job</strong>, like
-this,</p>
+<p>LoggerはJob構造体の通常のフィールドなので、このようにJobのコンストラクター内で通常の方法で初期化できます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nx">NewJob</span><span class="p">(</span><span class="nx">command</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">logger</span> <span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span><span class="p">)</span> <span class="o">*</span><span class="nx">Job</span> <span class="p">{</span>
     <span class="k">return</span> <span class="o">&amp;</span><span class="nx">Job</span><span class="p">{</span><span class="nx">command</span><span class="p">,</span> <span class="nx">logger</span><span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>or with a composite literal,</p>
+<p>複合リテラルを使用した場合は以下のとおりです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Job</span><span class="p">{</span><span class="nx">command</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;Job: &quot;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">)}</span>
 </pre></div>
 </div>
-<p>If we need to refer to an embedded field directly, the type name of the
-field, ignoring the package qualifier, serves as a field name, as it did
-in the <strong>Read</strong> method of our <strong>ReadWriter</strong> struct. Here, if we needed
-to access the <strong>*log.Logger</strong> of a <strong>Job</strong> variable <strong>job</strong>, we would
-write <strong>job.Logger</strong>, which would be useful if we wanted to refine the
-methods of <strong>Logger</strong>.</p>
+<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id39"><span class="problematic" id="id40">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">job</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">args</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
     <span class="nx">job</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%q: %s&quot;</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">args</span><span class="o">...</span><span class="p">))</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Embedding types introduces the problem of name conflicts but the rules
-to resolve them are simple. First, a field or method <strong>X</strong> hides any
-other item <strong>X</strong> in a more deeply nested part of the type. If
-<strong>log.Logger</strong> contained a field or method called <strong>Command</strong>, the
-<strong>Command</strong> field of <strong>Job</strong> would dominate it.</p>
-<p>Second, if the same name appears at the same nesting level, it is
-usually an error; it would be erroneous to embed <strong>log.Logger</strong> if the
-<strong>Job</strong> struct contained another field or method called <strong>Logger</strong>.
-However, if the duplicate name is never mentioned in the program outside
-the type definition, it is OK. This qualification provides some
-protection against changes made to types embedded from outside; there is
-no problem if a field is added that conflicts with another field in
-another subtype if neither field is ever used.</p>
+<p>型を埋め込むと、名前の競合の問題が発生しますが、それらを解決するルールは簡単です。 まず、フィールドまたはメソッドXは奥深くにネストされた型のXを隠してしまいます。 log.LoggerにCommandというフィールドまたはメソッドが含まれている場合、JobのCommandフィールドが優先されます。</p>
+<p>次に、同じ名前が同じネストレベルにある場合、通常はエラーになります。 Job構造体にLoggerという別のフィールドまたはメソッドが含まれている場合、log.Loggerを埋め込むのは誤りです。 ただし、型定義以外のプログラムから重複した名前が参照されていない場合は、問題になりません。この制限は、外部から埋め込まれた型の変更から元のプログラムを守ります。重複している名前のフィールドが使用されていない場合、競合するフィールドが追加されても問題はありません。</p>
 </div>
-<div class="section" id="id37">
-<h2>並行処理<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="sharing">
-<span id="id38"></span><h3>通信による共有<a class="headerlink" href="#sharing" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id41">
+<h2>並行処理<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id42">
+<h3>通信による共有<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -1777,8 +1725,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="id39">
-<h3>ゴルーチン<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id43">
+<h3>ゴルーチン<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -1811,8 +1759,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="id40">
-<h3>チャンネル<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id44">
+<h3>チャンネル<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <strong>make</strong>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -2115,8 +2063,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="id41">
-<h2>エラー<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id45">
+<h2>エラー<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2393,7 +2341,7 @@ exercise for the reader.</p>
 <p><strong>QR</strong> はフォームデータを含むリクエストを受信し、 <strong>s</strong> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
 <p>テンプレートパッケージ <strong>html/template</strong> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <strong>templ.Execute</strong> に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <strong>{{if .}}</strong> から <strong>{{end}}</strong> の部分は、<strong>.</strong> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
 <p>2つのスニペット <strong>{{.}}</strong> は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
-<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id42"><span class="problematic" id="id43">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
+<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id46"><span class="problematic" id="id47">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
 <p>数行のコードといくつかのデータ駆動型HTMLテキストの便利なWebサーバーをあなたは持っています。 Goは、数行で多くのことを実行できるほど強力です。</p>
 </div>
 </div>
@@ -2473,16 +2421,16 @@ exercise for the reader.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#id36">埋め込み</a></li>
-<li><a class="reference internal" href="#id37">並行処理</a><ul>
-<li><a class="reference internal" href="#sharing">通信による共有</a></li>
-<li><a class="reference internal" href="#id39">ゴルーチン</a></li>
-<li><a class="reference internal" href="#id40">チャンネル</a></li>
+<li><a class="reference internal" href="#id41">並行処理</a><ul>
+<li><a class="reference internal" href="#id42">通信による共有</a></li>
+<li><a class="reference internal" href="#id43">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id44">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id41">エラー</a><ul>
+<li><a class="reference internal" href="#id45">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
@@ -2505,11 +2453,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 46484</li>
-            <li>非アスキー: 13972</li>
-            <li>合計文字数: 60456</li>
-            <li>半角換算: 74428</li>
-            <li>全角換算: 37214.0</li>
+            <li>英数記号: 42881</li>
+            <li>非アスキー: 15615</li>
+            <li>合計文字数: 58496</li>
+            <li>半角換算: 74111</li>
+            <li>全角換算: 37055.5</li>
         </ul>
     </p>
 </div>
