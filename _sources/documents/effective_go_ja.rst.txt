@@ -18,7 +18,7 @@ Go本体のパッケージのソースはコアライブラリとしてだけで
 
 フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。
 
-Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。**gofmt** プログラム（ソースファイルレベルではなくパッケージレベルで動作する **go fmt** としても利用可能）は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 **gofmt** を実行します。 答えが正しくないと思われる場合は、プログラムを再配置（またはgofmtに関するバグを報告）してください。そのまま使わないでください。
+Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。**gofmt** プログラム(ソースファイルレベルではなくパッケージレベルで動作する **go fmt** としても利用可能)は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 **gofmt** を実行します。 答えが正しくないと思われる場合は、プログラムを再配置(またはgofmtに関するバグを報告)してください。そのまま使わないでください。
 
 例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。
 
@@ -871,13 +871,13 @@ Cとは異なり、ローカル変数のアドレスを返すことはまった�
 **make** によるアロケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-メモリのアロケーションの話題に戻ります。 組み込み関数 **make(T, args)** は、**new(T)** とは異なる目的で用います。 スライス、マップ、およびチャンネルのみを作成し、型 **T** (\*T ではなく）で初期化された（ゼロではない）値を返します。**new(T)** と区別している理由は、これらの3つの型が、使用前に初期化する必要があるデータ構造への参照を内部的に表しているためです。 たとえば、スライスは、データ（配列内）へのポインター、長さ、および容量の3つの項目を持っています。これらの項目が初期化されるまで、スライスはnilです。 スライス、マップ、およびチャネルの場合 **make** は内部データ構造を初期化し、使用する値を準備します。 例えば、
+メモリのアロケーションの話題に戻ります。 組み込み関数 **make(T, args)** は、**new(T)** とは異なる目的で用います。 スライス、マップ、およびチャンネルのみを作成し、型 **T** (\*T ではなく)で初期化された(ゼロではない)値を返します。**new(T)** と区別している理由は、これらの3つの型が、使用前に初期化する必要があるデータ構造への参照を内部的に表しているためです。 たとえば、スライスは、データ(配列内)へのポインター、長さ、および容量の3つの項目を持っています。これらの項目が初期化されるまで、スライスはnilです。 スライス、マップ、およびチャネルの場合 **make** は内部データ構造を初期化し、使用する値を準備します。 例えば、
 
 .. code-block:: go
 
    make([]int, 10, 100)
 
-100個のintの配列を割り当て、長さ10、配列の最初の10要素を指す容量100のスライス構造を作成します。 （スライスを作成するとき、容量は省略できます。詳細については、スライスに関するセクションを参照してください。）一方 ``new([]int)`` は、新しく割り当てられたゼロ化されたスライスへのポインター、つまり **nil** スライスのポインターを返します。
+100個のintの配列を割り当て、長さ10、配列の最初の10要素を指す容量100のスライス構造を作成します。 (スライスを作成するとき、容量は省略できます。詳細については、スライスに関するセクションを参照してください。)一方 ``new([]int)`` は、新しく割り当てられたゼロ化されたスライスへのポインター、つまり **nil** スライスのポインターを返します。
 
 以下のサンプルは、 **new** と **make** の違いを示しています。
 
@@ -933,7 +933,7 @@ GoとCで配列が機能する方法には大きな違いがあります。Goで
 
    func (f *File) Read(buf []byte) (n int, err error)
 
-このメソッドは、読み取られたバイト数とエラー値（存在する場合）を返します。大きなバッファー ``buf`` の最初の32バイトに読み込むには、バッファーを小さくスライスします。
+このメソッドは、読み取られたバイト数とエラー値(存在する場合)を返します。大きなバッファー ``buf`` の最初の32バイトに読み込むには、バッファーを小さくスライスします。
 
 .. code-block:: go
 
@@ -972,7 +972,7 @@ GoとCで配列が機能する方法には大きな違いがあります。Goで
        return slice
    }
 
-Appendはスライスの要素を変更できますが、スライス自体（ポインター、長さ、および容量を保持する実行時のデータ構造）は値によって渡されるため、あとからスライスを返すべきです。
+Appendはスライスの要素を変更できますが、スライス自体(ポインター、長さ、および容量を保持する実行時のデータ構造)は値によって渡されるため、あとからスライスを返すべきです。
 
 スライスに追加するという考え方は非常に便利で、組み込みの **append** 関数によって実現できます。 ただし、その関数の設計を理解するには、もう少し情報が必要なので、後で説明します。
 
@@ -1023,7 +1023,7 @@ Goの配列とスライスは1次元です。 二次元配列またはスライ�
 マップ
 ~~~~~~
 
-マップは、ある型（キー）の値を別の型（要素または値）の値に関連付ける便利で強力な組み込みのデータ構造です。 キーは、整数、浮動小数点および複素数、文字列、ポインター、インターフェイス（動的な型が等価をサポートしている限り）、構造体、配列など、等号演算子が定義されている任意の型にすることができます。 スライスは等価が定義されていないため、マップのキーとして使用できません。 スライスと同様に、マップは背後にあるデータ構造への参照を保持します。 マップの内容を変更する関数にマップを渡すと、変更は呼び出し元に表示されます。
+マップは、ある型(キー)の値を別の型(要素または値)の値に関連付ける便利で強力な組み込みのデータ構造です。 キーは、整数、浮動小数点および複素数、文字列、ポインター、インターフェイス(動的な型が等価をサポートしている限り)、構造体、配列など、等号演算子が定義されている任意の型にすることができます。 スライスは等価が定義されていないため、マップのキーとして使用できません。 スライスと同様に、マップは背後にあるデータ構造への参照を保持します。 マップの内容を変更する関数にマップを渡すと、変更は呼び出し元に表示されます。
 
 マップは、コロンで区切られたキーと値のペアを使用した通常の複合リテラル構文を使用して構築できるため、簡単に初期化することができます。
 
@@ -1160,7 +1160,7 @@ format **%#v** prints the value in full Go syntax.
    &main.T{a:7, b:-2.35, c:"abc\tdef"}
    map[string]int{"CST":-21600, "EST":-18000, "MST":-25200, "PST":-28800, "UTC":0}
 
-（アンパサンド ``&`` に注意してください。）この引用符付き文字列形式は **string** 型または **[]byte** 型の値に適用される場合 **%q** でも使用できます。 別の書式 **%#q** は、可能であれば代わりにバッククォートを使用します。 ( **%q** 形式は、整数とルーンにも適用され、単一引用符で囲まれたルーン定数を生成します。）また **%x** は、文字列、バイト配列、バイトスライス、および整数で機能し、長い16進数文字列を生成し、スペースを使用します フォーマット( **%x** )では、バイト間にスペースを入れます。
+(アンパサンド ``&`` に注意してください。)この引用符付き文字列形式は **string** 型または **[]byte** 型の値に適用される場合 **%q** でも使用できます。 別の書式 **%#q** は、可能であれば代わりにバッククォートを使用します。 ( **%q** 形式は、整数とルーンにも適用され、単一引用符で囲まれたルーン定数を生成します。)また **%x** は、文字列、バイト配列、バイトスライス、および整数で機能し、長い16進数文字列を生成し、スペースを使用します フォーマット( **%x** )では、バイト間にスペースを入れます。
 
 もう1つの便利な形式は **%T** です。これは、値の型を出力します。
 
@@ -1189,7 +1189,7 @@ format **%#v** prints the value in full Go syntax.
 
    7/-2.35/"abc\tdef"
 
-（T型と*T型でプリントする必要がある場合、Stringのレシーバーは値型でなければなりません。この例では、構造体型の方が効率的で慣用的であるため、ポインターを使用しました。 詳細については `ポインター vs 値のレシーバ <#pointers_vs_values>`_ をご覧ください。）
+(T型と*T型でプリントする必要がある場合、Stringのレシーバーは値型でなければなりません。この例では、構造体型の方が効率的で慣用的であるため、ポインターを使用しました。 詳細については `ポインター vs 値のレシーバ <#pointers_vs_values>`_ をご覧ください。)
 
 String() メソッドは、プリントルーチンが完全にリエントラントであり、このようにラップできるため、Sprintfを呼び出すことができます。 ただし、このアプローチについて理解する必要がある重要な詳細が1つあります。Sprintfを呼び出してStringメソッドを無期限に再帰する方法で実装しないでください。 これは、Sprintfの呼び出しがレシーバーを文字列として直接プリントしようとした場合に発生する可能性があり、その結果、メソッドが再度呼び出されます。 この例が示すように、これはよくある間違いです。
 
@@ -1214,7 +1214,7 @@ String() メソッドは、プリントルーチンが完全にリエントラ�
 
 初期化セクションでは、この再帰を回避する別の手法を紹介します。
 
-別のプリントするテクニックは、プリントルーチンの引数を別のルーチンに直接渡すことです。 Printfのシグネチャは、最後の引数に型 **...interface{}** を使用して、フォーマットの後に任意の数のパラメーター（任意の型）を表示できることを指定します。
+別のプリントするテクニックは、プリントルーチンの引数を別のルーチンに直接渡すことです。 Printfのシグネチャは、最後の引数に型 **...interface{}** を使用して、フォーマットの後に任意の数のパラメーター(任意の型)を表示できることを指定します。
 
 .. code-block:: go
 
@@ -1279,7 +1279,7 @@ Append
 
 **...** の識別子がなければ、型が間違っているためコンパイルできません。 yは **int** 型ではありません。
 
-初期化(Initialization)
+初期化
 --------------------------------------------------
 
 見た目はCやC++の初期化と大きく異なりませんが、Goの初期化はより強力です。 初期化中に複雑な構造を構築でき、異なるパッケージ間であっても、初期化されたオブジェクト間の順序の問題は正しく処理されます。
@@ -1287,43 +1287,60 @@ Append
 定数
 ~~~~~~~~~~~~~~~~~
 
-Constants in Go are just that—constant. They are created at compile
-time, even when defined as locals in functions, and can only be numbers,
-characters (runes), strings or booleans. Because of the compile-time
-restriction, the expressions that define them must be constant
-expressions, evaluatable by the compiler. For instance, **1<<3** is a
-constant expression, while **math.Sin(math.Pi/4)** is not because the
-function call to **math.Sin** needs to happen at run time.
+Goの定数は、まさにその定数です。関数でローカル変数として定義されている場合でも、コンパイル時に作成され、数字、文字(ルーン)、文字列、またはブール値のみを使用できます。 コンパイル時の制限のため、それらを定義する式は、コンパイラーによって評価可能な定数式でなければなりません。 たとえば、 **1 << 3** は定数式ですが **math.Sin(math.Pi/4)** は **math.Sin** の関数呼び出しが実行時に発生する必要があるため、定数ではありません。
 
-In Go, enumerated constants are created using the **iota** enumerator.
-Since **iota** can be part of an expression and expressions can be
-implicitly repeated, it is easy to build intricate sets of values.
+Goでは **iota** 列挙子を使用して列挙定数が作成されます。 iotaは式の一部であり、式は暗黙的に繰り返される可能性があるため、複雑な値のセットを簡単に作成できます。
 
-{{code "/doc/progs/eff_bytesize.go" \`/^type ByteSize/\` \`/^\)/`}}
+.. code-block:: go
 
-The ability to attach a method such as **String** to any user-defined
-type makes it possible for arbitrary values to format themselves
-automatically for printing. Although you'll see it most often applied to
-structs, this technique is also useful for scalar types such as
-floating-point types like **ByteSize**.
+    type ByteSize float64
 
-{{code "/doc/progs/eff_bytesize.go" \`/^func.*ByteSize.*String/\`
-\`/^}/`}}
+    const (
+        _           = iota // ignore first value by assigning to blank identifier
+        KB ByteSize = 1 << (10 * iota)
+        MB
+        GB
+        TB
+        PB
+        EB
+        ZB
+        YB
+    )
 
-The expression **YB** prints as **1.00YB**, while **ByteSize(1e13)**
-prints as **9.09TB**.
+**String** などのメソッドをユーザーが定義した任意の型に付属する機能により、任意の値をプリント用に自動的にフォーマットできます。 構造体に最も頻繁に適用されることがわかりますが、この手法は **ByteSize** などの浮動小数点型などのスカラー型にも役立ちます。
 
-The use here of **Sprintf** to implement **ByteSize**'s **String**
-method is safe (avoids recurring indefinitely) not because of a
-conversion but because it calls **Sprintf** with **%f**, which is not a
-string format: **Sprintf** will only call the **String** method when it
-wants a string, and **%f** wants a floating-point value.
+.. code-block:: go
+
+    func (b ByteSize) String() string {
+        switch {
+        case b >= YB:
+            return fmt.Sprintf("%.2fYB", b/YB)
+        case b >= ZB:
+            return fmt.Sprintf("%.2fZB", b/ZB)
+        case b >= EB:
+            return fmt.Sprintf("%.2fEB", b/EB)
+        case b >= PB:
+            return fmt.Sprintf("%.2fPB", b/PB)
+        case b >= TB:
+            return fmt.Sprintf("%.2fTB", b/TB)
+        case b >= GB:
+            return fmt.Sprintf("%.2fGB", b/GB)
+        case b >= MB:
+            return fmt.Sprintf("%.2fMB", b/MB)
+        case b >= KB:
+            return fmt.Sprintf("%.2fKB", b/KB)
+        }
+        return fmt.Sprintf("%.2fB", b)
+    }
+
+式 **YB** は1.00YBとして表示され、ByteSize(1e13)は9.09TBとして表示されます。
+
+ここでSprintfを使用してByteSizeのStringメソッドを実装することは、変換のためではなく、文字列形式ではない **%f** でSprintfを呼び出すため、安全です(無限に繰り返されることを防ぎます)。Sprintfは、文字列が必要な場合にのみStringメソッドを呼び出します。また **%f** は浮動小数点(float)の値が必要です。
 
 変数
 ~~~~~~~~~~~~~~~~~
 
-Variables can be initialized just like constants but the initializer can
-be a general expression computed at run time.
+変数は定数と同様に初期化できますが、初期化子は実行時に計算される一般な式にすることができます。
 
 .. code-block:: go
 
@@ -1333,21 +1350,12 @@ be a general expression computed at run time.
        gopath = os.Getenv("GOPATH")
    )
 
-.. _init:
-
 init関数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Finally, each source file can define its own niladic **init** function
-to set up whatever state is required. (Actually each file can have
-multiple **init** functions.) And finally means finally: **init** is
-called after all the variable declarations in the package have evaluated
-their initializers, and those are evaluated only after all the imported
-packages have been initialized.
+最後に、各ソースファイルは独自のinit関数を定義して、必要な状態を設定できます。(実際、各ファイルには複数のinit関数を含めることができます。)init関数は、パッケージやインポートされているパッケージに含まれるすべての宣言されている変数がそれらの初期化子で評価されたあとに呼び出されます。
 
-Besides initializations that cannot be expressed as declarations, a
-common use of **init** functions is to verify or repair correctness of
-the program state before real execution begins.
+宣言として表現できない初期化に加えて、init関数の一般的な使用法は、実際の実行が始まる前にプログラムの状態の正当性を検証または修復することです。
 
 .. code-block:: go
 
@@ -1367,8 +1375,6 @@ the program state before real execution begins.
 
 メソッド
 ----------------
-
-.. _pointers_vs_values:
 
 ポインター vs 値
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2801,9 +2807,9 @@ mainまでの部分は簡単に理解できるはずです。 1つのフラグ�
 
 **QR** はフォームデータを含むリクエストを受信し、 **s** という名前のフォーム値のデータに対してテンプレートを実行します。
 
-テンプレートパッケージ **html/template** は強力です。 このプログラムは、その機能に触れています。 本質的に、 **templ.Execute** に渡されるデータ項目（この場合はフォーム値）から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト（templateStr）内で、二重括弧で区切られた部分はテンプレートアクションを示します。 **{{if .}}** から **{{end}}** の部分は、**.** と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
+テンプレートパッケージ **html/template** は強力です。 このプログラムは、その機能に触れています。 本質的に、 **templ.Execute** に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 **{{if .}}** から **{{end}}** の部分は、**.** と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
 
-2つのスニペット **{{.}}** は、テンプレートに提示されたデータ（クエリ文字列）をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
+2つのスニペット **{{.}}** は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
 
 テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの `ドキュメント </pkg/html/template/>`_で詳細を確認してください。
 
