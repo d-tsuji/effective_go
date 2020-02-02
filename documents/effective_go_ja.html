@@ -1129,39 +1129,26 @@ format <strong>%#v</strong> prints the value in full Go syntax.</p>
 </div>
 <div class="section" id="append">
 <h3>Append<a class="headerlink" href="#append" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Now we have the missing piece we needed to explain the design of the
-<strong>append</strong> built-in function. The signature of <strong>append</strong> is different
-from our custom <strong>Append</strong> function above. Schematically, it's like
-this:</p>
+<p>これで <strong>append</strong> 組み込み関数の設計を説明するために必要な準備が揃いました。appendのシグネチャは、上記で説明したカスタムAppend関数とは異なります。概略的には、次のようなものです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nb">append</span><span class="p">(</span><span class="nx">slice</span> <span class="p">[]</span><span class="nx">T</span><span class="p">,</span> <span class="nx">elements</span> <span class="o">...</span><span class="nx">T</span><span class="p">)</span> <span class="p">[]</span><span class="nx">T</span>
 </pre></div>
 </div>
-<p>where <em>T</em> is a placeholder for any given type. You can't actually write
-a function in Go where the type <strong>T</strong> is determined by the caller.
-That's why <strong>append</strong> is built in: it needs support from the compiler.</p>
-<p>What <strong>append</strong> does is append the elements to the end of the slice and
-return the result. The result needs to be returned because, as with our
-hand-written <strong>Append</strong>, the underlying array may change. This simple
-example</p>
+<p>ここで <strong>T</strong> は任意の型のプレースホルダーです。 Goでは、呼び出し側によって型Tが決定される関数を実際に書くことはできません。それがappendが組み込まれている理由です：コンパイラからのサポートが必要です。</p>
+<p><strong>append</strong> が実施するのは、要素をスライスの最後に追加して、結果のスライスを返すことです。カスタムのAppend関数と同様に、もとになる配列が変更される可能性があるため、結果を返す必要があります。この簡単な例を示します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
 <span class="nx">x</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>prints <strong>[1 2 3 4 5 6]</strong>. So <strong>append</strong> works a little like <strong>Printf</strong>,
-collecting an arbitrary number of arguments.</p>
-<p>But what if we wanted to do what our <strong>Append</strong> does and append a slice
-to a slice? Easy: use <strong>...</strong> at the call site, just as we did in the
-call to <strong>Output</strong> above. This snippet produces identical output to the
-one above.</p>
+<p>[1 2 3 4 5 6]をプリントします。したがって、appendはPrintfのように機能し、任意の数の引数を受け取ります。</p>
+<p>しかしカスタムのAppendが行うことを行い、スライスにスライスを追加する場合はどうでしょうか。答えは簡単です。：上記のOutputの呼び出しで行ったように、呼び出す側で <strong>...</strong> を使用します。このスニペットは、上記のものと同じ出力を生成します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">x</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">}</span>
 <span class="nx">y</span> <span class="o">:=</span> <span class="p">[]</span><span class="kt">int</span><span class="p">{</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">}</span>
 <span class="nx">x</span> <span class="p">=</span> <span class="nb">append</span><span class="p">(</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="o">...</span><span class="p">)</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Without that <strong>...</strong>, it wouldn't compile because the types would be
-wrong; <strong>y</strong> is not of type <strong>int</strong>.</p>
+<p><strong>...</strong> の識別子がなければ、型が間違っているためコンパイルできません。 yは <strong>int</strong> 型ではありません。</p>
 </div>
 </div>
 <div class="section" id="initialization">
@@ -2607,11 +2594,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 56705</li>
-            <li>非アスキー: 9336</li>
-            <li>合計文字数: 66041</li>
-            <li>半角換算: 75377</li>
-            <li>全角換算: 37688.5</li>
+            <li>英数記号: 55782</li>
+            <li>非アスキー: 9788</li>
+            <li>合計文字数: 65570</li>
+            <li>半角換算: 75358</li>
+            <li>全角換算: 37679.0</li>
         </ul>
     </p>
 </div>

@@ -1332,23 +1332,15 @@ Sprintlnへのネストされた呼び出しでvの後に **...** を記述し�
 Append
 ~~~~~~
 
-Now we have the missing piece we needed to explain the design of the
-**append** built-in function. The signature of **append** is different
-from our custom **Append** function above. Schematically, it's like
-this:
+これで **append** 組み込み関数の設計を説明するために必要な準備が揃いました。appendのシグネチャは、上記で説明したカスタムAppend関数とは異なります。概略的には、次のようなものです。
 
 .. code-block:: go
 
    func append(slice []T, elements ...T) []T
 
-where *T* is a placeholder for any given type. You can't actually write
-a function in Go where the type **T** is determined by the caller.
-That's why **append** is built in: it needs support from the compiler.
+ここで **T** は任意の型のプレースホルダーです。 Goでは、呼び出し側によって型Tが決定される関数を実際に書くことはできません。それがappendが組み込まれている理由です：コンパイラからのサポートが必要です。
 
-What **append** does is append the elements to the end of the slice and
-return the result. The result needs to be returned because, as with our
-hand-written **Append**, the underlying array may change. This simple
-example
+**append** が実施するのは、要素をスライスの最後に追加して、結果のスライスを返すことです。カスタムのAppend関数と同様に、もとになる配列が変更される可能性があるため、結果を返す必要があります。この簡単な例を示します。
 
 .. code-block:: go
 
@@ -1356,13 +1348,9 @@ example
    x = append(x, 4, 5, 6)
    fmt.Println(x)
 
-prints **[1 2 3 4 5 6]**. So **append** works a little like **Printf**,
-collecting an arbitrary number of arguments.
+[1 2 3 4 5 6]をプリントします。したがって、appendはPrintfのように機能し、任意の数の引数を受け取ります。
 
-But what if we wanted to do what our **Append** does and append a slice
-to a slice? Easy: use **...** at the call site, just as we did in the
-call to **Output** above. This snippet produces identical output to the
-one above.
+しかしカスタムのAppendが行うことを行い、スライスにスライスを追加する場合はどうでしょうか。答えは簡単です。：上記のOutputの呼び出しで行ったように、呼び出す側で **...** を使用します。このスニペットは、上記のものと同じ出力を生成します。
 
 .. code-block:: go
 
@@ -1371,8 +1359,7 @@ one above.
    x = append(x, y...)
    fmt.Println(x)
 
-Without that **...**, it wouldn't compile because the types would be
-wrong; **y** is not of type **int**.
+**...** の識別子がなければ、型が間違っているためコンパイルできません。 yは **int** 型ではありません。
 
 初期化(Initialization)
 --------------------------------------------------
