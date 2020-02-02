@@ -288,20 +288,12 @@ not like this
 制御構造(Control structures)
 --------------------------------------------------------------------
 
-The control structures of Go are related to those of C but differ in
-important ways. There is no **do** or **while** loop, only a slightly
-generalized **for**; **switch** is more flexible; **if** and **switch**
-accept an optional initialization statement like that of **for**;
-**break** and **continue** statements take an optional label to identify
-what to break or continue; and there are new control structures
-including a type switch and a multiway communications multiplexer,
-**select**. The syntax is also slightly different: there are no
-parentheses and the bodies must always be brace-delimited.
+Goの制御構造はCの制御構造に関連していますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
 
 If
 ~~
 
-In Go a simple **if** looks like this:
+Goでは **if** はシンプルです。以下を見てください。
 
 .. code-block:: go
 
@@ -309,12 +301,9 @@ In Go a simple **if** looks like this:
        return y
    }
 
-Mandatory braces encourage writing simple **if** statements on multiple
-lines. It's good style to do so anyway, especially when the body
-contains a control statement such as a **return** or **break**.
+必須の中括弧は、複数の行に単純なifステートメントを書くことを奨励します。とにかくそうするのは良いスタイルです。特に、本文にreturnやbreakなどの制御ステートメントが含まれている場合はそうです。
 
-Since **if** and **switch** accept an initialization statement, it's
-common to see one used to set up a local variable.
+**if** および **switch** は初期化ステートメントを受け入れるため、ローカル変数のセットアップに使用されるステートメントで参照するが一般的です。
 
 .. code-block:: go
 
@@ -323,10 +312,7 @@ common to see one used to set up a local variable.
        return err
    }
 
-In the Go libraries, you'll find that when an **if** statement doesn't
-flow into the next statement—that is, the body ends in **break**,
-**continue**, **goto**, or **return**—the unnecessary **else** is
-omitted.
+Goライブラリでは、ifステートメントが次のステートメントに流れない場合(つまり、本文がbreak、continue、goto、またはreturnで終了する場合)、不要なelseが省略されることがわかります。
 
 .. code-block:: go
 

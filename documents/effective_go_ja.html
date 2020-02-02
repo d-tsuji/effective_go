@@ -265,38 +265,24 @@ this</p>
 </div>
 <div class="section" id="control-structures">
 <h2>制御構造(Control structures)<a class="headerlink" href="#control-structures" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>The control structures of Go are related to those of C but differ in
-important ways. There is no <strong>do</strong> or <strong>while</strong> loop, only a slightly
-generalized <strong>for</strong>; <strong>switch</strong> is more flexible; <strong>if</strong> and <strong>switch</strong>
-accept an optional initialization statement like that of <strong>for</strong>;
-<strong>break</strong> and <strong>continue</strong> statements take an optional label to identify
-what to break or continue; and there are new control structures
-including a type switch and a multiway communications multiplexer,
-<strong>select</strong>. The syntax is also slightly different: there are no
-parentheses and the bodies must always be brace-delimited.</p>
+<p>Goの制御構造はCの制御構造に関連していますが、重要な点で異なります。 <strong>do</strong> ループや <strong>while</strong> ループはありません。 <strong>for</strong> 句としてわずかに一般化されています。 <strong>switch</strong> はより柔軟です。 <strong>if</strong> および <strong>switch</strong> は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである <strong>select</strong> などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。</p>
 <div class="section" id="if">
 <h3>If<a class="headerlink" href="#if" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>In Go a simple <strong>if</strong> looks like this:</p>
+<p>Goでは <strong>if</strong> はシンプルです。以下を見てください。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">x</span> <span class="p">&gt;</span> <span class="mi">0</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">y</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Mandatory braces encourage writing simple <strong>if</strong> statements on multiple
-lines. It's good style to do so anyway, especially when the body
-contains a control statement such as a <strong>return</strong> or <strong>break</strong>.</p>
-<p>Since <strong>if</strong> and <strong>switch</strong> accept an initialization statement, it's
-common to see one used to set up a local variable.</p>
+<p>必須の中括弧は、複数の行に単純なifステートメントを書くことを奨励します。とにかくそうするのは良いスタイルです。特に、本文にreturnやbreakなどの制御ステートメントが含まれている場合はそうです。</p>
+<p><strong>if</strong> および <strong>switch</strong> は初期化ステートメントを受け入れるため、ローカル変数のセットアップに使用されるステートメントで参照するが一般的です。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">file</span><span class="p">.</span><span class="nx">Chmod</span><span class="p">(</span><span class="mo">0664</span><span class="p">);</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
     <span class="nx">log</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
     <span class="k">return</span> <span class="nx">err</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>In the Go libraries, you'll find that when an <strong>if</strong> statement doesn't
-flow into the next statement—that is, the body ends in <strong>break</strong>,
-<strong>continue</strong>, <strong>goto</strong>, or <strong>return</strong>—the unnecessary <strong>else</strong> is
-omitted.</p>
+<p>Goライブラリでは、ifステートメントが次のステートメントに流れない場合(つまり、本文がbreak、continue、goto、またはreturnで終了する場合)、不要なelseが省略されることがわかります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">f</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span>
 <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
     <span class="k">return</span> <span class="nx">err</span>
@@ -2519,11 +2505,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 47439</li>
-            <li>非アスキー: 13504</li>
-            <li>合計文字数: 60943</li>
-            <li>半角換算: 74447</li>
-            <li>全角換算: 37223.5</li>
+            <li>英数記号: 46484</li>
+            <li>非アスキー: 13972</li>
+            <li>合計文字数: 60456</li>
+            <li>半角換算: 74428</li>
+            <li>全角換算: 37214.0</li>
         </ul>
     </p>
 </div>
