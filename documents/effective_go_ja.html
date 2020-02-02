@@ -163,37 +163,12 @@ $
 </pre></div>
 </div>
 <p>とパッケージをインポートすると、 <strong>bytes.Buffer</strong> としてパッケージを使うことができます。パッケージを使う人が同じ名前でパッケージのコンテンツを参照すると便利です。これはパッケージ名が適切であることを意味します。短く完結で分かりやすくあるべきです。慣例としてパッケージ名は小文字の単一の単語名にします。アンダースコアやmixedCapsである必要はありません。多くの人がパッケージ名を打ち込むことを考えて、簡潔すぎるほど簡潔にしてしまう場合があります。その場合でも衝突を心配する必要はありません。パッケージ名はインポートするときのデフォルトでしかないからです。ソースコード全体で唯一である必要はありません。衝突するようなまれな場合、インポートするパッケージ名に異なる名前をつけることができます。どのような場合でも、インポート機能においてファイル名がどのパッケージで使用されるかを決めるので、混乱することはまれです。別の慣例として、パッケージ名はソースディレクトリの名前であるこということです。 <strong>src/encoding/base64</strong> にあるパッケージは <strong>&quot;encoding/base64&quot;</strong> としてインポートされます。名前は <strong>base64</strong> であって、 <strong>encoding_base64</strong> でも <strong>encodingBase64</strong> でもありません。</p>
-<p>The importer of a package will use the name to refer to its contents, so
-exported names in the package can use that fact to avoid stutter. (Don't
-use the <strong>import .</strong> notation, which can simplify tests that must run
-outside the package they are testing, but should otherwise be avoided.)
-For instance, the buffered reader type in the <strong>bufio</strong> package is
-called <strong>Reader</strong>, not <strong>BufReader</strong>, because users see it as
-<strong>bufio.Reader</strong>, which is a clear, concise name. Moreover, because
-imported entities are always addressed with their package name,
-<strong>bufio.Reader</strong> does not conflict with <strong>io.Reader</strong>. Similarly, the
-function to make new instances of <strong>ring.Ring</strong>—which is the definition
-of a <em>constructor</em> in Go—would normally be called <strong>NewRing</strong>, but since
-<strong>Ring</strong> is the only type exported by the package, and since the package
-is called <strong>ring</strong>, it's called just <strong>New</strong>, which clients of the
-package see as <strong>ring.New</strong>. Use the package structure to help you
-choose good names.</p>
-<p>Another short example is <strong>once.Do</strong>; <strong>once.Do(setup)</strong> reads well and
-would not be improved by writing <strong>once.DoOrWaitUntilDone(setup)</strong>. Long
-names don't automatically make things more readable. A helpful doc
-comment can often be more valuable than an extra long name.</p>
+<p>パッケージのインポートするときはパッケージ名を使用してそのコンテンツを参照します。 <strong>import .</strong> という表記をしないでください。パッケージの外部でテストを動かくときに簡素化できますが、そうでない場合は避けてください。)たとえば <strong>bufio</strong> パッケージのバッフ付きのReaderはBufReaderではなくReaderと呼ばれます。これは、ユーザーが <strong>bufio.Reader</strong> という明確で簡潔な名前として表示するためです。さらに、インポートされた要素は常にパッケージ名でアドレス指定されるため、bufio.Readerはio.Readerと競合しません。同様に、ring.Ringの新しいインスタンスを作成するコンストラクターは通常、NewRingとなりますが、Ringはパッケージによってエクスポートされる唯一のタイプであり、パッケージはringであることから <strong>New</strong> となります。パッケージのクライアントはring.Newと使用します。適切な名前を選択するには、パッケージ構造を使用してください。</p>
+<p>もう1つの短い例は <strong>once.Do</strong> です。once.Do(setup)は読みやすく、 <strong>once.DoOrWaitUntilDone(setup)</strong> としても読みやすくはなりません。長い命名は可読性に役に立ちません。長い命名をするとよりも、ドキュメンテーションコメントは、充実されるほうが価値がある場合がよくあります。</p>
 </div>
-<div class="section" id="getters">
-<span id="id9"></span><h3>ゲッター<a class="headerlink" href="#getters" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Go doesn't provide automatic support for getters and setters. There's
-nothing wrong with providing getters and setters yourself, and it's
-often appropriate to do so, but it's neither idiomatic nor necessary to
-put <strong>Get</strong> into the getter's name. If you have a field called <strong>owner</strong>
-(lower case, unexported), the getter method should be called <strong>Owner</strong>
-(upper case, exported), not <strong>GetOwner</strong>. The use of upper-case names
-for export provides the hook to discriminate the field from the method.
-A setter function, if needed, will likely be called <strong>SetOwner</strong>. Both
-names read well in practice:</p>
+<div class="section" id="id9">
+<h3>ゲッター<a class="headerlink" href="#id9" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Goはgetterおよびsetterの自動サポートする機能はありません。getterとsetterを記述することは何の問題もありません。そうすることはしばしば適切ですが、 <strong>Get</strong> をゲッターの名前に入れることは慣用的でもないし、必要でもありません。 owner(小文字、エクスポートされていない)というフィールドがある場合、getterメソッドはGetOwnerではなくOwner(大文字、エクスポートされている)と呼ばれる必要があります。 エクスポートに大文字の名前を使用すると、フィールドをメソッドから区別することができます。必要に応じて、setter関数はSetOwnerと呼ばれます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">owner</span> <span class="o">:=</span> <span class="nx">obj</span><span class="p">.</span><span class="nx">Owner</span><span class="p">()</span>
 <span class="k">if</span> <span class="nx">owner</span> <span class="o">!=</span> <span class="nx">user</span> <span class="p">{</span>
     <span class="nx">obj</span><span class="p">.</span><span class="nx">SetOwner</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span>
@@ -203,59 +178,33 @@ names read well in practice:</p>
 </div>
 <div class="section" id="id10">
 <h3>インターフェース名<a class="headerlink" href="#id10" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>By convention, one-method interfaces are named by the method name plus
-an -er suffix or similar modification to construct an agent noun:
-<strong>Reader</strong>, <strong>Writer</strong>, <strong>Formatter</strong>, <strong>CloseNotifier</strong> etc.</p>
-<p>There are a number of such names and it's productive to honor them and
-the function names they capture. <strong>Read</strong>, <strong>Write</strong>, <strong>Close</strong>,
-<strong>Flush</strong>, <strong>String</strong> and so on have canonical signatures and meanings.
-To avoid confusion, don't give your method one of those names unless it
-has the same signature and meaning. Conversely, if your type implements
-a method with the same meaning as a method on a well-known type, give it
-the same name and signature; call your string-converter method
-<strong>String</strong> not <strong>ToString</strong>.</p>
+<p>慣例により、1つのメソッドのみを持つインターフェイスには、メソッド名やフィールド名に <code class="docutils literal notranslate"><span class="pre">-er</span></code> という接尾辞(Reader、Writer、Formatter、CloseNotifierなど)を付けた名前が付けられます。</p>
+<p>そのような名前は多数あり、それらとそれらが意味する関数名を尊重することは生産的です。 Read、Write、Close、Flush、Stringなどには、標準的なシグネチャと意味があります。混乱を避けるために、同じシグネチャと意味を持たない限り、メソッドにこれらの名前の1つを与えないでください。 逆に、型が既知の型のメソッドと同じ意味を持つメソッドを実装する場合、同じ名前とシグネチャを付けます。文字列に変換するメソッドは ToString ではなく String() を呼び出します。</p>
 </div>
 <div class="section" id="mixedcaps">
-<span id="mixed-caps"></span><h3>MixedCaps<a class="headerlink" href="#mixedcaps" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>Finally, the convention in Go is to use <strong>MixedCaps</strong> or <strong>mixedCaps</strong>
-rather than underscores to write multiword names.</p>
+<h3>MixedCaps<a class="headerlink" href="#mixedcaps" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>最後に、Goの慣例では、複数の単語を含むとき、アンダースコアではなく**MixedCaps**または <strong>mixedCaps</strong> を使用します。</p>
 </div>
 </div>
 <div class="section" id="id11">
 <h2>セミコロン<a class="headerlink" href="#id11" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Like C, Go's formal grammar uses semicolons to terminate statements, but
-unlike in C, those semicolons do not appear in the source. Instead the
-lexer uses a simple rule to insert semicolons automatically as it scans,
-so the input text is mostly free of them.</p>
-<p>The rule is this. If the last token before a newline is an identifier
-(which includes words like <strong>int</strong> and <strong>float64</strong>), a basic literal
-such as a number or string constant, or one of the tokens</p>
+<p>Cのように、Goの形式的な文法ではセミコロンを使用してステートメントを終了しますが、Cとは異なり、これらのセミコロンはソースには表れません。代わりに、字句解析器が単純なルールを使用して解析時にセミコロンを自動的に挿入するため、ソースコードにはほとんどセミコロンが含まれていません。</p>
+<p>ルールは以下です。改行の直前のトークンが識別子(intやfloat64などの単語を含む)の場合、数値や文字列定数などの基本的なリテラル、または以下のトークンの1つであるとき、字句解析器は常にトークンの後にセミコロンを挿入します。これは、「改行がステートメントを終了できるトークンの後に来る場合、セミコロンを挿入する」と要約できます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">break</span> <span class="k">continue</span> <span class="k">fallthrough</span> <span class="k">return</span> <span class="o">++</span> <span class="o">--</span> <span class="p">)</span> <span class="p">}</span>
 </pre></div>
 </div>
-<p>the lexer always inserts a semicolon after the token. This could be
-summarized as, “if the newline comes after a token that could end a
-statement, insert a semicolon”.</p>
-<p>A semicolon can also be omitted immediately before a closing brace, so a
-statement such as</p>
+<p>セミコロンは右中括弧の直前でも省略できるため、次のようなステートメントはセミコロンは不要です。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">go</span> <span class="kd">func</span><span class="p">()</span> <span class="p">{</span> <span class="k">for</span> <span class="p">{</span> <span class="nx">dst</span> <span class="o">&lt;-</span> <span class="o">&lt;-</span><span class="nx">src</span> <span class="p">}</span> <span class="p">}()</span>
 </pre></div>
 </div>
-<p>needs no semicolons. Idiomatic Go programs have semicolons only in
-places such as <strong>for</strong> loop clauses, to separate the initializer,
-condition, and continuation elements. They are also necessary to
-separate multiple statements on a line, should you write code that way.</p>
-<p>One consequence of the semicolon insertion rules is that you cannot put
-the opening brace of a control structure (<strong>if</strong>, <strong>for</strong>, <strong>switch</strong>,
-or <strong>select</strong>) on the next line. If you do, a semicolon will be inserted
-before the brace, which could cause unwanted effects. Write them like
-this</p>
+<p>慣例的にGoのプログラムには、forループ句中の初期化要素、条件要素、および継続要素を分離する場所にのみセミコロンがあります。また、コードをそのように記述する場合、1行で複数のステートメントを分離するためにも必要です。</p>
+<p>セミコロン挿入ルールの結果の1つは、次の行に(if, for, switch, selectの)制御構造を開始する左中括弧を配置できないことです。挿入すると、括弧の前にセミコロンが挿入され、望ましくない効果が生じる可能性があります。 次のように記述してください。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">f</span><span class="p">()</span> <span class="p">{</span>
     <span class="nx">g</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>not like this</p>
+<p>以下のように書いてはいけません。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">i</span> <span class="p">&lt;</span> <span class="nx">f</span><span class="p">()</span>  <span class="c1">// wrong!</span>
 <span class="p">{</span>           <span class="c1">// wrong!</span>
     <span class="nx">g</span><span class="p">()</span>
@@ -2371,7 +2320,7 @@ exercise for the reader.</p>
 <li><a class="reference internal" href="#id6">コメント</a></li>
 <li><a class="reference internal" href="#id7">命名</a><ul>
 <li><a class="reference internal" href="#id8">パッケージ名</a></li>
-<li><a class="reference internal" href="#getters">ゲッター</a></li>
+<li><a class="reference internal" href="#id9">ゲッター</a></li>
 <li><a class="reference internal" href="#id10">インターフェース名</a></li>
 <li><a class="reference internal" href="#mixedcaps">MixedCaps</a></li>
 </ul>
@@ -2461,11 +2410,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 41119</li>
-            <li>非アスキー: 16358</li>
-            <li>合計文字数: 57477</li>
-            <li>半角換算: 73835</li>
-            <li>全角換算: 36917.5</li>
+            <li>英数記号: 37720</li>
+            <li>非アスキー: 17885</li>
+            <li>合計文字数: 55605</li>
+            <li>半角換算: 73490</li>
+            <li>全角換算: 36745.0</li>
         </ul>
     </p>
 </div>
