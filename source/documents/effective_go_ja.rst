@@ -1665,29 +1665,12 @@ ArgServerは **HandlerFunc** と同じシグネチャを持つようになった
 ブランク識別子
 ------------------------------------
 
-We've mentioned the blank identifier a couple of times now, in the
-context of **`for** **range** loops <#for>`__ and `maps <#maps>`__. The
-blank identifier can be assigned or declared with any value of any type,
-with the value discarded harmlessly. It's a bit like writing to the Unix
-**/dev/null** file: it represents a write-only value to be used as a
-place-holder where a variable is needed but the actual value is
-irrelevant. It has uses beyond those we've seen already.
+ブランク識別子については、 ``for`` の ``range`` ループや ``map`` で何度か言及しました。ブランク識別子は型の値に関係なく、使うことができます。問題なく値は破棄されます。Unixの ``/dev/null`` への書き込みに似ています。書き込みが必要な値のプレースホルダーとして扱われます。実際の値は関係ありません。すでに見てきた以上に使われます。
 
-.. _blank_assign:
-
-The blank identifier in multiple assignment
+いろいろな場所におけるブランク識別子
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The use of a blank identifier in a **for** **range** loop is a special
-case of a general situation: multiple assignment.
-
-If an assignment requires multiple values on the left side, but one of
-the values will not be used by the program, a blank identifier on the
-left-hand-side of the assignment avoids the need to create a dummy
-variable and makes it clear that the value is to be discarded. For
-instance, when calling a function that returns a value and an error, but
-only the error is important, use the blank identifier to discard the
-irrelevant value.
+``for range`` ループの中でのブランク識別子の用途は、ブランク識別子の特殊なケースです。複数の値が返却される場合において、一方の値のみしかプログラム中で使用しない場合、ブランク識別子を宣言することによって、ダミーの変数を作成する必要がなくなります。値は破棄されます。例えば、値とエラーを返すが、エラーのみが重要な場合、ブランク識別子を使用して、必要のない値を破棄します。
 
 .. code-block:: go
 
@@ -1695,9 +1678,7 @@ irrelevant value.
        fmt.Printf("%s does not exist\n", path)
    }
 
-Occasionally you'll see code that discards the error value in order to
-ignore the error; this is terrible practice. Always check error returns;
-they're provided for a reason.
+エラーを無視するために、エラー値を破棄するコードを見かけるかもしれません。これはとても悪い習慣です。常に返ってくるエラーをチェックすべきです。エラーには理由があります。
 
 .. code-block:: go
 
@@ -1707,89 +1688,82 @@ they're provided for a reason.
        fmt.Printf("%s is a directory\n", path)
    }
 
-.. _blank_unused:
-
-Unused imports and variables
+未使用のインポートと変数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is an error to import a package or to declare a variable without
-using it. Unused imports bloat the program and slow compilation, while a
-variable that is initialized but not used is at least a wasted
-computation and perhaps indicative of a larger bug. When a program is
-under active development, however, unused imports and variables often
-arise and it can be annoying to delete them just to have the compilation
-proceed, only to have them be needed again later. The blank identifier
-provides a workaround.
+インポートしたパッケージや変数を使用せずに、宣言するとエラーになります。未使用のインポートはプログラムを肥大化させ、コンパイルを遅くします。一方、初期化されているが使用されていない変数は、少なくとも無駄な計算であり、大きなバグを示しているでしょう。 しかし、プログラムが活発に開発されている場合、未使用のインポートと変数が頻繁に発生し、コンパイルするために削除します。後で追加するのは面倒です。空白の識別子は回避策を提供します。
 
-This half-written program has two unused imports (**fmt** and **io**)
-and an unused variable (**fd**), so it will not compile, but it would be
-nice to see if the code so far is correct.
+以下の途中まで実装されているプログラムでは ``fmt`` と ``io`` という2つの未使用のインポートがあります。また、 ``fd`` という未使用の変数があります。そのためコンパイルできませんが、コードが正しいことを示すために良い方法があります。
 
-{{code "/doc/progs/eff_unused1.go" \`/package/\` \`$`}}
+.. code-block:: go
 
-To silence complaints about the unused imports, use a blank identifier
-to refer to a symbol from the imported package. Similarly, assigning the
-unused variable **fd** to the blank identifier will silence the unused
-variable error. This version of the program does compile.
+    package main
 
-{{code "/doc/progs/eff_unused2.go" \`/package/\` \`$`}}
+    import (
+        "fmt"
+        "io"
+        "log"
+        "os"
+    )
 
-By convention, the global declarations to silence import errors should
-come right after the imports and be commented, both to make them easy to
-find and as a reminder to clean things up later.
+    func main() {
+        fd, err := os.Open("test.go")
+        if err != nil {
+            log.Fatal(err)
+        }
+        // TODO: use fd.
+    }
 
-.. _blank_import:
+未使用のインポートの警告を抑えるために、ブランク識別子をインポートパッケージのシンボルにすることができます。同様に未使用の変数( ``fd`` )もブランク識別子を使うことで警告をコンパイルエラーを抑えることができます。そうすると、以下のようにコンパイルすることができます。
 
-Import for side effect
+.. code-block:: go
+
+    package main
+
+    import (
+        "fmt"
+        "io"
+        "log"
+        "os"
+    )
+
+    var _ = fmt.Printf // For debugging; delete when done.
+    var _ io.Reader    // For debugging; delete when done.
+
+    func main() {
+        fd, err := os.Open("test.go")
+        if err != nil {
+            log.Fatal(err)
+        }
+        // TODO: use fd.
+        _ = fd
+    }
+
+慣習により、インポートエラーを抑えるためのグローバル宣言はインポート文のすぐ後に記述します。これは、わかりやすするためであって、後ほど忘れずにきれいにすることを忘れずにするためです。
+
+インポートの副作用
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An unused import like **fmt** or **io** in the previous example should
-eventually be used or removed: blank assignments identify code as a work
-in progress. But sometimes it is useful to import a package only for its
-side effects, without any explicit use. For example, during its **init**
-function, the **net/http/pprof** package registers HTTP handlers that
-provide debugging information. It has an exported API, but most clients
-need only the handler registration and access the data through a web
-page. To import the package only for its side effects, rename the
-package to the blank identifier:
+前の例の ``fmt`` や ``io`` などの未使用のインポートは、最終的に使用または削除する必要があります。ブランク識別子に割り当てたオブジェクトは、開発中のコードであると認識します。ただし、明示的な使用をせずに、副作用のみのためにパッケージをインポートすると便利な場合があります。たとえば、 ``net/http/pprof`` パッケージは、init関数の実行中に、デバッグ情報を提供するHTTPハンドラーを登録します。公開されているAPIがありますが、ほとんどのクライアントはハンドラーの登録とWebページへのアクセスを介したデバッグ情報へのアクセスのみを必要とします。副作用のためだけにパッケージをインポートするには、パッケージの名前をブランク識別子に変更します。
 
 .. code-block:: go
 
    import _ "net/http/pprof"
 
-This form of import makes clear that the package is being imported for
-its side effects, because there is no other possible use of the package:
-in this file, it doesn't have a name. (If it did, and we didn't use that
-name, the compiler would reject the program.)
+この形式のインポートは、パッケージがその副作用のためにインポートされていることを明確にします。これは、ソースコードの中でパッケージを使用することがないためです。(もし名前があって使用しなかった場合、コンパイルエラーになります。)
 
-.. _blank_implements:
-
-Interface checks
+インターフェースのチェック
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As we saw in the discussion of `interfaces <#interfaces_and_types>`__
-above, a type need not declare explicitly that it implements an
-interface. Instead, a type implements the interface just by implementing
-the interface's methods. In practice, most interface conversions are
-static and therefore checked at compile time. For example, passing an
-***os.File** to a function expecting an **io.Reader** will not compile
-unless ***os.File** implements the **io.Reader** interface.
+上記のインターフェイスの説明で見たように、型はインターフェイスを実装することを明示的に宣言する必要はありません。 代わりに、型はインターフェイスのメソッドを実装するだけでインターフェイスを実装します。 実際には、ほとんどのインターフェイスの変換は静的であるため、コンパイル時にチェックされます。 たとえば、io.Readerが必要な関数に ``*os.File`` を渡すと ``*os.File`` は ``io.Reader`` インターフェイスを実装しない限りコンパイルされません。
 
-Some interface checks do happen at run-time, though. One instance is in
-the **encoding/json** package, which defines a **Marshaler** interface.
-When the JSON encoder receives a value that implements that interface,
-the encoder invokes the value's marshaling method to convert it to JSON
-instead of doing the standard conversion. The encoder checks this
-property at run time with a `type assertion <#interface_conversions>`__
-like:
+ただし、一部のインターフェイスのチェックは実行時に行われます。1つのインスタンスは ``encoding/json`` パッケージです。Marshalerインターフェイスを定義します。JSONエンコーダーは、そのインターフェイスを実装する値を受け取ると、標準の変換を行う代わりに、値をマーシャルするメソッドを呼び出してJSONに変換します。エンコーダーは、実行時にこの変換をするために、次のような型アサーションでチェックします。
 
 .. code-block:: go
 
    m, ok := val.(json.Marshaler)
 
-If it's necessary only to ask whether a type implements an interface,
-without actually using the interface itself, perhaps as part of an error
-check, use the blank identifier to ignore the type-asserted value:
+実際にインターフェイス自体を使用せずに、エラーチェックの一部として、型がインターフェイスを実装しているかどうかを確認するだけの場合は、ブランク識別子を使用して型アサーションした値を無視します。
 
 .. code-block:: go
 
@@ -1797,32 +1771,15 @@ check, use the blank identifier to ignore the type-asserted value:
        fmt.Printf("value %v of type %T implements json.Marshaler\n", val, val)
    }
 
-One place this situation arises is when it is necessary to guarantee
-within the package implementing the type that it actually satisfies the
-interface. If a type—for example, **json.RawMessage**—needs a custom
-JSON representation, it should implement **json.Marshaler**, but there
-are no static conversions that would cause the compiler to verify this
-automatically. If the type inadvertently fails to satisfy the interface,
-the JSON encoder will still work, but will not use the custom
-implementation. To guarantee that the implementation is correct, a
-global declaration using the blank identifier can be used in the
-package:
+この状況が発生する場所の1つは、型を実装するパッケージ内で、実際にインターフェースを満たすことを保証する必要がある場合です。 型(json.RawMessageなど)がカスタムJSON表現を必要とする場合、json.Marshalerを実装する必要がありますが、コンパイラがこれを自動的に検証できる、明示的な変換はありません。型が意図せずインターフェイスを満たさない場合でも、JSONエンコーダーは動作しますが、カスタム実装は使用しません。実装が正しいことを保証するために、ブランク識別子を使用するグローバル宣言をパッケージで使用できます。
 
 .. code-block:: go
 
    var _ json.Marshaler = (*RawMessage)(nil)
 
-In this declaration, the assignment involving a conversion of a
-***RawMessage** to a **Marshaler** requires that ***RawMessage**
-implements **Marshaler**, and that property will be checked at compile
-time. Should the **json.Marshaler** interface change, this package will
-no longer compile and we will be on notice that it needs to be updated.
+この宣言では ``*RawMessage`` が ``Marshaler`` インターフェースを実装する必要とするような ``*RawMessage`` から ``Marshaler`` への変換をする場合、型がインターフェースを実装しているかどうかは、コンパイル時にチェックされます。json.Marshalerインターフェースが変更された場合、このパッケージはコンパイルされなくなり、ソースコードを修正する必要であることがわかります。
 
-The appearance of the blank identifier in this construct indicates that
-the declaration exists only for the type checking, not to create a
-variable. Don't do this for every type that satisfies an interface,
-though. By convention, such declarations are only used when there are no
-static conversions already present in the code, which is a rare event.
+この構造内のブランク識別子は、変数を作成するためではなく、型チェックのためだけに宣言が存在することを示しています。 ただし、インターフェイスを満たすすべての型に対してこれを実行しないでください。慣例により、このような宣言は、コードに静的な変換が存在しない場合にのみ使用されます。これはあまりありません。
 
 埋め込み
 -----------------
