@@ -111,7 +111,7 @@
 <span class="c1">// manipulating slash-separated filename paths.</span>
 </pre></div>
 </div>
-<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id51"><span class="problematic" id="id52">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
+<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id55"><span class="problematic" id="id56">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
 <p>コンテキストによっては <strong>godoc</strong> はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。</p>
 <p>パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。</p>
 <p>ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。</p>
@@ -1381,32 +1381,16 @@ treat the result only as a <strong>Stream</strong>, it won't notice the differen
 </div>
 <div class="section" id="id38">
 <h2>ブランク識別子<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>We've mentioned the blank identifier a couple of times now, in the
-context of <strong>`for</strong> <strong>range</strong> loops &lt;#for&gt;`__ and <a class="reference external" href="#maps">maps</a>. The
-blank identifier can be assigned or declared with any value of any type,
-with the value discarded harmlessly. It's a bit like writing to the Unix
-<strong>/dev/null</strong> file: it represents a write-only value to be used as a
-place-holder where a variable is needed but the actual value is
-irrelevant. It has uses beyond those we've seen already.</p>
-<div class="section" id="the-blank-identifier-in-multiple-assignment">
-<span id="blank-assign"></span><h3>The blank identifier in multiple assignment<a class="headerlink" href="#the-blank-identifier-in-multiple-assignment" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>The use of a blank identifier in a <strong>for</strong> <strong>range</strong> loop is a special
-case of a general situation: multiple assignment.</p>
-<p>If an assignment requires multiple values on the left side, but one of
-the values will not be used by the program, a blank identifier on the
-left-hand-side of the assignment avoids the need to create a dummy
-variable and makes it clear that the value is to be discarded. For
-instance, when calling a function that returns a value and an error, but
-only the error is important, use the blank identifier to discard the
-irrelevant value.</p>
+<p>ブランク識別子については、 <code class="docutils literal notranslate"><span class="pre">for</span></code> の <code class="docutils literal notranslate"><span class="pre">range</span></code> ループや <code class="docutils literal notranslate"><span class="pre">map</span></code> で何度か言及しました。ブランク識別子は型の値に関係なく、使うことができます。問題なく値は破棄されます。Unixの <code class="docutils literal notranslate"><span class="pre">/dev/null</span></code> への書き込みに似ています。書き込みが必要な値のプレースホルダーとして扱われます。実際の値は関係ありません。すでに見てきた以上に使われます。</p>
+<div class="section" id="id39">
+<h3>いろいろな場所におけるブランク識別子<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">range</span></code> ループの中でのブランク識別子の用途は、ブランク識別子の特殊なケースです。複数の値が返却される場合において、一方の値のみしかプログラム中で使用しない場合、ブランク識別子を宣言することによって、ダミーの変数を作成する必要がなくなります。値は破棄されます。例えば、値とエラーを返すが、エラーのみが重要な場合、ブランク識別子を使用して、必要のない値を破棄します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span> <span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s does not exist\n&quot;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Occasionally you'll see code that discards the error value in order to
-ignore the error; this is terrible practice. Always check error returns;
-they're provided for a reason.</p>
+<p>エラーを無視するために、エラー値を破棄するコードを見かけるかもしれません。これはとても悪い習慣です。常に返ってくるエラーをチェックすべきです。エラーには理由があります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Bad! This code will crash if path does not exist.</span>
 <span class="nx">fi</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span>
 <span class="k">if</span> <span class="nx">fi</span><span class="p">.</span><span class="nx">IsDir</span><span class="p">()</span> <span class="p">{</span>
@@ -1415,102 +1399,84 @@ they're provided for a reason.</p>
 </pre></div>
 </div>
 </div>
-<div class="section" id="unused-imports-and-variables">
-<span id="blank-unused"></span><h3>Unused imports and variables<a class="headerlink" href="#unused-imports-and-variables" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>It is an error to import a package or to declare a variable without
-using it. Unused imports bloat the program and slow compilation, while a
-variable that is initialized but not used is at least a wasted
-computation and perhaps indicative of a larger bug. When a program is
-under active development, however, unused imports and variables often
-arise and it can be annoying to delete them just to have the compilation
-proceed, only to have them be needed again later. The blank identifier
-provides a workaround.</p>
-<p>This half-written program has two unused imports (<strong>fmt</strong> and <strong>io</strong>)
-and an unused variable (<strong>fd</strong>), so it will not compile, but it would be
-nice to see if the code so far is correct.</p>
-<p>{{code &quot;/doc/progs/eff_unused1.go&quot; `/package/` `$`}}</p>
-<p>To silence complaints about the unused imports, use a blank identifier
-to refer to a symbol from the imported package. Similarly, assigning the
-unused variable <strong>fd</strong> to the blank identifier will silence the unused
-variable error. This version of the program does compile.</p>
-<p>{{code &quot;/doc/progs/eff_unused2.go&quot; `/package/` `$`}}</p>
-<p>By convention, the global declarations to silence import errors should
-come right after the imports and be commented, both to make them easy to
-find and as a reminder to clean things up later.</p>
+<div class="section" id="id40">
+<h3>未使用のインポートと変数<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>インポートしたパッケージや変数を使用せずに、宣言するとエラーになります。未使用のインポートはプログラムを肥大化させ、コンパイルを遅くします。一方、初期化されているが使用されていない変数は、少なくとも無駄な計算であり、大きなバグを示しているでしょう。 しかし、プログラムが活発に開発されている場合、未使用のインポートと変数が頻繁に発生し、コンパイルするために削除します。後で追加するのは面倒です。空白の識別子は回避策を提供します。</p>
+<p>以下の途中まで実装されているプログラムでは <code class="docutils literal notranslate"><span class="pre">fmt</span></code> と <code class="docutils literal notranslate"><span class="pre">io</span></code> という2つの未使用のインポートがあります。また、 <code class="docutils literal notranslate"><span class="pre">fd</span></code> という未使用の変数があります。そのためコンパイルできませんが、コードが正しいことを示すために良い方法があります。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;io&quot;</span>
+    <span class="s">&quot;log&quot;</span>
+    <span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fd</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;test.go&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">// TODO: use fd.</span>
+<span class="p">}</span>
+</pre></div>
 </div>
-<div class="section" id="import-for-side-effect">
-<span id="blank-import"></span><h3>Import for side effect<a class="headerlink" href="#import-for-side-effect" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>An unused import like <strong>fmt</strong> or <strong>io</strong> in the previous example should
-eventually be used or removed: blank assignments identify code as a work
-in progress. But sometimes it is useful to import a package only for its
-side effects, without any explicit use. For example, during its <strong>init</strong>
-function, the <strong>net/http/pprof</strong> package registers HTTP handlers that
-provide debugging information. It has an exported API, but most clients
-need only the handler registration and access the data through a web
-page. To import the package only for its side effects, rename the
-package to the blank identifier:</p>
+<p>未使用のインポートの警告を抑えるために、ブランク識別子をインポートパッケージのシンボルにすることができます。同様に未使用の変数( <code class="docutils literal notranslate"><span class="pre">fd</span></code> )もブランク識別子を使うことで警告をコンパイルエラーを抑えることができます。そうすると、以下のようにコンパイルすることができます。</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
+
+<span class="kn">import</span> <span class="p">(</span>
+    <span class="s">&quot;fmt&quot;</span>
+    <span class="s">&quot;io&quot;</span>
+    <span class="s">&quot;log&quot;</span>
+    <span class="s">&quot;os&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">var</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span> <span class="c1">// For debugging; delete when done.</span>
+<span class="kd">var</span> <span class="nx">_</span> <span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span>    <span class="c1">// For debugging; delete when done.</span>
+
+<span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">fd</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;test.go&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="c1">// TODO: use fd.</span>
+    <span class="nx">_</span> <span class="p">=</span> <span class="nx">fd</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>慣習により、インポートエラーを抑えるためのグローバル宣言はインポート文のすぐ後に記述します。これは、わかりやすするためであって、後ほど忘れずにきれいにすることを忘れずにするためです。</p>
+</div>
+<div class="section" id="id41">
+<h3>インポートの副作用<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>前の例の <code class="docutils literal notranslate"><span class="pre">fmt</span></code> や <code class="docutils literal notranslate"><span class="pre">io</span></code> などの未使用のインポートは、最終的に使用または削除する必要があります。ブランク識別子に割り当てたオブジェクトは、開発中のコードであると認識します。ただし、明示的な使用をせずに、副作用のみのためにパッケージをインポートすると便利な場合があります。たとえば、 <code class="docutils literal notranslate"><span class="pre">net/http/pprof</span></code> パッケージは、init関数の実行中に、デバッグ情報を提供するHTTPハンドラーを登録します。公開されているAPIがありますが、ほとんどのクライアントはハンドラーの登録とWebページへのアクセスを介したデバッグ情報へのアクセスのみを必要とします。副作用のためだけにパッケージをインポートするには、パッケージの名前をブランク識別子に変更します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nx">_</span> <span class="s">&quot;net/http/pprof&quot;</span>
 </pre></div>
 </div>
-<p>This form of import makes clear that the package is being imported for
-its side effects, because there is no other possible use of the package:
-in this file, it doesn't have a name. (If it did, and we didn't use that
-name, the compiler would reject the program.)</p>
+<p>この形式のインポートは、パッケージがその副作用のためにインポートされていることを明確にします。これは、ソースコードの中でパッケージを使用することがないためです。(もし名前があって使用しなかった場合、コンパイルエラーになります。)</p>
 </div>
-<div class="section" id="interface-checks">
-<span id="blank-implements"></span><h3>Interface checks<a class="headerlink" href="#interface-checks" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>As we saw in the discussion of <a class="reference external" href="#interfaces_and_types">interfaces</a>
-above, a type need not declare explicitly that it implements an
-interface. Instead, a type implements the interface just by implementing
-the interface's methods. In practice, most interface conversions are
-static and therefore checked at compile time. For example, passing an
-<strong>*os.File</strong> to a function expecting an <strong>io.Reader</strong> will not compile
-unless <strong>*os.File</strong> implements the <strong>io.Reader</strong> interface.</p>
-<p>Some interface checks do happen at run-time, though. One instance is in
-the <strong>encoding/json</strong> package, which defines a <strong>Marshaler</strong> interface.
-When the JSON encoder receives a value that implements that interface,
-the encoder invokes the value's marshaling method to convert it to JSON
-instead of doing the standard conversion. The encoder checks this
-property at run time with a <a class="reference external" href="#interface_conversions">type assertion</a>
-like:</p>
+<div class="section" id="id42">
+<h3>インターフェースのチェック<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>上記のインターフェイスの説明で見たように、型はインターフェイスを実装することを明示的に宣言する必要はありません。 代わりに、型はインターフェイスのメソッドを実装するだけでインターフェイスを実装します。 実際には、ほとんどのインターフェイスの変換は静的であるため、コンパイル時にチェックされます。 たとえば、io.Readerが必要な関数に <code class="docutils literal notranslate"><span class="pre">*os.File</span></code> を渡すと <code class="docutils literal notranslate"><span class="pre">*os.File</span></code> は <code class="docutils literal notranslate"><span class="pre">io.Reader</span></code> インターフェイスを実装しない限りコンパイルされません。</p>
+<p>ただし、一部のインターフェイスのチェックは実行時に行われます。1つのインスタンスは <code class="docutils literal notranslate"><span class="pre">encoding/json</span></code> パッケージです。Marshalerインターフェイスを定義します。JSONエンコーダーは、そのインターフェイスを実装する値を受け取ると、標準の変換を行う代わりに、値をマーシャルするメソッドを呼び出してJSONに変換します。エンコーダーは、実行時にこの変換をするために、次のような型アサーションでチェックします。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">m</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.(</span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshaler</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>If it's necessary only to ask whether a type implements an interface,
-without actually using the interface itself, perhaps as part of an error
-check, use the blank identifier to ignore the type-asserted value:</p>
+<p>実際にインターフェイス自体を使用せずに、エラーチェックの一部として、型がインターフェイスを実装しているかどうかを確認するだけの場合は、ブランク識別子を使用して型アサーションした値を無視します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.(</span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshaler</span><span class="p">);</span> <span class="nx">ok</span> <span class="p">{</span>
     <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;value %v of type %T implements json.Marshaler\n&quot;</span><span class="p">,</span> <span class="nx">val</span><span class="p">,</span> <span class="nx">val</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>One place this situation arises is when it is necessary to guarantee
-within the package implementing the type that it actually satisfies the
-interface. If a type—for example, <strong>json.RawMessage</strong>—needs a custom
-JSON representation, it should implement <strong>json.Marshaler</strong>, but there
-are no static conversions that would cause the compiler to verify this
-automatically. If the type inadvertently fails to satisfy the interface,
-the JSON encoder will still work, but will not use the custom
-implementation. To guarantee that the implementation is correct, a
-global declaration using the blank identifier can be used in the
-package:</p>
+<p>この状況が発生する場所の1つは、型を実装するパッケージ内で、実際にインターフェースを満たすことを保証する必要がある場合です。 型(json.RawMessageなど)がカスタムJSON表現を必要とする場合、json.Marshalerを実装する必要がありますが、コンパイラがこれを自動的に検証できる、明示的な変換はありません。型が意図せずインターフェイスを満たさない場合でも、JSONエンコーダーは動作しますが、カスタム実装は使用しません。実装が正しいことを保証するために、ブランク識別子を使用するグローバル宣言をパッケージで使用できます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">_</span> <span class="nx">json</span><span class="p">.</span><span class="nx">Marshaler</span> <span class="p">=</span> <span class="p">(</span><span class="o">*</span><span class="nx">RawMessage</span><span class="p">)(</span><span class="kc">nil</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>In this declaration, the assignment involving a conversion of a
-<strong>*RawMessage</strong> to a <strong>Marshaler</strong> requires that <strong>*RawMessage</strong>
-implements <strong>Marshaler</strong>, and that property will be checked at compile
-time. Should the <strong>json.Marshaler</strong> interface change, this package will
-no longer compile and we will be on notice that it needs to be updated.</p>
-<p>The appearance of the blank identifier in this construct indicates that
-the declaration exists only for the type checking, not to create a
-variable. Don't do this for every type that satisfies an interface,
-though. By convention, such declarations are only used when there are no
-static conversions already present in the code, which is a rare event.</p>
+<p>この宣言では <code class="docutils literal notranslate"><span class="pre">*RawMessage</span></code> が <code class="docutils literal notranslate"><span class="pre">Marshaler</span></code> インターフェースを実装する必要とするような <code class="docutils literal notranslate"><span class="pre">*RawMessage</span></code> から <code class="docutils literal notranslate"><span class="pre">Marshaler</span></code> への変換をする場合、型がインターフェースを実装しているかどうかは、コンパイル時にチェックされます。json.Marshalerインターフェースが変更された場合、このパッケージはコンパイルされなくなり、ソースコードを修正する必要であることがわかります。</p>
+<p>この構造内のブランク識別子は、変数を作成するためではなく、型チェックのためだけに宣言が存在することを示しています。 ただし、インターフェイスを満たすすべての型に対してこれを実行しないでください。慣例により、このような宣言は、コードに静的な変換が存在しない場合にのみ使用されます。これはあまりありません。</p>
 </div>
 </div>
-<div class="section" id="id39">
-<h2>埋め込み<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id43">
+<h2>埋め込み<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。</p>
 <p>インターフェイスの埋め込みは非常に簡単です。 以前に <strong>io.Reader</strong> および <strong>io.Writer</strong> インターフェースについて言及しました。定義は次のとおりです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Reader</span> <span class="kd">interface</span> <span class="p">{</span>
@@ -1562,7 +1528,7 @@ static conversions already present in the code, which is a rare event.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Jobの構造体には、Print、Printf、Println、および <a href="#id40"><span class="problematic" id="id41">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
+<p>Jobの構造体には、Print、Printf、Println、および <a href="#id44"><span class="problematic" id="id45">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;starting now...&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1576,7 +1542,7 @@ static conversions already present in the code, which is a rare event.</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Job</span><span class="p">{</span><span class="nx">command</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;Job: &quot;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">)}</span>
 </pre></div>
 </div>
-<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id42"><span class="problematic" id="id43">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
+<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id46"><span class="problematic" id="id47">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">job</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">args</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
     <span class="nx">job</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%q: %s&quot;</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">args</span><span class="o">...</span><span class="p">))</span>
 <span class="p">}</span>
@@ -1585,10 +1551,10 @@ static conversions already present in the code, which is a rare event.</p>
 <p>型を埋め込むと、名前の競合の問題が発生しますが、それらを解決するルールは簡単です。 まず、フィールドまたはメソッドXは奥深くにネストされた型のXを隠してしまいます。 log.LoggerにCommandというフィールドまたはメソッドが含まれている場合、JobのCommandフィールドが優先されます。</p>
 <p>次に、同じ名前が同じネストレベルにある場合、通常はエラーになります。 Job構造体にLoggerという別のフィールドまたはメソッドが含まれている場合、log.Loggerを埋め込むのは誤りです。 ただし、型定義以外のプログラムから重複した名前が参照されていない場合は、問題になりません。この制限は、外部から埋め込まれた型の変更から元のプログラムを守ります。重複している名前のフィールドが使用されていない場合、競合するフィールドが追加されても問題はありません。</p>
 </div>
-<div class="section" id="id44">
-<h2>並行処理<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<div class="section" id="id45">
-<h3>通信による共有<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id48">
+<h2>並行処理<a class="headerlink" href="#id48" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id49">
+<h3>通信による共有<a class="headerlink" href="#id49" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -1616,8 +1582,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="id46">
-<h3>ゴルーチン<a class="headerlink" href="#id46" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id50">
+<h3>ゴルーチン<a class="headerlink" href="#id50" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -1650,8 +1616,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="id47">
-<h3>チャンネル<a class="headerlink" href="#id47" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id51">
+<h3>チャンネル<a class="headerlink" href="#id51" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <strong>make</strong>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -1954,8 +1920,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="id48">
-<h2>エラー<a class="headerlink" href="#id48" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id52">
+<h2>エラー<a class="headerlink" href="#id52" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2232,7 +2198,7 @@ exercise for the reader.</p>
 <p><strong>QR</strong> はフォームデータを含むリクエストを受信し、 <strong>s</strong> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
 <p>テンプレートパッケージ <strong>html/template</strong> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <strong>templ.Execute</strong> に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <strong>{{if .}}</strong> から <strong>{{end}}</strong> の部分は、<strong>.</strong> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
 <p>2つのスニペット <strong>{{.}}</strong> は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
-<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id49"><span class="problematic" id="id50">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
+<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id53"><span class="problematic" id="id54">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
 <p>数行のコードといくつかのデータ駆動型HTMLテキストの便利なWebサーバーをあなたは持っています。 Goは、数行で多くのことを実行できるほど強力です。</p>
 </div>
 </div>
@@ -2305,23 +2271,23 @@ exercise for the reader.</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#id38">ブランク識別子</a><ul>
-<li><a class="reference internal" href="#the-blank-identifier-in-multiple-assignment">The blank identifier in multiple assignment</a></li>
-<li><a class="reference internal" href="#unused-imports-and-variables">Unused imports and variables</a></li>
-<li><a class="reference internal" href="#import-for-side-effect">Import for side effect</a></li>
-<li><a class="reference internal" href="#interface-checks">Interface checks</a></li>
+<li><a class="reference internal" href="#id39">いろいろな場所におけるブランク識別子</a></li>
+<li><a class="reference internal" href="#id40">未使用のインポートと変数</a></li>
+<li><a class="reference internal" href="#id41">インポートの副作用</a></li>
+<li><a class="reference internal" href="#id42">インターフェースのチェック</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id39">埋め込み</a></li>
-<li><a class="reference internal" href="#id44">並行処理</a><ul>
-<li><a class="reference internal" href="#id45">通信による共有</a></li>
-<li><a class="reference internal" href="#id46">ゴルーチン</a></li>
-<li><a class="reference internal" href="#id47">チャンネル</a></li>
+<li><a class="reference internal" href="#id43">埋め込み</a></li>
+<li><a class="reference internal" href="#id48">並行処理</a><ul>
+<li><a class="reference internal" href="#id49">通信による共有</a></li>
+<li><a class="reference internal" href="#id50">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id51">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id48">エラー</a><ul>
+<li><a class="reference internal" href="#id52">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
@@ -2344,11 +2310,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 32938</li>
-            <li>非アスキー: 20094</li>
-            <li>合計文字数: 53032</li>
-            <li>半角換算: 73126</li>
-            <li>全角換算: 36563.0</li>
+            <li>英数記号: 27525</li>
+            <li>非アスキー: 22460</li>
+            <li>合計文字数: 49985</li>
+            <li>半角換算: 72445</li>
+            <li>全角換算: 36222.5</li>
         </ul>
     </p>
 </div>
