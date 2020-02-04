@@ -111,7 +111,7 @@
 <span class="c1">// manipulating slash-separated filename paths.</span>
 </pre></div>
 </div>
-<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id57"><span class="problematic" id="id58">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
+<p>コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 <strong>godoc</strong> は <strong>gofmt</strong> のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 <strong>godoc</strong> が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 <a href="#id58"><span class="problematic" id="id59">`fmt package &lt;&gt;`_</span></a> のパッケージコメントは、これを有効に使用しています。</p>
 <p>コンテキストによっては <strong>godoc</strong> はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。</p>
 <p>パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。</p>
 <p>ドキュメントコメントは完全な文として最適に機能し、さまざまな自動プレゼンテーションを可能にします。最初の文は、宣言される名前で始まる1行の要約でなければなりません。</p>
@@ -1182,9 +1182,9 @@ to the implementation of <strong>bytes.Buffer</strong>.</p>
 </pre></div>
 </div>
 <p>現在、Sequenceに複数のインターフェイス(ソートとプリント)を実装する代わりに、データ項目の機能を使用して、複数の型(Sequence、sort.IntSlice、[]int)に変換します。これは実際にはほとんどありませんが、効果的です。</p>
-<p>インターフェースの変換と型アサーション
-Interface conversions and type assertions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+</div>
+<div class="section" id="id37">
+<h3>インターフェースの変換と型アサーション<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>型スイッチは変換の形式です。スイッチはインターフェイスを取得し、スイッチの各ケースについて、ある意味でそのケースの型に変換します。 以下は <code class="docutils literal notranslate"><span class="pre">fmt.Printf</span></code> の内部で、型スイッチを使用して値を文字列に変換する方法の簡易的な実装です。 すでに string である場合は、インターフェイスが保持する実際の文字列の値が必要です。一方、String() メソッドがある場合は、メソッドを呼び出した結果が必要です。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Stringer</span> <span class="kd">interface</span> <span class="p">{</span>
     <span class="nx">String</span><span class="p">()</span> <span class="kt">string</span>
@@ -1226,12 +1226,12 @@ Interface conversions and type assertions
 </pre></div>
 </div>
 </div>
-<div class="section" id="id37">
-<h3>概説<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id38">
+<h3>概説<a class="headerlink" href="#id38" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>インターフェースを実装するためだけに型が存在し、そのインターフェースを超えてメソッドを公開する必要がない場合、型自体を公開する必要はありません。インターフェースのみを公開すると、値がインターフェースで説明されている以上の興味深い動作を持たないことが明確になります。また、共通メソッドのすべてのインスタンスでドキュメントを繰り返す必要がなくなります。</p>
 <p>このような場合、コンストラクターは具象型ではなくインターフェイス値を返す必要があります。例として、ハッシュライブラリでは <code class="docutils literal notranslate"><span class="pre">crc32.NewIEEE</span></code> と <code class="docutils literal notranslate"><span class="pre">adler32.New</span></code> の両方がインターフェイス型 <code class="docutils literal notranslate"><span class="pre">hash.Hash32</span></code> を返します。 Goプログラムで <code class="docutils literal notranslate"><span class="pre">Adler-32</span></code> を <code class="docutils literal notranslate"><span class="pre">CRC-32</span></code> アルゴリズムに置き換えるには、コンストラクター呼び出しを変更するだけです。 残りのコードは、アルゴリズムの変更による影響を受けません。</p>
 <p>同様のアプローチにより、さまざまな <code class="docutils literal notranslate"><span class="pre">crypto</span></code> パッケージのストリーミング暗号化アルゴリズムを、一連の暗号化されたブロック暗号から分離できます。 <code class="docutils literal notranslate"><span class="pre">crypto/cipher</span></code> パッケージのブロックインターフェイスは、ブロック暗号の動作を指定します。ブロック暗号は、単一のデータブロックの暗号化を提供します。 次に、bufioパッケージと同様に、このインターフェイスを実装する暗号パッケージを使用して、ブロック暗号化の詳細を知らなくても、Streamインターフェイスで表されるストリーミング暗号を構築できます。</p>
-<div class="admonition-todo admonition" id="id38">
+<div class="admonition-todo admonition" id="id39">
 <p class="admonition-title">課題</p>
 <p>英語がよくわからない</p>
 </div>
@@ -1255,8 +1255,8 @@ Interface conversions and type assertions
 </div>
 <p>NewCTRは、1つの特定の暗号化アルゴリズムとデータソースだけでなく、BlockインターフェイスとStreamの実装にも適用されます。 インターフェイス値を返すため、CTR暗号化を他の暗号化モードに置き換えることは局所的な変更です。 コンストラクターの呼び出しは修正する必要がありますが、周囲のコードは結果をストリームとしてのみ処理する必要があるため、違いに気付かないでしょう。</p>
 </div>
-<div class="section" id="id39">
-<h3>インターフェースとメソッド<a class="headerlink" href="#id39" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id40">
+<h3>インターフェースとメソッド<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>ほとんどすべての型にメソッドを実装でき、インターフェースを満たすことができます。 1つの実例は <strong>http</strong> パッケージにあり、これは <strong>Handler</strong> インターフェースを定義します。 Handler を実装するオブジェクトは、HTTPリクエストを処理できます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Handler</span> <span class="kd">interface</span> <span class="p">{</span>
     <span class="nx">ServeHTTP</span><span class="p">(</span><span class="nx">ResponseWriter</span><span class="p">,</span> <span class="o">*</span><span class="nx">Request</span><span class="p">)</span>
@@ -1339,11 +1339,11 @@ Interface conversions and type assertions
 <p>このセクションでは、構造体、整数、チャネル、および関数からHTTPサーバーを作成しました。これは、インターフェイスがほとんど任意の型に対して定義できる単なるメソッドのセットであることを示すためです。</p>
 </div>
 </div>
-<div class="section" id="id40">
-<h2>ブランク識別子<a class="headerlink" href="#id40" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>ブランク識別子については、 <code class="docutils literal notranslate"><span class="pre">for</span></code> の <code class="docutils literal notranslate"><span class="pre">range</span></code> ループや <code class="docutils literal notranslate"><span class="pre">map</span></code> で何度か言及しました。ブランク識別子は型の値に関係なく、使うことができます。問題なく値は破棄されます。Unixの <code class="docutils literal notranslate"><span class="pre">/dev/null</span></code> への書き込みに似ています。書き込みが必要な値のプレースホルダーとして扱われます。実際の値は関係ありません。すでに見てきた以上に使われます。</p>
 <div class="section" id="id41">
-<h3>いろいろな場所におけるブランク識別子<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>ブランク識別子<a class="headerlink" href="#id41" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>ブランク識別子については、 <code class="docutils literal notranslate"><span class="pre">for</span></code> の <code class="docutils literal notranslate"><span class="pre">range</span></code> ループや <code class="docutils literal notranslate"><span class="pre">map</span></code> で何度か言及しました。ブランク識別子は型の値に関係なく、使うことができます。問題なく値は破棄されます。Unixの <code class="docutils literal notranslate"><span class="pre">/dev/null</span></code> への書き込みに似ています。書き込みが必要な値のプレースホルダーとして扱われます。実際の値は関係ありません。すでに見てきた以上に使われます。</p>
+<div class="section" id="id42">
+<h3>いろいろな場所におけるブランク識別子<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">range</span></code> ループの中でのブランク識別子の用途は、ブランク識別子の特殊なケースです。複数の値が返却される場合において、一方の値のみしかプログラム中で使用しない場合、ブランク識別子を宣言することによって、ダミーの変数を作成する必要がなくなります。値は破棄されます。例えば、値とエラーを返すが、エラーのみが重要な場合、ブランク識別子を使用して、必要のない値を破棄します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Stat</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span> <span class="nx">os</span><span class="p">.</span><span class="nx">IsNotExist</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%s does not exist\n&quot;</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span>
@@ -1359,8 +1359,8 @@ Interface conversions and type assertions
 </pre></div>
 </div>
 </div>
-<div class="section" id="id42">
-<h3>未使用のインポートと変数<a class="headerlink" href="#id42" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id43">
+<h3>未使用のインポートと変数<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>インポートしたパッケージや変数を使用せずに、宣言するとエラーになります。未使用のインポートはプログラムを肥大化させ、コンパイルを遅くします。一方、初期化されているが使用されていない変数は、少なくとも無駄な計算であり、大きなバグを示しているでしょう。 しかし、プログラムが活発に開発されている場合、未使用のインポートと変数が頻繁に発生し、コンパイルするために削除します。後で追加するのは面倒です。空白の識別子は回避策を提供します。</p>
 <p>以下の途中まで実装されているプログラムでは <code class="docutils literal notranslate"><span class="pre">fmt</span></code> と <code class="docutils literal notranslate"><span class="pre">io</span></code> という2つの未使用のインポートがあります。また、 <code class="docutils literal notranslate"><span class="pre">fd</span></code> という未使用の変数があります。そのためコンパイルできませんが、コードが正しいことを示すために良い方法があります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">package</span> <span class="nx">main</span>
@@ -1406,16 +1406,16 @@ Interface conversions and type assertions
 </div>
 <p>慣習により、インポートエラーを抑えるためのグローバル宣言はインポート文のすぐ後に記述します。これは、わかりやすするためであって、後ほど忘れずにきれいにすることを忘れずにするためです。</p>
 </div>
-<div class="section" id="id43">
-<h3>インポートの副作用<a class="headerlink" href="#id43" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id44">
+<h3>インポートの副作用<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>前の例の <code class="docutils literal notranslate"><span class="pre">fmt</span></code> や <code class="docutils literal notranslate"><span class="pre">io</span></code> などの未使用のインポートは、最終的に使用または削除する必要があります。ブランク識別子に割り当てたオブジェクトは、開発中のコードであると認識します。ただし、明示的な使用をせずに、副作用のみのためにパッケージをインポートすると便利な場合があります。たとえば、 <code class="docutils literal notranslate"><span class="pre">net/http/pprof</span></code> パッケージは、init関数の実行中に、デバッグ情報を提供するHTTPハンドラーを登録します。公開されているAPIがありますが、ほとんどのクライアントはハンドラーの登録とWebページへのアクセスを介したデバッグ情報へのアクセスのみを必要とします。副作用のためだけにパッケージをインポートするには、パッケージの名前をブランク識別子に変更します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nx">_</span> <span class="s">&quot;net/http/pprof&quot;</span>
 </pre></div>
 </div>
 <p>この形式のインポートは、パッケージがその副作用のためにインポートされていることを明確にします。これは、ソースコードの中でパッケージを使用することがないためです。(もし名前があって使用しなかった場合、コンパイルエラーになります。)</p>
 </div>
-<div class="section" id="id44">
-<h3>インターフェースのチェック<a class="headerlink" href="#id44" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id45">
+<h3>インターフェースのチェック<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>上記のインターフェイスの説明で見たように、型はインターフェイスを実装することを明示的に宣言する必要はありません。 代わりに、型はインターフェイスのメソッドを実装するだけでインターフェイスを実装します。 実際には、ほとんどのインターフェイスの変換は静的であるため、コンパイル時にチェックされます。 たとえば、io.Readerが必要な関数に <code class="docutils literal notranslate"><span class="pre">*os.File</span></code> を渡すと <code class="docutils literal notranslate"><span class="pre">*os.File</span></code> は <code class="docutils literal notranslate"><span class="pre">io.Reader</span></code> インターフェイスを実装しない限りコンパイルされません。</p>
 <p>ただし、一部のインターフェイスのチェックは実行時に行われます。1つのインスタンスは <code class="docutils literal notranslate"><span class="pre">encoding/json</span></code> パッケージです。Marshalerインターフェイスを定義します。JSONエンコーダーは、そのインターフェイスを実装する値を受け取ると、標準の変換を行う代わりに、値をマーシャルするメソッドを呼び出してJSONに変換します。エンコーダーは、実行時にこの変換をするために、次のような型アサーションでチェックします。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">m</span><span class="p">,</span> <span class="nx">ok</span> <span class="o">:=</span> <span class="nx">val</span><span class="p">.(</span><span class="nx">json</span><span class="p">.</span><span class="nx">Marshaler</span><span class="p">)</span>
@@ -1435,8 +1435,8 @@ Interface conversions and type assertions
 <p>この構造内のブランク識別子は、変数を作成するためではなく、型チェックのためだけに宣言が存在することを示しています。 ただし、インターフェイスを満たすすべての型に対してこれを実行しないでください。慣例により、このような宣言は、コードに静的な変換が存在しない場合にのみ使用されます。これはあまりありません。</p>
 </div>
 </div>
-<div class="section" id="id45">
-<h2>埋め込み<a class="headerlink" href="#id45" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id46">
+<h2>埋め込み<a class="headerlink" href="#id46" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。</p>
 <p>インターフェイスの埋め込みは非常に簡単です。 以前に <strong>io.Reader</strong> および <strong>io.Writer</strong> インターフェースについて言及しました。定義は次のとおりです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">Reader</span> <span class="kd">interface</span> <span class="p">{</span>
@@ -1488,7 +1488,7 @@ Interface conversions and type assertions
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Jobの構造体には、Print、Printf、Println、および <a href="#id46"><span class="problematic" id="id47">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
+<p>Jobの構造体には、Print、Printf、Println、および <a href="#id47"><span class="problematic" id="id48">*</span></a>log.Logger の他のメソッドが追加されました。もちろん、Loggerにフィールド名を付けることもできますが、そうする必要はありません。そして今、初期化されたら、Jobにロギングすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;starting now...&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1502,7 +1502,7 @@ Interface conversions and type assertions
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">job</span> <span class="o">:=</span> <span class="o">&amp;</span><span class="nx">Job</span><span class="p">{</span><span class="nx">command</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="nx">os</span><span class="p">.</span><span class="nx">Stderr</span><span class="p">,</span> <span class="s">&quot;Job: &quot;</span><span class="p">,</span> <span class="nx">log</span><span class="p">.</span><span class="nx">Ldate</span><span class="p">)}</span>
 </pre></div>
 </div>
-<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id48"><span class="problematic" id="id49">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
+<p>埋め込みフィールドを直接参照する必要がある場合、フィールドの型名は、パッケージ修飾子を無視して、ReadWriter構造体のReadメソッドと同様にフィールド名として機能します。 ここで、Job変数 <code class="docutils literal notranslate"><span class="pre">job</span></code> の <a href="#id49"><span class="problematic" id="id50">*</span></a>log.Logger にアクセスする必要がある場合、job.Loggerを記述します。これはLoggerのメソッドを拡張したい場合に役立ちます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">job</span> <span class="o">*</span><span class="nx">Job</span><span class="p">)</span> <span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">args</span> <span class="o">...</span><span class="kd">interface</span><span class="p">{})</span> <span class="p">{</span>
     <span class="nx">job</span><span class="p">.</span><span class="nx">Logger</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;%q: %s&quot;</span><span class="p">,</span> <span class="nx">job</span><span class="p">.</span><span class="nx">Command</span><span class="p">,</span> <span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="nx">format</span><span class="p">,</span> <span class="nx">args</span><span class="o">...</span><span class="p">))</span>
 <span class="p">}</span>
@@ -1511,10 +1511,10 @@ Interface conversions and type assertions
 <p>型を埋め込むと、名前の競合の問題が発生しますが、それらを解決するルールは簡単です。 まず、フィールドまたはメソッドXは奥深くにネストされた型のXを隠してしまいます。 log.LoggerにCommandというフィールドまたはメソッドが含まれている場合、JobのCommandフィールドが優先されます。</p>
 <p>次に、同じ名前が同じネストレベルにある場合、通常はエラーになります。 Job構造体にLoggerという別のフィールドまたはメソッドが含まれている場合、log.Loggerを埋め込むのは誤りです。 ただし、型定義以外のプログラムから重複した名前が参照されていない場合は、問題になりません。この制限は、外部から埋め込まれた型の変更から元のプログラムを守ります。重複している名前のフィールドが使用されていない場合、競合するフィールドが追加されても問題はありません。</p>
 </div>
-<div class="section" id="id50">
-<h2>並行処理<a class="headerlink" href="#id50" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id51">
-<h3>通信による共有<a class="headerlink" href="#id51" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<h2>並行処理<a class="headerlink" href="#id51" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id52">
+<h3>通信による共有<a class="headerlink" href="#id52" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Concurrent programming is a large topic and there is space only for some
 Go-specific highlights here.</p>
 <p>Concurrent programming in many environments is made difficult by the
@@ -1542,8 +1542,8 @@ approach to concurrency originates in Hoare's Communicating Sequential
 Processes (CSP), it can also be seen as a type-safe generalization of
 Unix pipes.</p>
 </div>
-<div class="section" id="id52">
-<h3>ゴルーチン<a class="headerlink" href="#id52" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id53">
+<h3>ゴルーチン<a class="headerlink" href="#id53" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>They're called <em>goroutines</em> because the existing terms—threads,
 coroutines, processes, and so on—convey inaccurate connotations. A
 goroutine has a simple model: it is a function executing concurrently
@@ -1576,8 +1576,8 @@ active.</p>
 <p>These examples aren't too practical because the functions have no way of
 signaling completion. For that, we need channels.</p>
 </div>
-<div class="section" id="id53">
-<h3>チャンネル<a class="headerlink" href="#id53" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<div class="section" id="id54">
+<h3>チャンネル<a class="headerlink" href="#id54" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Like maps, channels are allocated with <strong>make</strong>, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
@@ -1880,8 +1880,8 @@ relying on the buffered channel and the garbage collector for
 bookkeeping.</p>
 </div>
 </div>
-<div class="section" id="id54">
-<h2>エラー<a class="headerlink" href="#id54" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id55">
+<h2>エラー<a class="headerlink" href="#id55" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <p>Library routines must often return some sort of error indication to the
 caller. As mentioned earlier, Go's multivalue return makes it easy to
 return a detailed error description alongside the normal return value.
@@ -2158,7 +2158,7 @@ exercise for the reader.</p>
 <p><strong>QR</strong> はフォームデータを含むリクエストを受信し、 <strong>s</strong> という名前のフォーム値のデータに対してテンプレートを実行します。</p>
 <p>テンプレートパッケージ <strong>html/template</strong> は強力です。 このプログラムは、その機能に触れています。 本質的に、 <strong>templ.Execute</strong> に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 <strong>{{if .}}</strong> から <strong>{{end}}</strong> の部分は、<strong>.</strong> と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。</p>
 <p>2つのスニペット <strong>{{.}}</strong> は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。</p>
-<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id55"><span class="problematic" id="id56">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
+<p>テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの <a href="#id56"><span class="problematic" id="id57">`</span></a>ドキュメント &lt;/pkg/html/template/&gt;`_で詳細を確認してください。</p>
 <p>数行のコードといくつかのデータ駆動型HTMLテキストの便利なWebサーバーをあなたは持っています。 Goは、数行で多くのことを実行できるほど強力です。</p>
 </div>
 </div>
@@ -2225,28 +2225,29 @@ exercise for the reader.</p>
 <li><a class="reference internal" href="#interfaces-and-types">インターフェースとその他の型</a><ul>
 <li><a class="reference internal" href="#id35">インターフェース</a></li>
 <li><a class="reference internal" href="#id36">変換</a></li>
-<li><a class="reference internal" href="#id37">概説</a></li>
-<li><a class="reference internal" href="#id39">インターフェースとメソッド</a></li>
+<li><a class="reference internal" href="#id37">インターフェースの変換と型アサーション</a></li>
+<li><a class="reference internal" href="#id38">概説</a></li>
+<li><a class="reference internal" href="#id40">インターフェースとメソッド</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id40">ブランク識別子</a><ul>
-<li><a class="reference internal" href="#id41">いろいろな場所におけるブランク識別子</a></li>
-<li><a class="reference internal" href="#id42">未使用のインポートと変数</a></li>
-<li><a class="reference internal" href="#id43">インポートの副作用</a></li>
-<li><a class="reference internal" href="#id44">インターフェースのチェック</a></li>
+<li><a class="reference internal" href="#id41">ブランク識別子</a><ul>
+<li><a class="reference internal" href="#id42">いろいろな場所におけるブランク識別子</a></li>
+<li><a class="reference internal" href="#id43">未使用のインポートと変数</a></li>
+<li><a class="reference internal" href="#id44">インポートの副作用</a></li>
+<li><a class="reference internal" href="#id45">インターフェースのチェック</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id45">埋め込み</a></li>
-<li><a class="reference internal" href="#id50">並行処理</a><ul>
-<li><a class="reference internal" href="#id51">通信による共有</a></li>
-<li><a class="reference internal" href="#id52">ゴルーチン</a></li>
-<li><a class="reference internal" href="#id53">チャンネル</a></li>
+<li><a class="reference internal" href="#id46">埋め込み</a></li>
+<li><a class="reference internal" href="#id51">並行処理</a><ul>
+<li><a class="reference internal" href="#id52">通信による共有</a></li>
+<li><a class="reference internal" href="#id53">ゴルーチン</a></li>
+<li><a class="reference internal" href="#id54">チャンネル</a></li>
 <li><a class="reference internal" href="#channels-of-channels">Channels of channels</a></li>
 <li><a class="reference internal" href="#parallelization">Parallelization</a></li>
 <li><a class="reference internal" href="#a-leaky-buffer">A leaky buffer</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id54">エラー</a><ul>
+<li><a class="reference internal" href="#id55">エラー</a><ul>
 <li><a class="reference internal" href="#panic">Panic</a></li>
 <li><a class="reference internal" href="#recover">Recover</a></li>
 </ul>
@@ -2269,11 +2270,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 24307</li>
+            <li>英数記号: 24183</li>
             <li>非アスキー: 23832</li>
-            <li>合計文字数: 48139</li>
-            <li>半角換算: 71971</li>
-            <li>全角換算: 35985.5</li>
+            <li>合計文字数: 48015</li>
+            <li>半角換算: 71847</li>
+            <li>全角換算: 35923.5</li>
         </ul>
     </p>
 </div>
