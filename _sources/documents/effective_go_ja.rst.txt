@@ -232,7 +232,7 @@ Cのように、Goの形式的な文法ではセミコロンを使用してス�
 制御構造(Control structures)
 --------------------------------------------------------------------
 
-Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
+Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型 ``switch``や多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
 
 If
 ~~
@@ -364,12 +364,7 @@ GoのforループはCに似ていますが、同じではありません。Go言
 
 `ブランク識別子 <#blank>`_ には、後のセクションで説明するように、多くの用途があります。
 
-For strings, the **range** does more work for you, breaking out
-individual Unicode code points by parsing the UTF-8. Erroneous encodings
-consume one byte and produce the replacement rune U+FFFD. (The name
-(with associated builtin type) **rune** is Go terminology for a single
-Unicode code point. See `the language
-specification </ref/spec#Rune_literals>`__ for details.) The loop
+文字列を扱うときの ``range`` はより高機能で、UTF-8をパースすることで各文字のユニコードのコードポイントを取り出します。誤ったエンコーディングは1バイトを消費し、置換ルーン ``U+FFFD`` を生成します。Goの組み込み型である **rune** は単一のユニコードのコードポイントを示すGoの用語です。詳細については、言語仕様を参照してください。
 
 .. code-block:: go
 
@@ -377,7 +372,7 @@ specification </ref/spec#Rune_literals>`__ for details.) The loop
        fmt.Printf("character %#U starts at byte position %d\n", char, pos)
    }
 
-prints
+以下のように表示します。
 
 .. code-block:: go
 
@@ -386,10 +381,7 @@ prints
    character U+FFFD '�' starts at byte position 6
    character U+8A9E '語' starts at byte position 7
 
-Finally, Go has no comma operator and **++** and **--** are statements
-not expressions. Thus if you want to run multiple variables in a **for**
-you should use parallel assignment (although that precludes **++** and
-**--**).
+最後に、Goにはコンマ演算子がなく、 ``++`` および ``--`` は式ではなくステートメントです。したがって、forで複数の変数を実行する場合は、並列代入を使用する必要があります（ただし、++および--は除外されます）。
 
 .. code-block:: go
 
@@ -401,11 +393,7 @@ you should use parallel assignment (although that precludes **++** and
 Switch
 ~~~~~~
 
-Go's **switch** is more general than C's. The expressions need not be
-constants or even integers, the cases are evaluated top to bottom until
-a match is found, and if the **switch** has no expression it switches on
-**true**. It's therefore possible—and idiomatic—to write an
-**if**-**else**-**if**-**else** chain as a **switch**.
+Goの ``switch`` はCの ``switch`` よりも一般的です。式は定数または整数である必要はなく、一致するものが見つかるまでケースは上から下に評価していきます。 ``switch`` に式がない場合はtrueとなるケースにマッチします。したがって、if-else-if-elseチェーンを ``switch`` として記述することができます。そして慣用的な書き方です。
 
 .. code-block:: go
 
@@ -421,6 +409,8 @@ a match is found, and if the **switch** has no expression it switches on
        return 0
    }
 
+自動フォールスルーはありませんが、コンマ区切りのリストで複数のケースを示すことができます。
+
 There is no automatic fall through, but cases can be presented in
 comma-separated lists.
 
@@ -434,12 +424,7 @@ comma-separated lists.
        return false
    }
 
-Although they are not nearly as common in Go as some other C-like
-languages, **break** statements can be used to terminate a **switch**
-early. Sometimes, though, it's necessary to break out of a surrounding
-loop, not the switch, and in Go that can be accomplished by putting a
-label on the loop and "breaking" to that label. This example shows both
-uses.
+breakステートメントを使用してスイッチを早期に終了できます。ただし、Goでは他のCライクな言語ほど一般的ではありません。場合によっては、 ``switch`` を用いずに周辺のループから抜け出す必要があります。Goでは、ループにラベルを付けて、そのラベルを ``break`` することで実現できます。 以下の例は、両方の使用法を示しています。
 
 .. code-block:: go
 
@@ -466,11 +451,9 @@ uses.
            }
        }
 
-Of course, the **continue** statement also accepts an optional label but
-it applies only to loops.
+もちろん ``continue`` ステートメントはオプションのラベルも受け入れますが、ループにのみ適用されます。
 
-To close this section, here's a comparison routine for byte slices that
-uses two **switch** statements:
+最後に、2つの ``switch`` ステートメントを使用するバイトスライスの比較ルーチンを次に示します。
 
 .. code-block:: go
 
@@ -497,16 +480,10 @@ uses two **switch** statements:
 
 .. _type_switch:
 
-Type switch
+型の switch
 ~~~~~~~~~~~~~~~~~~~
 
-A switch can also be used to discover the dynamic type of an interface
-variable. Such a *type switch* uses the syntax of a type assertion with
-the keyword **type** inside the parentheses. If the switch declares a
-variable in the expression, the variable will have the corresponding
-type in each clause. It's also idiomatic to reuse the name in such
-cases, in effect declaring a new variable with the same name but a
-different type in each case.
+``switch`` を使用して、インターフェイス変数の動的な型を検出することもできます。 このような型 ``switch`` は、カッコ内にキーワードタイプを持つ型アサーションの構文を使用します。 ``switch`` が式で変数を宣言する場合、変数は各句で対応する型を持ちます。また、このような場合に名前を再利用することも慣習的であり、事実上、それぞれの場合に同じ名前で異なる型の新しい変数を宣言します。
 
 .. code-block:: go
 
@@ -1426,7 +1403,7 @@ SequenceのStringメソッドは、Sprintがスライスに対してすでに行
 インターフェースの変換と型アサーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-型スイッチは変換の形式です。スイッチはインターフェイスを取得し、スイッチの各ケースについて、ある意味でそのケースの型に変換します。 以下は ``fmt.Printf`` の内部で、型スイッチを使用して値を文字列に変換する方法の簡易的な実装です。 すでに string である場合は、インターフェイスが保持する実際の文字列の値が必要です。一方、String() メソッドがある場合は、メソッドを呼び出した結果が必要です。
+型 ``switch``は変換の形式です。 ``switch``はインターフェイスを取得し、 ``switch``の各ケースについて、ある意味でそのケースの型に変換します。 以下は ``fmt.Printf`` の内部で、型 ``switch``を使用して値を文字列に変換する方法の簡易的な実装です。 すでに string である場合は、インターフェイスが保持する実際の文字列の値が必要です。一方、String() メソッドがある場合は、メソッドを呼び出した結果が必要です。
 
 .. code-block:: go
 
@@ -1467,7 +1444,7 @@ SequenceのStringメソッドは、Sprintがスライスに対してすでに行
 
 型のアサーションが失敗した場合 ``str`` はゼロ値の string 型です。つまり空の文字列になります。
 
-上記の型変換の例として、このセクションで説明した型スイッチに相当する ``if-else`` ステートメントを次に示します。
+上記の型変換の例として、このセクションで説明した型 ``switch``に相当する ``if-else`` ステートメントを次に示します。
 
 .. code-block:: go
 
