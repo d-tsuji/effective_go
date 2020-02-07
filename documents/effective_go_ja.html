@@ -1036,13 +1036,8 @@ format <strong>%#v</strong> prints the value in full Go syntax.</p>
 <h2>メソッド<a class="headerlink" href="#id34" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id35">
 <h3>ポインター vs 値<a class="headerlink" href="#id35" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>As we saw with <strong>ByteSize</strong>, methods can be defined for any named type
-(except a pointer or an interface); the receiver does not have to be a
-struct.</p>
-<p>In the discussion of slices above, we wrote an <strong>Append</strong> function. We
-can define it as a method on slices instead. To do this, we first
-declare a named type to which we can bind the method, and then make the
-receiver for the method a value of that type.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ByteSize</span></code> で見たように、メソッドはポインターとインターフェースを除く、名前付きの型に定義することができます。構造体である必要はありません。</p>
+<p>上記のスライスの説明では独自のAppend関数を実装しました。スライスのメソッドとして定義することができます。それにはまず、メソッドを紐付ける型に名前を宣言する必要があります。次にメソッドのレシーバーをその名前をつけた型にします。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="nx">ByteSlice</span> <span class="p">[]</span><span class="kt">byte</span>
 
 <span class="kd">func</span> <span class="p">(</span><span class="nx">slice</span> <span class="nx">ByteSlice</span><span class="p">)</span> <span class="nx">Append</span><span class="p">(</span><span class="nx">data</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">[]</span><span class="kt">byte</span> <span class="p">{</span>
@@ -1050,10 +1045,7 @@ receiver for the method a value of that type.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This still requires the method to return the updated slice. We can
-eliminate that clumsiness by redefining the method to take a <em>pointer</em>
-to a <strong>ByteSlice</strong> as its receiver, so the method can overwrite the
-caller's slice.</p>
+<p>この場合でもメソッドは更新したスライスを返す必要があります。レシーバーとして型のポインターを取得するようにメソッドを定義しておけば、スライスを返すことなく、引数のスライスを上書きすることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ByteSlice</span><span class="p">)</span> <span class="nx">Append</span><span class="p">(</span><span class="nx">data</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">slice</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">p</span>
     <span class="c1">// Body as above, without the return.</span>
@@ -1061,8 +1053,7 @@ caller's slice.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>In fact, we can do even better. If we modify our function so it looks
-like a standard <strong>Write</strong> method, like this,</p>
+<p>実際、もっと改善することができます。以下のように、標準ライブラリの <code class="docutils literal notranslate"><span class="pre">Write</span></code> メソッドのように書きかえることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="p">(</span><span class="nx">p</span> <span class="o">*</span><span class="nx">ByteSlice</span><span class="p">)</span> <span class="nx">Write</span><span class="p">(</span><span class="nx">data</span> <span class="p">[]</span><span class="kt">byte</span><span class="p">)</span> <span class="p">(</span><span class="nx">n</span> <span class="kt">int</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">slice</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">p</span>
     <span class="c1">// Again as above.</span>
@@ -1071,31 +1062,18 @@ like a standard <strong>Write</strong> method, like this,</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>then the type <strong>*ByteSlice</strong> satisfies the standard interface
-<strong>io.Writer</strong>, which is handy. For instance, we can print into one.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ByteSlice</span></code> 型は標準ライブラリである <code class="docutils literal notranslate"><span class="pre">io.Write</span></code> を満たします。これは便利です。例えば以下のように出力することができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">b</span> <span class="nx">ByteSlice</span>
 <span class="nx">fmt</span><span class="p">.</span><span class="nx">Fprintf</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">b</span><span class="p">,</span> <span class="s">&quot;This hour has %d days\n&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>We pass the address of a <strong>ByteSlice</strong> because only <strong>*ByteSlice</strong>
-satisfies <strong>io.Writer</strong>. The rule about pointers vs. values for
-receivers is that value methods can be invoked on pointers and values,
-but pointer methods can only be invoked on pointers.</p>
-<p>This rule arises because pointer methods can modify the receiver;
-invoking them on a value would cause the method to receive a copy of the
-value, so any modifications would be discarded. The language therefore
-disallows this mistake. There is a handy exception, though. When the
-value is addressable, the language takes care of the common case of
-invoking a pointer method on a value by inserting the address operator
-automatically. In our example, the variable <strong>b</strong> is addressable, so we
-can call its <strong>Write</strong> method with just <strong>b.Write</strong>. The compiler will
-rewrite that to <strong>(&amp;b).Write</strong> for us.</p>
-<p>By the way, the idea of using <strong>Write</strong> on a slice of bytes is central
-to the implementation of <strong>bytes.Buffer</strong>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">ByteSlice</span></code> のアドレスを関数に渡すことができます。これは <code class="docutils literal notranslate"><span class="pre">*ByteSlice</span></code>  型が <code class="docutils literal notranslate"><span class="pre">io.Writer</span></code> インターフェースを満たすためです。ポインタと値に関する規約として、ポインタと値型に対して値のメソッドを呼び出すことができます。ポインタメソッドはポインタのメソッドのみを呼び出すことができます。</p>
+<p>この規約はポインターメソッドがレシーバを変更できるために発生します。値として呼び出されると、メソッドは引数のコピーを取得します。よって関数内での変更は破棄されます。言語はこの間違えを許可しません。ただし便利な例外として、変数がメソッドを呼び出す場合に、変数の値がアドレス可能である場合、言語がアドレス演算子を自動的に挿入することによって、値に対してポインタメソッドを呼び出すことができます。上記の例では、変数 <code class="docutils literal notranslate"><span class="pre">b</span></code> はアドレス可能であるため、 <code class="docutils literal notranslate"><span class="pre">b.Write</span></code> をするだけで、 <code class="docutils literal notranslate"><span class="pre">Write</span></code> メソッドを呼び出すことができます。コンパイラは <code class="docutils literal notranslate"><span class="pre">b</span></code> を <code class="docutils literal notranslate"><span class="pre">*b</span></code> に変換します。</p>
+<p>余談ですが、 byte のスライスで <code class="docutils literal notranslate"><span class="pre">Write</span></code> を使用する考え方は、 <code class="docutils literal notranslate"><span class="pre">bytes.Buffer</span></code> の実装の中心的なところです。</p>
 </div>
 </div>
-<div class="section" id="interfaces-and-types">
-<span id="id36"></span><h2>インターフェースとその他の型<a class="headerlink" href="#interfaces-and-types" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="id36">
+<h2>インターフェースとその他の型<a class="headerlink" href="#id36" title="このヘッドラインへのパーマリンク">¶</a></h2>
 <div class="section" id="id37">
 <h3>インターフェース<a class="headerlink" href="#id37" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>Goのインターフェイスは、オブジェクトの振る舞いを提供します。このセクションではインタフェースにより実現できることすべてを説明します。すでにいくつかの簡単な例を見てきました。カスタムの出力はStringメソッドで実装できますが、FprintfはWriteメソッドであらゆるものに出力できます。1つまたは2つのメソッドのみを持つインターフェイスはGoコードでは一般的であり、通常は、Writeを実装するio.Writerなど、メソッドから派生した名前が付けられます。</p>
@@ -2198,7 +2176,7 @@ exercise for the reader.</p>
 <li><a class="reference internal" href="#id35">ポインター vs 値</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#interfaces-and-types">インターフェースとその他の型</a><ul>
+<li><a class="reference internal" href="#id36">インターフェースとその他の型</a><ul>
 <li><a class="reference internal" href="#id37">インターフェース</a></li>
 <li><a class="reference internal" href="#id38">変換</a></li>
 <li><a class="reference internal" href="#id39">インターフェースの変換と型アサーション</a></li>
@@ -2246,11 +2224,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 22592</li>
-            <li>非アスキー: 24609</li>
-            <li>合計文字数: 47201</li>
-            <li>半角換算: 71810</li>
-            <li>全角換算: 35905.0</li>
+            <li>英数記号: 20950</li>
+            <li>非アスキー: 25394</li>
+            <li>合計文字数: 46344</li>
+            <li>半角換算: 71738</li>
+            <li>全角換算: 35869.0</li>
         </ul>
     </p>
 </div>
