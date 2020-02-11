@@ -7,12 +7,12 @@
     <title>Effective Go &#8212; Effective Go  ドキュメント</title>
     <link rel="stylesheet" href="../_static/traditional.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/language_data.js"></script>
+    <script src="../_static/translations.js"></script>
     <link rel="index" title="索引" href="../genindex.html" />
     <link rel="search" title="検索" href="../search.html" />
     <link rel="prev" title="Effective Go" href="../index.html" /> 
@@ -1836,25 +1836,14 @@ bookkeeping.</p>
 </div>
 <div class="section" id="id59">
 <h2>エラー<a class="headerlink" href="#id59" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Library routines must often return some sort of error indication to the
-caller. As mentioned earlier, Go's multivalue return makes it easy to
-return a detailed error description alongside the normal return value.
-It is good style to use this feature to provide detailed error
-information. For example, as we'll see, <strong>os.Open</strong> doesn't just return
-a <strong>nil</strong> pointer on failure, it also returns an error value that
-describes what went wrong.</p>
-<p>By convention, errors have type <strong>error</strong>, a simple built-in interface.</p>
+<p>多くの場合、ライブラリルーチンは、呼び出し元に何らかのエラー表示を返す必要があります。 前述のとおり、Goは複数の値を返すことができるため、通常の戻り値とともに詳細なエラーの説明を簡単に返すことができます。この特徴を使用して詳細なエラー情報を提供するのは良いスタイルです。 たとえば、後で説明するように、 <code class="docutils literal notranslate"><span class="pre">os.Open</span></code> は失敗した場合にnilポインターを返すだけでなく、エラーの内容を示すエラー値も返します。</p>
+<p>Goでは慣例としてエラーはシンプルなビルトインインターフェースである <code class="docutils literal notranslate"><span class="pre">error</span></code> インターフェース型を持つことになっています。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">type</span> <span class="kt">error</span> <span class="kd">interface</span> <span class="p">{</span>
     <span class="nx">Error</span><span class="p">()</span> <span class="kt">string</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>A library writer is free to implement this interface with a richer model
-under the covers, making it possible not only to see the error but also
-to provide some context. As mentioned, alongside the usual <strong>*os.File</strong>
-return value, <strong>os.Open</strong> also returns an error value. If the file is
-opened successfully, the error will be <strong>nil</strong>, but when there is a
-problem, it will hold an <strong>os.PathError</strong>:</p>
+<p>ライブラリの作成者は、このインターフェースをより情報に富んだモデルを用いて、自由に実装できます。エラーを確認できるだけでなく、コンテキストを提供することもできます。前述のように、通常の <code class="docutils literal notranslate"><span class="pre">*os.File</span></code> の戻り値とともに <code class="docutils literal notranslate"><span class="pre">os.Open</span></code> はエラー値も返します。ファイルが正常に開かれた場合、エラーは <code class="docutils literal notranslate"><span class="pre">nil</span></code> になりますが、問題がある場合は <code class="docutils literal notranslate"><span class="pre">os.PathError</span></code> を保持します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// PathError records an error and the operation and</span>
 <span class="c1">// file path that caused it.</span>
 <span class="kd">type</span> <span class="nx">PathError</span> <span class="kd">struct</span> <span class="p">{</span>
@@ -1868,22 +1857,13 @@ problem, it will hold an <strong>os.PathError</strong>:</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p><strong>PathError</strong>'s <strong>Error</strong> generates a string like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">PathError</span></code> の <code class="docutils literal notranslate"><span class="pre">Error</span></code> は、次のような文字列を生成します。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="nx">open</span> <span class="o">/</span><span class="nx">etc</span><span class="o">/</span><span class="nx">passwx</span><span class="p">:</span> <span class="nx">no</span> <span class="nx">such</span> <span class="nx">file</span> <span class="nx">or</span> <span class="nx">directory</span>
 </pre></div>
 </div>
-<p>Such an error, which includes the problematic file name, the operation,
-and the operating system error it triggered, is useful even if printed
-far from the call that caused it; it is much more informative than the
-plain &quot;no such file or directory&quot;.</p>
-<p>When feasible, error strings should identify their origin, such as by
-having a prefix naming the operation or package that generated the
-error. For example, in package <strong>image</strong>, the string representation for
-a decoding error due to an unknown format is &quot;image: unknown format&quot;.</p>
-<p>Callers that care about the precise error details can use a type switch
-or a type assertion to look for specific errors and extract details. For
-<strong>PathErrors</strong> this might include examining the internal <strong>Err</strong> field
-for recoverable failures.</p>
+<p>呼び出された問題のあるファイル名、操作、およびオペレーティングシステムエラーを含むこのようなエラーは、ライブラリのエラーが発生した場所から関係の薄い場所から呼び出されて表示された場合でも有益です。単純な「 <code class="docutils literal notranslate"><span class="pre">no</span> <span class="pre">such</span> <span class="pre">file</span> <span class="pre">or</span> <span class="pre">directory</span></code> 」よりもはるかに有益です。</p>
+<p>できるかぎり、エラーの文字列は、その発生元を識別する必要があるため、エラーを引き起こした操作またはパッケージにプレフィックスを付けるなどをすることを推奨します。たとえば、<code class="docutils literal notranslate"><span class="pre">image</span></code> パッケージでは、不明な形式によるデコードエラーを表す文字列は「 <code class="docutils literal notranslate"><span class="pre">image：</span> <span class="pre">unknown</span> <span class="pre">format</span></code> 」です。</p>
+<p>呼び出し元から、エラーの詳細を詳しく知りたい場合は、型スイッチまたは型アサーションを使用して、特定のエラーを探し、詳細を抽出できます。 <code class="docutils literal notranslate"><span class="pre">PathErrors</span></code> の場合、エラーから回復するために内部の <code class="docutils literal notranslate"><span class="pre">Err</span></code> フィールドを調べることができます。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="nx">try</span> <span class="o">:=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">try</span> <span class="p">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">try</span><span class="o">++</span> <span class="p">{</span>
     <span class="nx">file</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Create</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
     <span class="k">if</span> <span class="nx">err</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
@@ -1897,11 +1877,7 @@ for recoverable failures.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>The second <strong>if</strong> statement here is another <a class="reference external" href="#interface_conversions">type
-assertion</a>. If it fails, <strong>ok</strong> will be
-false, and <strong>e</strong> will be <strong>nil</strong>. If it succeeds, <strong>ok</strong> will be true,
-which means the error was of type <strong>*os.PathError</strong>, and then so is
-<strong>e</strong>, which we can examine for more information about the error.</p>
+<p>ここの2番目の <code class="docutils literal notranslate"><span class="pre">if</span></code> ステートメントは別の型アサーションです。 失敗した場合 <code class="docutils literal notranslate"><span class="pre">ok</span></code> は <code class="docutils literal notranslate"><span class="pre">false</span></code> になり、<code class="docutils literal notranslate"><span class="pre">e</span></code> は <code class="docutils literal notranslate"><span class="pre">nil</span></code> になります。 成功した場合、 <code class="docutils literal notranslate"><span class="pre">ok</span></code> は <code class="docutils literal notranslate"><span class="pre">true</span></code> になります。これは、エラーのタイプが <code class="docutils literal notranslate"><span class="pre">*os.PathError</span></code> であったことを意味し、続いて <code class="docutils literal notranslate"><span class="pre">e</span></code> もエラーの詳細について調べることができます。</p>
 <div class="section" id="panic">
 <h3>Panic<a class="headerlink" href="#panic" title="このヘッドラインへのパーマリンク">¶</a></h3>
 <p>The usual way to report an error to a caller is to return an <strong>error</strong>
@@ -2224,11 +2200,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 20950</li>
-            <li>非アスキー: 25394</li>
-            <li>合計文字数: 46344</li>
-            <li>半角換算: 71738</li>
-            <li>全角換算: 35869.0</li>
+            <li>英数記号: 19209</li>
+            <li>非アスキー: 26252</li>
+            <li>合計文字数: 45461</li>
+            <li>半角換算: 71713</li>
+            <li>全角換算: 35856.5</li>
         </ul>
     </p>
 </div>
@@ -2241,7 +2217,7 @@ exercise for the reader.</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -2260,7 +2236,7 @@ exercise for the reader.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, d-tsuji.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1 で生成しました。
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.1 で生成しました。
     </div>
   </body>
 </html>

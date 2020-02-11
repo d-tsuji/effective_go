@@ -2223,15 +2223,9 @@ bookkeeping.
 エラー
 ------
 
-Library routines must often return some sort of error indication to the
-caller. As mentioned earlier, Go's multivalue return makes it easy to
-return a detailed error description alongside the normal return value.
-It is good style to use this feature to provide detailed error
-information. For example, as we'll see, **os.Open** doesn't just return
-a **nil** pointer on failure, it also returns an error value that
-describes what went wrong.
+多くの場合、ライブラリルーチンは、呼び出し元に何らかのエラー表示を返す必要があります。 前述のとおり、Goは複数の値を返すことができるため、通常の戻り値とともに詳細なエラーの説明を簡単に返すことができます。この特徴を使用して詳細なエラー情報を提供するのは良いスタイルです。 たとえば、後で説明するように、 ``os.Open`` は失敗した場合にnilポインターを返すだけでなく、エラーの内容を示すエラー値も返します。
 
-By convention, errors have type **error**, a simple built-in interface.
+Goでは慣例としてエラーはシンプルなビルトインインターフェースである ``error`` インターフェース型を持つことになっています。
 
 .. code-block:: go
 
@@ -2239,12 +2233,7 @@ By convention, errors have type **error**, a simple built-in interface.
        Error() string
    }
 
-A library writer is free to implement this interface with a richer model
-under the covers, making it possible not only to see the error but also
-to provide some context. As mentioned, alongside the usual ***os.File**
-return value, **os.Open** also returns an error value. If the file is
-opened successfully, the error will be **nil**, but when there is a
-problem, it will hold an **os.PathError**:
+ライブラリの作成者は、このインターフェースをより情報に富んだモデルを用いて、自由に実装できます。エラーを確認できるだけでなく、コンテキストを提供することもできます。前述のように、通常の ``*os.File`` の戻り値とともに ``os.Open`` はエラー値も返します。ファイルが正常に開かれた場合、エラーは ``nil`` になりますが、問題がある場合は ``os.PathError`` を保持します。
 
 .. code-block:: go
 
@@ -2260,26 +2249,17 @@ problem, it will hold an **os.PathError**:
        return e.Op + " " + e.Path + ": " + e.Err.Error()
    }
 
-**PathError**'s **Error** generates a string like this:
+``PathError`` の ``Error`` は、次のような文字列を生成します。
 
 .. code-block:: go
 
    open /etc/passwx: no such file or directory
 
-Such an error, which includes the problematic file name, the operation,
-and the operating system error it triggered, is useful even if printed
-far from the call that caused it; it is much more informative than the
-plain "no such file or directory".
+呼び出された問題のあるファイル名、操作、およびオペレーティングシステムエラーを含むこのようなエラーは、ライブラリのエラーが発生した場所から関係の薄い場所から呼び出されて表示された場合でも有益です。単純な「 ``no such file or directory`` 」よりもはるかに有益です。
 
-When feasible, error strings should identify their origin, such as by
-having a prefix naming the operation or package that generated the
-error. For example, in package **image**, the string representation for
-a decoding error due to an unknown format is "image: unknown format".
+できるかぎり、エラーの文字列は、その発生元を識別する必要があるため、エラーを引き起こした操作またはパッケージにプレフィックスを付けるなどをすることを推奨します。たとえば、``image`` パッケージでは、不明な形式によるデコードエラーを表す文字列は「 ``image： unknown format`` 」です。
 
-Callers that care about the precise error details can use a type switch
-or a type assertion to look for specific errors and extract details. For
-**PathErrors** this might include examining the internal **Err** field
-for recoverable failures.
+呼び出し元から、エラーの詳細を詳しく知りたい場合は、型スイッチまたは型アサーションを使用して、特定のエラーを探し、詳細を抽出できます。 ``PathErrors`` の場合、エラーから回復するために内部の ``Err`` フィールドを調べることができます。
 
 .. code-block:: go
 
@@ -2295,11 +2275,7 @@ for recoverable failures.
        return
    }
 
-The second **if** statement here is another `type
-assertion <#interface_conversions>`__. If it fails, **ok** will be
-false, and **e** will be **nil**. If it succeeds, **ok** will be true,
-which means the error was of type ***os.PathError**, and then so is
-**e**, which we can examine for more information about the error.
+ここの2番目の ``if`` ステートメントは別の型アサーションです。 失敗した場合 ``ok`` は ``false`` になり、``e`` は ``nil`` になります。 成功した場合、 ``ok`` は ``true`` になります。これは、エラーのタイプが ``*os.PathError`` であったことを意味し、続いて ``e`` もエラーの詳細について調べることができます。
 
 Panic
 ~~~~~
