@@ -232,7 +232,7 @@ Cのように、Goの形式的な文法ではセミコロンを使用してス�
 制御構造(Control structures)
 --------------------------------------------------------------------
 
-Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型スイッチや多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
+Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型 ``switch``や多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
 
 If
 ~~
@@ -364,12 +364,7 @@ GoのforループはCに似ていますが、同じではありません。Go言
 
 `ブランク識別子 <#blank>`_ には、後のセクションで説明するように、多くの用途があります。
 
-For strings, the **range** does more work for you, breaking out
-individual Unicode code points by parsing the UTF-8. Erroneous encodings
-consume one byte and produce the replacement rune U+FFFD. (The name
-(with associated builtin type) **rune** is Go terminology for a single
-Unicode code point. See `the language
-specification </ref/spec#Rune_literals>`__ for details.) The loop
+文字列を扱うときの ``range`` はより高機能で、UTF-8をパースすることで各文字のユニコードのコードポイントを取り出します。誤ったエンコーディングは1バイトを消費し、置換ルーン ``U+FFFD`` を生成します。Goの組み込み型である **rune** は単一のユニコードのコードポイントを示すGoの用語です。詳細については、言語仕様を参照してください。
 
 .. code-block:: go
 
@@ -377,7 +372,7 @@ specification </ref/spec#Rune_literals>`__ for details.) The loop
        fmt.Printf("character %#U starts at byte position %d\n", char, pos)
    }
 
-prints
+以下のように表示します。
 
 .. code-block:: go
 
@@ -386,10 +381,7 @@ prints
    character U+FFFD '�' starts at byte position 6
    character U+8A9E '語' starts at byte position 7
 
-Finally, Go has no comma operator and **++** and **--** are statements
-not expressions. Thus if you want to run multiple variables in a **for**
-you should use parallel assignment (although that precludes **++** and
-**--**).
+最後に、Goにはコンマ演算子がなく、 ``++`` および ``--`` は式ではなくステートメントです。したがって、forで複数の変数を実行する場合は、並列代入を使用する必要があります（ただし、++および--は除外されます）。
 
 .. code-block:: go
 
@@ -401,11 +393,7 @@ you should use parallel assignment (although that precludes **++** and
 Switch
 ~~~~~~
 
-Go's **switch** is more general than C's. The expressions need not be
-constants or even integers, the cases are evaluated top to bottom until
-a match is found, and if the **switch** has no expression it switches on
-**true**. It's therefore possible—and idiomatic—to write an
-**if**-**else**-**if**-**else** chain as a **switch**.
+Goの ``switch`` はCの ``switch`` よりも一般的です。式は定数または整数である必要はなく、一致するものが見つかるまでケースは上から下に評価していきます。 ``switch`` に式がない場合はtrueとなるケースにマッチします。したがって、if-else-if-elseチェーンを ``switch`` として記述することができます。そして慣用的な書き方です。
 
 .. code-block:: go
 
@@ -421,6 +409,8 @@ a match is found, and if the **switch** has no expression it switches on
        return 0
    }
 
+自動フォールスルーはありませんが、コンマ区切りのリストで複数のケースを示すことができます。
+
 There is no automatic fall through, but cases can be presented in
 comma-separated lists.
 
@@ -434,12 +424,7 @@ comma-separated lists.
        return false
    }
 
-Although they are not nearly as common in Go as some other C-like
-languages, **break** statements can be used to terminate a **switch**
-early. Sometimes, though, it's necessary to break out of a surrounding
-loop, not the switch, and in Go that can be accomplished by putting a
-label on the loop and "breaking" to that label. This example shows both
-uses.
+breakステートメントを使用してスイッチを早期に終了できます。ただし、Goでは他のCライクな言語ほど一般的ではありません。場合によっては、 ``switch`` を用いずに周辺のループから抜け出す必要があります。Goでは、ループにラベルを付けて、そのラベルを ``break`` することで実現できます。 以下の例は、両方の使用法を示しています。
 
 .. code-block:: go
 
@@ -466,11 +451,9 @@ uses.
            }
        }
 
-Of course, the **continue** statement also accepts an optional label but
-it applies only to loops.
+もちろん ``continue`` ステートメントはオプションのラベルも受け入れますが、ループにのみ適用されます。
 
-To close this section, here's a comparison routine for byte slices that
-uses two **switch** statements:
+最後に、2つの ``switch`` ステートメントを使用するバイトスライスの比較ルーチンを次に示します。
 
 .. code-block:: go
 
@@ -497,16 +480,10 @@ uses two **switch** statements:
 
 .. _type_switch:
 
-Type switch
+型の switch
 ~~~~~~~~~~~~~~~~~~~
 
-A switch can also be used to discover the dynamic type of an interface
-variable. Such a *type switch* uses the syntax of a type assertion with
-the keyword **type** inside the parentheses. If the switch declares a
-variable in the expression, the variable will have the corresponding
-type in each clause. It's also idiomatic to reuse the name in such
-cases, in effect declaring a new variable with the same name but a
-different type in each case.
+``switch`` を使用して、インターフェイス変数の動的な型を検出することもできます。 このような型 ``switch`` は、カッコ内にキーワードタイプを持つ型アサーションの構文を使用します。 ``switch`` が式で変数を宣言する場合、変数は各句で対応する型を持ちます。また、このような場合に名前を再利用することも慣習的であり、事実上、それぞれの場合に同じ名前で異なる型の新しい変数を宣言します。
 
 .. code-block:: go
 
@@ -1278,14 +1255,9 @@ init関数
 ポインター vs 値
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As we saw with **ByteSize**, methods can be defined for any named type
-(except a pointer or an interface); the receiver does not have to be a
-struct.
+``ByteSize`` で見たように、メソッドはポインターとインターフェースを除く、名前付きの型に定義することができます。構造体である必要はありません。
 
-In the discussion of slices above, we wrote an **Append** function. We
-can define it as a method on slices instead. To do this, we first
-declare a named type to which we can bind the method, and then make the
-receiver for the method a value of that type.
+上記のスライスの説明では独自のAppend関数を実装しました。スライスのメソッドとして定義することができます。それにはまず、メソッドを紐付ける型に名前を宣言する必要があります。次にメソッドのレシーバーをその名前をつけた型にします。
 
 .. code-block:: go
 
@@ -1295,10 +1267,7 @@ receiver for the method a value of that type.
        // Body exactly the same as the Append function defined above.
    }
 
-This still requires the method to return the updated slice. We can
-eliminate that clumsiness by redefining the method to take a *pointer*
-to a **ByteSlice** as its receiver, so the method can overwrite the
-caller's slice.
+この場合でもメソッドは更新したスライスを返す必要があります。レシーバーとして型のポインターを取得するようにメソッドを定義しておけば、スライスを返すことなく、引数のスライスを上書きすることができます。
 
 .. code-block:: go
 
@@ -1308,8 +1277,7 @@ caller's slice.
        *p = slice
    }
 
-In fact, we can do even better. If we modify our function so it looks
-like a standard **Write** method, like this,
+実際、もっと改善することができます。以下のように、標準ライブラリの ``Write`` メソッドのように書きかえることができます。
 
 .. code-block:: go
 
@@ -1320,33 +1288,18 @@ like a standard **Write** method, like this,
        return len(data), nil
    }
 
-then the type ***ByteSlice** satisfies the standard interface
-**io.Writer**, which is handy. For instance, we can print into one.
+``ByteSlice`` 型は標準ライブラリである ``io.Write`` を満たします。これは便利です。例えば以下のように出力することができます。
 
 .. code-block:: go
 
        var b ByteSlice
        fmt.Fprintf(&b, "This hour has %d days\n", 7)
 
-We pass the address of a **ByteSlice** because only ***ByteSlice**
-satisfies **io.Writer**. The rule about pointers vs. values for
-receivers is that value methods can be invoked on pointers and values,
-but pointer methods can only be invoked on pointers.
+``ByteSlice`` のアドレスを関数に渡すことができます。これは ``*ByteSlice``  型が ``io.Writer`` インターフェースを満たすためです。ポインタと値に関する規約として、ポインタと値型に対して値のメソッドを呼び出すことができます。ポインタメソッドはポインタのメソッドのみを呼び出すことができます。
 
-This rule arises because pointer methods can modify the receiver;
-invoking them on a value would cause the method to receive a copy of the
-value, so any modifications would be discarded. The language therefore
-disallows this mistake. There is a handy exception, though. When the
-value is addressable, the language takes care of the common case of
-invoking a pointer method on a value by inserting the address operator
-automatically. In our example, the variable **b** is addressable, so we
-can call its **Write** method with just **b.Write**. The compiler will
-rewrite that to **(&b).Write** for us.
+この規約はポインターメソッドがレシーバを変更できるために発生します。値として呼び出されると、メソッドは引数のコピーを取得します。よって関数内での変更は破棄されます。言語はこの間違えを許可しません。ただし便利な例外として、変数がメソッドを呼び出す場合に、変数の値がアドレス可能である場合、言語がアドレス演算子を自動的に挿入することによって、値に対してポインタメソッドを呼び出すことができます。上記の例では、変数 ``b`` はアドレス可能であるため、 ``b.Write`` をするだけで、 ``Write`` メソッドを呼び出すことができます。コンパイラは ``b`` を ``*b`` に変換します。
 
-By the way, the idea of using **Write** on a slice of bytes is central
-to the implementation of **bytes.Buffer**.
-
-.. _interfaces_and_types:
+余談ですが、 byte のスライスで ``Write`` を使用する考え方は、 ``bytes.Buffer`` の実装の中心的なところです。
 
 インターフェースとその他の型
 --------------------------------------------------
@@ -1423,16 +1376,10 @@ SequenceのStringメソッドは、Sprintがスライスに対してすでに行
 
 現在、Sequenceに複数のインターフェイス(ソートとプリント)を実装する代わりに、データ項目の機能を使用して、複数の型(Sequence、sort.IntSlice、[]int)に変換します。これは実際にはほとんどありませんが、効果的です。
 
-Interface conversions and type assertions
+インターフェースの変換と型アサーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-`Type switches <#type_switch>`__ are a form of conversion: they take an
-interface and, for each case in the switch, in a sense convert it to the
-type of that case. Here's a simplified version of how the code under
-**fmt.Printf** turns a value into a string using a type switch. If it's
-already a string, we want the actual string value held by the interface,
-while if it has a **String** method we want the result of calling the
-method.
+型 ``switch``は変換の形式です。 ``switch``はインターフェイスを取得し、 ``switch``の各ケースについて、ある意味でそのケースの型に変換します。 以下は ``fmt.Printf`` の内部で、型 ``switch``を使用して値を文字列に変換する方法の簡易的な実装です。 すでに string である場合は、インターフェイスが保持する実際の文字列の値が必要です。一方、String() メソッドがある場合は、メソッドを呼び出した結果が必要です。
 
 .. code-block:: go
 
@@ -1448,32 +1395,19 @@ method.
        return str.String()
    }
 
-The first case finds a concrete value; the second converts the interface
-into another interface. It's perfectly fine to mix types this way.
-
-What if there's only one type we care about? If we know the value holds
-a **string** and we just want to extract it? A one-case type switch
-would do, but so would a *type assertion*. A type assertion takes an
-interface value and extracts from it a value of the specified explicit
-type. The syntax borrows from the clause opening a type switch, but with
-an explicit type rather than the **type** keyword:
+最初の ``case`` は具体的な string の値を見つけます。 2番目は、インターフェイスを別のインターフェイスに変換します。このように型をまぜこぜにすることはまったく問題ありません。
 
 .. code-block:: go
 
    value.(typeName)
 
-and the result is a new value with the static type **typeName**. That
-type must either be the concrete type held by the interface, or a second
-interface type that the value can be converted to. To extract the string
-we know is in the value, we could write:
+結果は、静的な型 ``typeName`` を持つ新しい値です。その型は、インターフェイスが保持する具象型か、値を変換できるインターフェイス型でなければなりません。値に含まれていることがわかっている文字列を抽出するには、次のように記述できます。
 
 .. code-block:: go
 
    str := value.(string)
 
-But if it turns out that the value does not contain a string, the
-program will crash with a run-time error. To guard against that, use the
-"comma, ok" idiom to test, safely, whether the value is a string:
+しかし、値に文字列が含まれていないことが判明した場合、プログラムは実行時エラーでクラッシュします。これを防ぐには、 ``、ok`` というイディオムを使用して、値が文字列かどうかを安全に確認します。
 
 .. code-block:: go
 
@@ -1484,11 +1418,9 @@ program will crash with a run-time error. To guard against that, use the
        fmt.Printf("value is not a string\n")
    }
 
-If the type assertion fails, **str** will still exist and be of type
-string, but it will have the zero value, an empty string.
+型のアサーションが失敗した場合 ``str`` はゼロ値の string 型です。つまり空の文字列になります。
 
-As an illustration of the capability, here's an **if**-**else**
-statement that's equivalent to the type switch that opened this section.
+上記の型変換の例として、このセクションで説明した型 ``switch``に相当する ``if-else`` ステートメントを次に示します。
 
 .. code-block:: go
 
@@ -1498,33 +1430,18 @@ statement that's equivalent to the type switch that opened this section.
        return str.String()
    }
 
-Generality
+概説
 ~~~~~~~~~~~~~~~~~~
 
-If a type exists only to implement an interface and will never have
-exported methods beyond that interface, there is no need to export the
-type itself. Exporting just the interface makes it clear the value has
-no interesting behavior beyond what is described in the interface. It
-also avoids the need to repeat the documentation on every instance of a
-common method.
+インターフェースを実装するためだけに型が存在し、そのインターフェースを超えてメソッドを公開する必要がない場合、型自体を公開する必要はありません。インターフェースのみを公開すると、値がインターフェースで説明されている以上の興味深い動作を持たないことが明確になります。また、共通メソッドのすべてのインスタンスでドキュメントを繰り返す必要がなくなります。
 
-In such cases, the constructor should return an interface value rather
-than the implementing type. As an example, in the hash libraries both
-**crc32.NewIEEE** and **adler32.New** return the interface type
-**hash.Hash32**. Substituting the CRC-32 algorithm for Adler-32 in a Go
-program requires only changing the constructor call; the rest of the
-code is unaffected by the change of algorithm.
+このような場合、コンストラクターは具象型ではなくインターフェイス値を返す必要があります。例として、ハッシュライブラリでは ``crc32.NewIEEE`` と ``adler32.New`` の両方がインターフェイス型 ``hash.Hash32`` を返します。 Goプログラムで ``Adler-32`` を ``CRC-32`` アルゴリズムに置き換えるには、コンストラクター呼び出しを変更するだけです。 残りのコードは、アルゴリズムの変更による影響を受けません。
 
-A similar approach allows the streaming cipher algorithms in the various
-**crypto** packages to be separated from the block ciphers they chain
-together. The **Block** interface in the **crypto/cipher** package
-specifies the behavior of a block cipher, which provides encryption of a
-single block of data. Then, by analogy with the **bufio** package,
-cipher packages that implement this interface can be used to construct
-streaming ciphers, represented by the **Stream** interface, without
-knowing the details of the block encryption.
+同様のアプローチにより、さまざまな ``crypto`` パッケージのストリーミング暗号化アルゴリズムを、一連の暗号化されたブロック暗号から分離できます。 ``crypto/cipher`` パッケージのブロックインターフェイスは、ブロック暗号の動作を指定します。ブロック暗号は、単一のデータブロックの暗号化を提供します。 次に、bufioパッケージと同様に、このインターフェイスを実装する暗号パッケージを使用して、ブロック暗号化の詳細を知らなくても、Streamインターフェイスで表されるストリーミング暗号を構築できます。
 
-The **crypto/cipher** interfaces look like this:
+.. todo:: 英語がよくわからない
+
+下は ``crypto/cipher`` 内のインタフェースです。
 
 .. code-block:: go
 
@@ -1538,9 +1455,7 @@ The **crypto/cipher** interfaces look like this:
        XORKeyStream(dst, src []byte)
    }
 
-Here's the definition of the counter mode (CTR) stream, which turns a
-block cipher into a streaming cipher; notice that the block cipher's
-details are abstracted away:
+次に、ブロック暗号をストリーミング暗号に変換するカウンターモード(CTR)ストリームの定義を示します。ブロック暗号の詳細が抽象化されていることに注意してください。
 
 .. code-block:: go
 
@@ -1548,14 +1463,7 @@ details are abstracted away:
    // counter mode. The length of iv must be the same as the Block's block size.
    func NewCTR(block Block, iv []byte) Stream
 
-**NewCTR** applies not just to one specific encryption algorithm and
-data source but to any implementation of the **Block** interface and any
-**Stream**. Because they return interface values, replacing CTR
-encryption with other encryption modes is a localized change. The
-constructor calls must be edited, but because the surrounding code must
-treat the result only as a **Stream**, it won't notice the difference.
-
-.. _interface_methods:
+NewCTRは、1つの特定の暗号化アルゴリズムとデータソースだけでなく、BlockインターフェイスとStreamの実装にも適用されます。 インターフェイス値を返すため、CTR暗号化を他の暗号化モードに置き換えることは局所的な変更です。 コンストラクターの呼び出しは修正する必要がありますが、周囲のコードは結果をストリームとしてのみ処理する必要があるため、違いに気付かないでしょう。
 
 インターフェースとメソッド
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1665,29 +1573,12 @@ ArgServerは **HandlerFunc** と同じシグネチャを持つようになった
 ブランク識別子
 ------------------------------------
 
-We've mentioned the blank identifier a couple of times now, in the
-context of **`for** **range** loops <#for>`__ and `maps <#maps>`__. The
-blank identifier can be assigned or declared with any value of any type,
-with the value discarded harmlessly. It's a bit like writing to the Unix
-**/dev/null** file: it represents a write-only value to be used as a
-place-holder where a variable is needed but the actual value is
-irrelevant. It has uses beyond those we've seen already.
+ブランク識別子については、 ``for`` の ``range`` ループや ``map`` で何度か言及しました。ブランク識別子は型の値に関係なく、使うことができます。問題なく値は破棄されます。Unixの ``/dev/null`` への書き込みに似ています。書き込みが必要な値のプレースホルダーとして扱われます。実際の値は関係ありません。すでに見てきた以上に使われます。
 
-.. _blank_assign:
-
-The blank identifier in multiple assignment
+いろいろな場所におけるブランク識別子
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The use of a blank identifier in a **for** **range** loop is a special
-case of a general situation: multiple assignment.
-
-If an assignment requires multiple values on the left side, but one of
-the values will not be used by the program, a blank identifier on the
-left-hand-side of the assignment avoids the need to create a dummy
-variable and makes it clear that the value is to be discarded. For
-instance, when calling a function that returns a value and an error, but
-only the error is important, use the blank identifier to discard the
-irrelevant value.
+``for range`` ループの中でのブランク識別子の用途は、ブランク識別子の特殊なケースです。複数の値が返却される場合において、一方の値のみしかプログラム中で使用しない場合、ブランク識別子を宣言することによって、ダミーの変数を作成する必要がなくなります。値は破棄されます。例えば、値とエラーを返すが、エラーのみが重要な場合、ブランク識別子を使用して、必要のない値を破棄します。
 
 .. code-block:: go
 
@@ -1695,9 +1586,7 @@ irrelevant value.
        fmt.Printf("%s does not exist\n", path)
    }
 
-Occasionally you'll see code that discards the error value in order to
-ignore the error; this is terrible practice. Always check error returns;
-they're provided for a reason.
+エラーを無視するために、エラー値を破棄するコードを見かけるかもしれません。これはとても悪い習慣です。常に返ってくるエラーをチェックすべきです。エラーには理由があります。
 
 .. code-block:: go
 
@@ -1707,89 +1596,82 @@ they're provided for a reason.
        fmt.Printf("%s is a directory\n", path)
    }
 
-.. _blank_unused:
-
-Unused imports and variables
+未使用のインポートと変数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-It is an error to import a package or to declare a variable without
-using it. Unused imports bloat the program and slow compilation, while a
-variable that is initialized but not used is at least a wasted
-computation and perhaps indicative of a larger bug. When a program is
-under active development, however, unused imports and variables often
-arise and it can be annoying to delete them just to have the compilation
-proceed, only to have them be needed again later. The blank identifier
-provides a workaround.
+インポートしたパッケージや変数を使用せずに、宣言するとエラーになります。未使用のインポートはプログラムを肥大化させ、コンパイルを遅くします。一方、初期化されているが使用されていない変数は、少なくとも無駄な計算であり、大きなバグを示しているでしょう。 しかし、プログラムが活発に開発されている場合、未使用のインポートと変数が頻繁に発生し、コンパイルするために削除します。後で追加するのは面倒です。空白の識別子は回避策を提供します。
 
-This half-written program has two unused imports (**fmt** and **io**)
-and an unused variable (**fd**), so it will not compile, but it would be
-nice to see if the code so far is correct.
+以下の途中まで実装されているプログラムでは ``fmt`` と ``io`` という2つの未使用のインポートがあります。また、 ``fd`` という未使用の変数があります。そのためコンパイルできませんが、コードが正しいことを示すために良い方法があります。
 
-{{code "/doc/progs/eff_unused1.go" \`/package/\` \`$`}}
+.. code-block:: go
 
-To silence complaints about the unused imports, use a blank identifier
-to refer to a symbol from the imported package. Similarly, assigning the
-unused variable **fd** to the blank identifier will silence the unused
-variable error. This version of the program does compile.
+    package main
 
-{{code "/doc/progs/eff_unused2.go" \`/package/\` \`$`}}
+    import (
+        "fmt"
+        "io"
+        "log"
+        "os"
+    )
 
-By convention, the global declarations to silence import errors should
-come right after the imports and be commented, both to make them easy to
-find and as a reminder to clean things up later.
+    func main() {
+        fd, err := os.Open("test.go")
+        if err != nil {
+            log.Fatal(err)
+        }
+        // TODO: use fd.
+    }
 
-.. _blank_import:
+未使用のインポートの警告を抑えるために、ブランク識別子をインポートパッケージのシンボルにすることができます。同様に未使用の変数( ``fd`` )もブランク識別子を使うことで警告をコンパイルエラーを抑えることができます。そうすると、以下のようにコンパイルすることができます。
 
-Import for side effect
+.. code-block:: go
+
+    package main
+
+    import (
+        "fmt"
+        "io"
+        "log"
+        "os"
+    )
+
+    var _ = fmt.Printf // For debugging; delete when done.
+    var _ io.Reader    // For debugging; delete when done.
+
+    func main() {
+        fd, err := os.Open("test.go")
+        if err != nil {
+            log.Fatal(err)
+        }
+        // TODO: use fd.
+        _ = fd
+    }
+
+慣習により、インポートエラーを抑えるためのグローバル宣言はインポート文のすぐ後に記述します。これは、わかりやすするためであって、後ほど忘れずにきれいにすることを忘れずにするためです。
+
+インポートの副作用
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-An unused import like **fmt** or **io** in the previous example should
-eventually be used or removed: blank assignments identify code as a work
-in progress. But sometimes it is useful to import a package only for its
-side effects, without any explicit use. For example, during its **init**
-function, the **net/http/pprof** package registers HTTP handlers that
-provide debugging information. It has an exported API, but most clients
-need only the handler registration and access the data through a web
-page. To import the package only for its side effects, rename the
-package to the blank identifier:
+前の例の ``fmt`` や ``io`` などの未使用のインポートは、最終的に使用または削除する必要があります。ブランク識別子に割り当てたオブジェクトは、開発中のコードであると認識します。ただし、明示的な使用をせずに、副作用のみのためにパッケージをインポートすると便利な場合があります。たとえば、 ``net/http/pprof`` パッケージは、init関数の実行中に、デバッグ情報を提供するHTTPハンドラーを登録します。公開されているAPIがありますが、ほとんどのクライアントはハンドラーの登録とWebページへのアクセスを介したデバッグ情報へのアクセスのみを必要とします。副作用のためだけにパッケージをインポートするには、パッケージの名前をブランク識別子に変更します。
 
 .. code-block:: go
 
    import _ "net/http/pprof"
 
-This form of import makes clear that the package is being imported for
-its side effects, because there is no other possible use of the package:
-in this file, it doesn't have a name. (If it did, and we didn't use that
-name, the compiler would reject the program.)
+この形式のインポートは、パッケージがその副作用のためにインポートされていることを明確にします。これは、ソースコードの中でパッケージを使用することがないためです。(もし名前があって使用しなかった場合、コンパイルエラーになります。)
 
-.. _blank_implements:
-
-Interface checks
+インターフェースのチェック
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As we saw in the discussion of `interfaces <#interfaces_and_types>`__
-above, a type need not declare explicitly that it implements an
-interface. Instead, a type implements the interface just by implementing
-the interface's methods. In practice, most interface conversions are
-static and therefore checked at compile time. For example, passing an
-***os.File** to a function expecting an **io.Reader** will not compile
-unless ***os.File** implements the **io.Reader** interface.
+上記のインターフェイスの説明で見たように、型はインターフェイスを実装することを明示的に宣言する必要はありません。 代わりに、型はインターフェイスのメソッドを実装するだけでインターフェイスを実装します。 実際には、ほとんどのインターフェイスの変換は静的であるため、コンパイル時にチェックされます。 たとえば、io.Readerが必要な関数に ``*os.File`` を渡すと ``*os.File`` は ``io.Reader`` インターフェイスを実装しない限りコンパイルされません。
 
-Some interface checks do happen at run-time, though. One instance is in
-the **encoding/json** package, which defines a **Marshaler** interface.
-When the JSON encoder receives a value that implements that interface,
-the encoder invokes the value's marshaling method to convert it to JSON
-instead of doing the standard conversion. The encoder checks this
-property at run time with a `type assertion <#interface_conversions>`__
-like:
+ただし、一部のインターフェイスのチェックは実行時に行われます。1つのインスタンスは ``encoding/json`` パッケージです。Marshalerインターフェイスを定義します。JSONエンコーダーは、そのインターフェイスを実装する値を受け取ると、標準の変換を行う代わりに、値をマーシャルするメソッドを呼び出してJSONに変換します。エンコーダーは、実行時にこの変換をするために、次のような型アサーションでチェックします。
 
 .. code-block:: go
 
    m, ok := val.(json.Marshaler)
 
-If it's necessary only to ask whether a type implements an interface,
-without actually using the interface itself, perhaps as part of an error
-check, use the blank identifier to ignore the type-asserted value:
+実際にインターフェイス自体を使用せずに、エラーチェックの一部として、型がインターフェイスを実装しているかどうかを確認するだけの場合は、ブランク識別子を使用して型アサーションした値を無視します。
 
 .. code-block:: go
 
@@ -1797,32 +1679,15 @@ check, use the blank identifier to ignore the type-asserted value:
        fmt.Printf("value %v of type %T implements json.Marshaler\n", val, val)
    }
 
-One place this situation arises is when it is necessary to guarantee
-within the package implementing the type that it actually satisfies the
-interface. If a type—for example, **json.RawMessage**—needs a custom
-JSON representation, it should implement **json.Marshaler**, but there
-are no static conversions that would cause the compiler to verify this
-automatically. If the type inadvertently fails to satisfy the interface,
-the JSON encoder will still work, but will not use the custom
-implementation. To guarantee that the implementation is correct, a
-global declaration using the blank identifier can be used in the
-package:
+この状況が発生する場所の1つは、型を実装するパッケージ内で、実際にインターフェースを満たすことを保証する必要がある場合です。 型(json.RawMessageなど)がカスタムJSON表現を必要とする場合、json.Marshalerを実装する必要がありますが、コンパイラがこれを自動的に検証できる、明示的な変換はありません。型が意図せずインターフェイスを満たさない場合でも、JSONエンコーダーは動作しますが、カスタム実装は使用しません。実装が正しいことを保証するために、ブランク識別子を使用するグローバル宣言をパッケージで使用できます。
 
 .. code-block:: go
 
    var _ json.Marshaler = (*RawMessage)(nil)
 
-In this declaration, the assignment involving a conversion of a
-***RawMessage** to a **Marshaler** requires that ***RawMessage**
-implements **Marshaler**, and that property will be checked at compile
-time. Should the **json.Marshaler** interface change, this package will
-no longer compile and we will be on notice that it needs to be updated.
+この宣言では ``*RawMessage`` が ``Marshaler`` インターフェースを実装する必要とするような ``*RawMessage`` から ``Marshaler`` への変換をする場合、型がインターフェースを実装しているかどうかは、コンパイル時にチェックされます。json.Marshalerインターフェースが変更された場合、このパッケージはコンパイルされなくなり、ソースコードを修正する必要であることがわかります。
 
-The appearance of the blank identifier in this construct indicates that
-the declaration exists only for the type checking, not to create a
-variable. Don't do this for every type that satisfies an interface,
-though. By convention, such declarations are only used when there are no
-static conversions already present in the code, which is a rare event.
+この構造内のブランク識別子は、変数を作成するためではなく、型チェックのためだけに宣言が存在することを示しています。 ただし、インターフェイスを満たすすべての型に対してこれを実行しないでください。慣例により、このような宣言は、コードに静的な変換が存在しない場合にのみ使用されます。これはあまりありません。
 
 埋め込み
 -----------------
