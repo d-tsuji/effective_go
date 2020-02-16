@@ -18,7 +18,7 @@ Go本体のパッケージのソースはコアライブラリとしてだけで
 
 フォーマッティングは最も議論の多い問題ですが、それほど重要な問題ではありません。開発者はさまざまなフォーマッティングスタイルに適応できますが、同じスタイルを守っている場合は、この話題に費やす時間を短縮できます。問題は、長い規範的なスタイルガイドを用いずにこのユートピアにアプローチする方法です。
 
-Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。**gofmt** プログラム(ソースファイルレベルではなくパッケージレベルで動作する **go fmt** としても利用可能)は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 **gofmt** を実行します。 答えが正しくないと思われる場合は、プログラムを再配置(またはgofmtに関するバグを報告)してください。そのまま使わないでください。
+Goでは、通常とは異なるアプローチを採用し、ほとんどのフォーマットの問題をマシンに任せます。``gofmt`` プログラム(ソースファイルレベルではなくパッケージレベルで動作する ``go fmt`` としても利用可能)は、Goプログラムを読み取り、標準スタイルのインデントと垂直方向の配置でソースを出力し、コメントを保持し、必要に応じて再フォーマットします。 新しいレイアウトの状況を処理する方法を知りたい場合は、 ``gofmt`` を実行します。 答えが正しくないと思われる場合は、プログラムを再配置(またはgofmtに関するバグを報告)してください。そのまま使わないでください。
 
 例として、構造体のフィールドにコメントを並べるのに時間を費やす必要はありません。 Gofmtがそれを行います。以下に示します。
 
@@ -29,7 +29,7 @@ Goでは、通常とは異なるアプローチを採用し、ほとんどのフ
        value int // its value
    }
 
-**gofmt** カラムをフォーマットします:
+``gofmt`` カラムをフォーマットします:
 
 .. code-block:: go
 
@@ -38,16 +38,16 @@ Goでは、通常とは異なるアプローチを採用し、ほとんどのフ
        value   int    // its value
    }
 
-標準パッケージのすべてのGoのコードは **gofmt** でフォーマットされています。
+標準パッケージのすべてのGoのコードは ``gofmt`` でフォーマットされています。
 
 その他の書式設定の詳細が残っています。 簡潔に説明します。
 
 インデント
-    インデントにタブを使用し **gofmt** はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。
+    インデントにタブを使用し ``gofmt`` はデフォルトでタブを出力します。必要な場合にのみスペースを使用してください。
 行の長さ
     Goには行の長さの制限はありません。パンチされたカードがあふれる心配はありません。行が長すぎると感じる場合は、それを折り返し、追加のタブでインデントします。
 括弧
-    Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( **if**, **for**, **switch** )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。
+    Goでは、CやJavaよりも括弧が少なくてすみます。制御構造( ``if``, ``for``, ``switch`` )の構文に括弧がありません。また、演算子の優先順位の階層は短く明確です。
 
 .. code-block:: go
 
@@ -60,7 +60,7 @@ Goでは、通常とは異なるアプローチを採用し、ほとんどのフ
 
 Goは、Cスタイルの ``/* */`` のブロックコメントとC++スタイルの ``//`` 行コメントを提供します。行コメントは標準です。ブロックコメントは、ほとんどがパッケージコメントとして用いられますが、式の中や大量のコードを無効にするのに役立ちます。
 
-**godoc** と呼ばれるプログラム(およびWebサーバー)は、Goソースファイルを解析して、パッケージの内容に関するドキュメントを抽出します。 トップレベルの宣言の前に表示され、改行を挿入しないコメントは、宣言とともにその項目の説明文となります。 これらのコメントの性質とスタイルは **godoc** が作成するドキュメントの質を決定します。
+``godoc`` と呼ばれるプログラム(およびWebサーバー)は、Goソースファイルを解析して、パッケージの内容に関するドキュメントを抽出します。 トップレベルの宣言の前に表示され、改行を挿入しないコメントは、宣言とともにその項目の説明文となります。 これらのコメントの性質とスタイルは ``godoc`` が作成するドキュメントの質を決定します。
 
 すべてのパッケージには、パッケージコメント、パッケージ句の前のブロックコメントが必要です。 複数ファイルで構成されるパッケージの場合、パッケージコメントは1つのファイルにあれば十分です。パッケージコメントは、パッケージを紹介し、パッケージ全体に関連する情報を提供する必要があります。 godocページの最初に表示され、詳細なドキュメントに続くように設定する必要があります。
 
@@ -94,9 +94,9 @@ Goは、Cスタイルの ``/* */`` のブロックコメントとC++スタイル
    // Package path implements utility routines for
    // manipulating slash-separated filename paths.
 
-コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 **godoc** は **gofmt** のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 **godoc** が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 `fmt package <https://golang.org/pkg/fmt/>`_ のパッケージコメントは、これを有効に使用しています。
+コメントには、アスタリスクのバナーなどの追加の書式設定は必要ありません。生成された出力は固定幅のフォントで表示されないかもしれないので、配置の間隔に依存しないでください。 ``godoc`` は ``gofmt`` のように面倒を見てくれます。コメントはインタプリタに解釈されないプレーンテキストであるため、HTMLやその他の注釈(_this_など)はそのまま表示されるため、使用しないでください。 ``godoc`` が行う調整の1つは、プログラムスニペットに適した固定幅フォントでインデントされたテキストを表示することです。 `fmt package <https://golang.org/pkg/fmt/>`_ のパッケージコメントは、これを有効に使用しています。
 
-コンテキストによっては **godoc** はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。
+コンテキストによっては ``godoc`` はコメントを再フォーマットすることすらできない場合があるため、正しいスペル、句読点、文構造を使用する、長い行を折り畳むなど、コメントがまっすぐに見えるようにしてください。
 
 パッケージ内では、最上位の宣言の直前のコメントは、その宣言のドキュメントコメントとして機能します。プログラム内のエクスポートされた(大文字の)名前にはすべて、ドキュメンテーションコメントが必要です。
 
@@ -163,16 +163,16 @@ Goの宣言構文では、宣言をグループ化できます。単一のdocコ
 
    import "bytes"
 
-とパッケージをインポートすると、 **bytes.Buffer** としてパッケージを使うことができます。パッケージを使う人が同じ名前でパッケージのコンテンツを参照すると便利です。これはパッケージ名が適切であることを意味します。短く完結で分かりやすくあるべきです。慣例としてパッケージ名は小文字の単一の単語名にします。アンダースコアやmixedCapsである必要はありません。多くの人がパッケージ名を打ち込むことを考えて、簡潔すぎるほど簡潔にしてしまう場合があります。その場合でも衝突を心配する必要はありません。パッケージ名はインポートするときのデフォルトでしかないからです。ソースコード全体で唯一である必要はありません。衝突するようなまれな場合、インポートするパッケージ名に異なる名前をつけることができます。どのような場合でも、インポート機能においてファイル名がどのパッケージで使用されるかを決めるので、混乱することはまれです。別の慣例として、パッケージ名はソースディレクトリの名前であるこということです。 **src/encoding/base64** にあるパッケージは **"encoding/base64"** としてインポートされます。名前は **base64** であって、 **encoding_base64** でも **encodingBase64** でもありません。
+とパッケージをインポートすると、 ``bytes.Buffer`` としてパッケージを使うことができます。パッケージを使う人が同じ名前でパッケージのコンテンツを参照すると便利です。これはパッケージ名が適切であることを意味します。短く完結で分かりやすくあるべきです。慣例としてパッケージ名は小文字の単一の単語名にします。アンダースコアやmixedCapsである必要はありません。多くの人がパッケージ名を打ち込むことを考えて、簡潔すぎるほど簡潔にしてしまう場合があります。その場合でも衝突を心配する必要はありません。パッケージ名はインポートするときのデフォルトでしかないからです。ソースコード全体で唯一である必要はありません。衝突するようなまれな場合、インポートするパッケージ名に異なる名前をつけることができます。どのような場合でも、インポート機能においてファイル名がどのパッケージで使用されるかを決めるので、混乱することはまれです。別の慣例として、パッケージ名はソースディレクトリの名前であるこということです。 ``src/encoding/base64`` にあるパッケージは ``"encoding/base64"`` としてインポートされます。名前は ``base64`` であって、 ``encoding_base64`` でも ``encodingBase64`` でもありません。
 
-パッケージのインポートするときはパッケージ名を使用してそのコンテンツを参照します。 **import .** という表記をしないでください。パッケージの外部でテストを動かくときに簡素化できますが、そうでない場合は避けてください。)たとえば **bufio** パッケージのバッフ付きのReaderはBufReaderではなくReaderと呼ばれます。これは、ユーザーが **bufio.Reader** という明確で簡潔な名前として表示するためです。さらに、インポートされた要素は常にパッケージ名でアドレス指定されるため、bufio.Readerはio.Readerと競合しません。同様に、ring.Ringの新しいインスタンスを作成するコンストラクターは通常、NewRingとなりますが、Ringはパッケージによってエクスポートされる唯一のタイプであり、パッケージはringであることから **New** となります。パッケージのクライアントはring.Newと使用します。適切な名前を選択するには、パッケージ構造を使用してください。
+パッケージのインポートするときはパッケージ名を使用してそのコンテンツを参照します。 ``import .`` という表記をしないでください。パッケージの外部でテストを動かくときに簡素化できますが、そうでない場合は避けてください。)たとえば ``bufio`` パッケージのバッフ付きのReaderはBufReaderではなくReaderと呼ばれます。これは、ユーザーが ``bufio.Reader`` という明確で簡潔な名前として表示するためです。さらに、インポートされた要素は常にパッケージ名でアドレス指定されるため、bufio.Readerはio.Readerと競合しません。同様に、ring.Ringの新しいインスタンスを作成するコンストラクターは通常、NewRingとなりますが、Ringはパッケージによってエクスポートされる唯一のタイプであり、パッケージはringであることから ``New`` となります。パッケージのクライアントはring.Newと使用します。適切な名前を選択するには、パッケージ構造を使用してください。
 
-もう1つの短い例は **once.Do** です。once.Do(setup)は読みやすく、 **once.DoOrWaitUntilDone(setup)** としても読みやすくはなりません。長い命名は可読性に役に立ちません。長い命名をするとよりも、ドキュメンテーションコメントは、充実されるほうが価値がある場合がよくあります。
+もう1つの短い例は ``once.Do`` です。once.Do(setup)は読みやすく、 ``once.DoOrWaitUntilDone(setup)`` としても読みやすくはなりません。長い命名は可読性に役に立ちません。長い命名をするとよりも、ドキュメンテーションコメントは、充実されるほうが価値がある場合がよくあります。
 
 ゲッター
 ~~~~~~~~~~~~~~~~~~
 
-Goはgetterおよびsetterの自動サポートする機能はありません。getterとsetterを記述することは何の問題もありません。そうすることはしばしば適切ですが、 **Get** をゲッターの名前に入れることは慣用的でもないし、必要でもありません。 owner(小文字、エクスポートされていない)というフィールドがある場合、getterメソッドはGetOwnerではなくOwner(大文字、エクスポートされている)と呼ばれる必要があります。 エクスポートに大文字の名前を使用すると、フィールドをメソッドから区別することができます。必要に応じて、setter関数はSetOwnerと呼ばれます。
+Goはgetterおよびsetterの自動サポートする機能はありません。getterとsetterを記述することは何の問題もありません。そうすることはしばしば適切ですが、 ``Get`` をゲッターの名前に入れることは慣用的でもないし、必要でもありません。 owner(小文字、エクスポートされていない)というフィールドがある場合、getterメソッドはGetOwnerではなくOwner(大文字、エクスポートされている)と呼ばれる必要があります。 エクスポートに大文字の名前を使用すると、フィールドをメソッドから区別することができます。必要に応じて、setter関数はSetOwnerと呼ばれます。
 
 .. code-block:: go
 
@@ -191,7 +191,7 @@ Goはgetterおよびsetterの自動サポートする機能はありません。
 MixedCaps
 ~~~~~~~~~~~~~~~~~
 
-最後に、Goの慣例では、複数の単語を含むとき、アンダースコアではなく **MixedCaps** または **mixedCaps** を使用します。
+最後に、Goの慣例では、複数の単語を含むとき、アンダースコアではなく ``MixedCaps`` または ``mixedCaps`` を使用します。
 
 セミコロン
 ------------------
@@ -232,12 +232,12 @@ Cのように、Goの形式的な文法ではセミコロンを使用してス�
 制御構造(Control structures)
 --------------------------------------------------------------------
 
-Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 **do** ループや **while** ループはありません。 **for** 句としてわずかに一般化されています。 **switch** はより柔軟です。 **if** および **switch** は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型 ``switch`` や多様な通信のマルチプレクサである **select** などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
+Goの制御構造はCの制御構造に似ていますが、重要な点で異なります。 ``do`` ループや ``while`` ループはありません。 ``for`` 句としてわずかに一般化されています。 ``switch`` はより柔軟です。 ``if`` および ``switch`` は、forのようなオプションの初期化ステートメントを受け入れます。breakおよびcontinueステートメントは、中断または続行するものを識別するオプションのラベルを取ります。 また、型 ``switch`` や多様な通信のマルチプレクサである ``select`` などの新しい制御構造があります。 構文もわずかに異なります。括弧はなく、本文は常に中括弧で区切る必要があります。
 
 If
 ~~
 
-Goでは **if** はシンプルです。以下を見てください。
+Goでは ``if`` はシンプルです。以下を見てください。
 
 .. code-block:: go
 
@@ -247,7 +247,7 @@ Goでは **if** はシンプルです。以下を見てください。
 
 必須の中括弧は、複数の行に単純なifステートメントを書くことを奨励します。とにかくそうするのは良いスタイルです。特に、本文にreturnやbreakなどの制御ステートメントが含まれている場合はそうです。
 
-**if** および **switch** は初期化ステートメントを受け入れるため、ローカル変数のセットアップに使用されるステートメントで参照するが一般的です。
+``if`` および ``switch`` は初期化ステートメントを受け入れるため、ローカル変数のセットアップに使用されるステートメントで参照するが一般的です。
 
 .. code-block:: go
 
@@ -364,7 +364,7 @@ GoのforループはCに似ていますが、同じではありません。Go言
 
 `ブランク識別子 <#blank>`_ には、後のセクションで説明するように、多くの用途があります。
 
-文字列を扱うときの ``range`` はより高機能で、UTF-8をパースすることで各文字のユニコードのコードポイントを取り出します。誤ったエンコーディングは1バイトを消費し、置換ルーン ``U+FFFD`` を生成します。Goの組み込み型である **rune** は単一のユニコードのコードポイントを示すGoの用語です。詳細については、言語仕様を参照してください。
+文字列を扱うときの ``range`` はより高機能で、UTF-8をパースすることで各文字のユニコードのコードポイントを取り出します。誤ったエンコーディングは1バイトを消費し、置換ルーン ``U+FFFD`` を生成します。Goの組み込み型である ``rune`` は単一のユニコードのコードポイントを示すGoの用語です。詳細については、言語仕様を参照してください。
 
 .. code-block:: go
 
@@ -509,7 +509,7 @@ breakステートメントを使用してスイッチを早期に終了できま
 
 Goの珍しい機能の1つは、関数とメソッドが複数の値を返すことができることです。 この形式は、Cプログラムのいくつかの不格好なイディオムを改善するために使用できます。EOFに対して-1などの in-band エラーが返され、アドレスによって渡された引数を変更するといったものです。
 
-Cでは、書き込みエラーは、負の数によって通知され、エラーコードは揮発性の場所に隠されてしまいます。Goでは Write はカウント数とエラーを同時に戻すことができます。エラーは「デバイスが一杯になったため、一部のバイト数は書き込めたが、全てを書き込むことはできませんでした」といったものです。os パッケージの **Write** メソッドのシグネチャは以下のものです。
+Cでは、書き込みエラーは、負の数によって通知され、エラーコードは揮発性の場所に隠されてしまいます。Goでは Write はカウント数とエラーを同時に戻すことができます。エラーは「デバイスが一杯になったため、一部のバイト数は書き込めたが、全てを書き込むことはできませんでした」といったものです。os パッケージの ``Write`` メソッドのシグネチャは以下のものです。
 
 .. code-block:: go
 
@@ -568,7 +568,7 @@ Goの関数の戻り値は、入力パラメーターと同様に、名前を付
 Defer
 ~~~~~
 
-Goの **defer** ステートメントは、deferを実行する関数が戻る直前に実行される関数呼び出し(遅延関数)をスケジュールします。 これは、関数がどのパスを返すかに関係なく解放する必要があるリソースなどの状況に対処するための、珍しい方法ですが、効果的な方法です。 標準的な例は、ミューテックスのロック解除またはファイルのクローズです。
+Goの ``defer`` ステートメントは、deferを実行する関数が戻る直前に実行される関数呼び出し(遅延関数)をスケジュールします。 これは、関数がどのパスを返すかに関係なく解放する必要があるリソースなどの状況に対処するための、珍しい方法ですが、効果的な方法です。 標準的な例は、ミューテックスのロック解除またはファイルのクローズです。
 
 .. code-block:: go
 
@@ -605,7 +605,7 @@ Closeなどの関数の呼び出しを遅延することには、2つの利点�
        defer fmt.Printf("%d ", i)
    }
 
-遅延関数はLIFOの順序で実行されるため、このコードにより、関数が戻るときに **4 3 2 1 0** が出力されます。 より妥当な例は、プログラムを通して関数の実行をトレースする簡単な方法です。 次のような簡単なトレースルーチンをいくつか作成できます。
+遅延関数はLIFOの順序で実行されるため、このコードにより、関数が戻るときに ``4 3 2 1 0`` が出力されます。 より妥当な例は、プログラムを通して関数の実行をトレースする簡単な方法です。 次のような簡単なトレースルーチンをいくつか作成できます。
 
 .. code-block:: go
 
@@ -658,17 +658,17 @@ Closeなどの関数の呼び出しを遅延することには、2つの利点�
    leaving: a
    leaving: b
 
-他の言語のブロックレベルのリソース管理に慣れているプログラマーにとって **defer** は独特のように思えるかもしれません。しかし、その最も興味深く、強力なアプリケーションは、ブロックベースではなく機能ベースであるという事実からきています。 パニックと回復のセクションでは、別の例を見るでしょう。
+他の言語のブロックレベルのリソース管理に慣れているプログラマーにとって ``defer`` は独特のように思えるかもしれません。しかし、その最も興味深く、強力なアプリケーションは、ブロックベースではなく機能ベースであるという事実からきています。 パニックと回復のセクションでは、別の例を見るでしょう。
 
 データ
 --------------------
 
-**new** によるアロケーション
+``new`` によるアロケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Goは2つのメモリアロケーションのプリミティブを持っています。組み込み関数である **new** と **make** です。それらは異なることを行い、異なる型に適用するため困惑するかもしれません。しかしルールはシンプルです。まず **new** について説明しましょう。これはメモリをアロケーションする組み込み関数ですが、他のいくつかの言語の同じ関数名のそれとは異なり、メモリを **初期化** せず、ゼロにするだけです。つまり **new(T)** は、型Tの新しい要素にゼロ化されたメモリを割り当て、型*Tの値であるアドレスを返します。 Goの用語では、型Tとして新しく割り当てられたゼロ値へのポインターを返します。
+Goは2つのメモリアロケーションのプリミティブを持っています。組み込み関数である ``new`` と ``make`` です。それらは異なることを行い、異なる型に適用するため困惑するかもしれません。しかしルールはシンプルです。まず ``new`` について説明しましょう。これはメモリをアロケーションする組み込み関数ですが、他のいくつかの言語の同じ関数名のそれとは異なり、メモリを ``初期化`` せず、ゼロにするだけです。つまり ``new(T)`` は、型Tの新しい要素にゼロ化されたメモリを割り当て、型*Tの値であるアドレスを返します。 Goの用語では、型Tとして新しく割り当てられたゼロ値へのポインターを返します。
 
-**new** によって返されるメモリはゼロ化されます。これはデータ構造を設計する際に、各タイプのゼロ値をさらに初期化せずに使用できるように設計すると役立ちます。 データ構造を用いる開発者が **new** で変数を作成し、適切に動作できることを意味します。 たとえば、 **bytes.Buffer** のドキュメントには、「Bufferのゼロ値はすぐに使用できる空のバッファーです」と記載されています。 同様に **sync.Mutex** には明示的なコンストラクターまたは **Init** メソッドがありません。 代わりに **sync.Mutex** のゼロ値は非ロック状態のミューテックスとして定義されます。
+``new`` によって返されるメモリはゼロ化されます。これはデータ構造を設計する際に、各タイプのゼロ値をさらに初期化せずに使用できるように設計すると役立ちます。 データ構造を用いる開発者が ``new`` で変数を作成し、適切に動作できることを意味します。 たとえば、 ``bytes.Buffer`` のドキュメントには、「Bufferのゼロ値はすぐに使用できる空のバッファーです」と記載されています。 同様に ``sync.Mutex`` には明示的なコンストラクターまたは ``Init`` メソッドがありません。 代わりに ``sync.Mutex`` のゼロ値は非ロック状態のミューテックスとして定義されます。
 
 ゼロ値の性質は推移的に機能します。以下の型宣言について考えてください。
 
@@ -679,7 +679,7 @@ Goは2つのメモリアロケーションのプリミティブを持ってい�
        buffer  bytes.Buffer
    }
 
-型 **SyncedBuffer** の値も **new** によるメモリアロケーションや変数の宣言だけですぐに使用できます。次のスニペットでは **p** と **v** の両方が、追加のメソッドなどを用いることなく正しく機能します。
+型 ``SyncedBuffer`` の値も ``new`` によるメモリアロケーションや変数の宣言だけですぐに使用できます。次のスニペットでは ``p`` と ``v`` の両方が、追加のメソッドなどを用いることなく正しく機能します。
 
 .. code-block:: go
 
@@ -689,7 +689,7 @@ Goは2つのメモリアロケーションのプリミティブを持ってい�
 コンストラクタと複合リテラル
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-パッケージ **os** から派生したこの例のように、ゼロ値では不十分な場合があり、初期化コンストラクターが必要になる場合があります。
+パッケージ ``os`` から派生したこの例のように、ゼロ値では不十分な場合があり、初期化コンストラクターが必要になる場合があります。
 
 .. code-block:: go
 
@@ -723,13 +723,13 @@ Cとは異なり、ローカル変数のアドレスを返すことはまった�
 
        return &File{fd, name, nil, 0}
 
-複合リテラルのフィールドは順番に配置され、すべて存在する必要があります。 ただし、要素に **field：value** のペアとして明示的にラベルを付けることができます。その場合、フィールドは任意の順序で表示でき、指定されていないフィールドはゼロ値で初期化されます。 したがって、上記の例は以下のように書きかえることができます。
+複合リテラルのフィールドは順番に配置され、すべて存在する必要があります。 ただし、要素に ``field：value`` のペアとして明示的にラベルを付けることができます。その場合、フィールドは任意の順序で表示でき、指定されていないフィールドはゼロ値で初期化されます。 したがって、上記の例は以下のように書きかえることができます。
 
 .. code-block:: go
 
        return &File{fd: fd, name: name}
 
-稀なケースとして、複合リテラルにフィールドがまったく含まれていない場合、その型のゼロ値が作成されます。式 **new(File)**と **&File{}** は同等です。
+稀なケースとして、複合リテラルにフィールドがまったく含まれていない場合、その型のゼロ値が作成されます。式 ``new(File)``と ``&File{}`` は同等です。
 
 複合リテラルは配列、スライス、マップも作成できます。フィールドラベルは、必要に応じてインデックスまたはマップのキーになります。 以下の例では、初期化は ``Eonee``, ``Eio`` および ``Einval`` が相異なっていれば、値に関係なく機能します。
 
@@ -741,18 +741,18 @@ Cとは異なり、ローカル変数のアドレスを返すことはまった�
 
 訳注: https://play.golang.org/p/2DaYxFnjE6X
 
-**make** によるアロケーション
+``make`` によるアロケーション
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-メモリのアロケーションの話題に戻ります。 組み込み関数 **make(T, args)** は、**new(T)** とは異なる目的で用います。 スライス、マップ、およびチャンネルのみを作成し、型 **T** (\*T ではなく)で初期化された(ゼロではない)値を返します。**new(T)** と区別している理由は、これらの3つの型が、使用前に初期化する必要があるデータ構造への参照を内部的に表しているためです。 たとえば、スライスは、データ(配列内)へのポインター、長さ、および容量の3つの項目を持っています。これらの項目が初期化されるまで、スライスはnilです。 スライス、マップ、およびチャネルの場合 **make** は内部データ構造を初期化し、使用する値を準備します。 例えば、
+メモリのアロケーションの話題に戻ります。 組み込み関数 ``make(T, args)`` は、``new(T)`` とは異なる目的で用います。 スライス、マップ、およびチャンネルのみを作成し、型 ``T`` (\*T ではなく)で初期化された(ゼロではない)値を返します。``new(T)`` と区別している理由は、これらの3つの型が、使用前に初期化する必要があるデータ構造への参照を内部的に表しているためです。 たとえば、スライスは、データ(配列内)へのポインター、長さ、および容量の3つの項目を持っています。これらの項目が初期化されるまで、スライスはnilです。 スライス、マップ、およびチャネルの場合 ``make`` は内部データ構造を初期化し、使用する値を準備します。 例えば、
 
 .. code-block:: go
 
    make([]int, 10, 100)
 
-100個のintの配列を割り当て、長さ10、配列の最初の10要素を指す容量100のスライス構造を作成します。 (スライスを作成するとき、容量は省略できます。詳細については、スライスに関するセクションを参照してください。)一方 ``new([]int)`` は、新しく割り当てられたゼロ化されたスライスへのポインター、つまり **nil** スライスのポインターを返します。
+100個のintの配列を割り当て、長さ10、配列の最初の10要素を指す容量100のスライス構造を作成します。 (スライスを作成するとき、容量は省略できます。詳細については、スライスに関するセクションを参照してください。)一方 ``new([]int)`` は、新しく割り当てられたゼロ化されたスライスへのポインター、つまり ``nil`` スライスのポインターを返します。
 
-以下のサンプルは、 **new** と **make** の違いを示しています。
+以下のサンプルは、 ``new`` と ``make`` の違いを示しています。
 
 .. code-block:: go
 
@@ -766,7 +766,7 @@ Cとは異なり、ローカル変数のアドレスを返すことはまった�
    // Idiomatic:
    v := make([]int, 100)
 
-**make** はマップ、スライス、およびチャンネルにのみ適用され、ポインターを返さないことに注意してください。明示的なポインタを取得するには、newで割り当てるか、変数のアドレスを明示的に取得します。
+``make`` はマップ、スライス、およびチャンネルにのみ適用され、ポインターを返さないことに注意してください。明示的なポインタを取得するには、newで割り当てるか、変数のアドレスを明示的に取得します。
 
 配列
 ~~~~~~
@@ -777,7 +777,7 @@ GoとCで配列が機能する方法には大きな違いがあります。Goで
 
 - 配列は値です。ある配列を別の配列に割り当てると、すべての要素がコピーされます。
 - 特に、関数に配列を渡すと、配列へのポインターではなく配列のコピーを受け取ります。
-- 配列のサイズはその型の一部です。型 **[10]int** と **[20]int** は区別されます。
+- 配列のサイズはその型の一部です。型 ``[10]int`` と ``[20]int`` は区別されます。
 
 配列が値である性質は便利ですが、高コストでもあります。 Cのような動作と効率が必要な場合は、配列のポインターを渡すことができます。
 
@@ -827,7 +827,7 @@ GoとCで配列が機能する方法には大きな違いがあります。Goで
            }
        }
 
-スライスの長さは、もとになる配列の制限内に収まる限り変更できます。 それを自分自身のスライスに割り当てるだけです。 組み込み関数 **cap** でアクセス可能なスライスの容量は、スライスが想定できる最大長を報告します。 以下の **append** はスライスにデータを追加する関数です。 データが容量を超える場合、再割り当てされたスライスが返されます。 この関数は **nil** スライスに適用されるときに **len** と **cap** が有効であることを使用し、0を返します。
+スライスの長さは、もとになる配列の制限内に収まる限り変更できます。 それを自分自身のスライスに割り当てるだけです。 組み込み関数 ``cap`` でアクセス可能なスライスの容量は、スライスが想定できる最大長を報告します。 以下の ``append`` はスライスにデータを追加する関数です。 データが容量を超える場合、再割り当てされたスライスが返されます。 この関数は ``nil`` スライスに適用されるときに ``len`` と ``cap`` が有効であることを使用し、0を返します。
 
 .. code-block:: go
 
@@ -847,7 +847,7 @@ GoとCで配列が機能する方法には大きな違いがあります。Goで
 
 Appendはスライスの要素を変更できますが、スライス自体(ポインター、長さ、および容量を保持する実行時のデータ構造)は値によって渡されるため、あとからスライスを返すべきです。
 
-スライスに追加するという考え方は非常に便利で、組み込みの **append** 関数によって実現できます。 ただし、その関数の設計を理解するには、もう少し情報が必要なので、後で説明します。
+スライスに追加するという考え方は非常に便利で、組み込みの ``append`` 関数によって実現できます。 ただし、その関数の設計を理解するには、もう少し情報が必要なので、後で説明します。
 
 二次元スライス
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -956,7 +956,7 @@ Goの配列とスライスは1次元です。 二次元配列またはスライ�
 
    _, present := timeZone[tz]
 
-マップエントリを削除するには組み込み関数である **delete** を使用します。この組み込み関数の引数は、マップと削除するキーです。キーがマップに既に存在しない場合でも、これを行うのは安全です。
+マップエントリを削除するには組み込み関数である ``delete`` を使用します。この組み込み関数の引数は、マップと削除するキーです。キーがマップに既に存在しない場合でも、これを行うのは安全です。
 
 .. code-block:: go
 
@@ -965,7 +965,7 @@ Goの配列とスライスは1次元です。 二次元配列またはスライ�
 プリント
 ~~~~~~~~~~~~~~~~
 
-Goの書式付きプリントでは、Cのprintfファミリーに似たスタイルが使用されますが、より機能的で一般的です。 関数は **fmt** パッケージに存在し、大文字の名前が付いています。``fmt.Printf`` , ``fmt.Fprintf`` , ``fmt.Sprintf`` などです。文字列関数( ``Sprintf`` など) は、提供されたバッファを埋めるのではなく、文字列を返します。
+Goの書式付きプリントでは、Cのprintfファミリーに似たスタイルが使用されますが、より機能的で一般的です。 関数は ``fmt`` パッケージに存在し、大文字の名前が付いています。``fmt.Printf`` , ``fmt.Fprintf`` , ``fmt.Sprintf`` などです。文字列関数( ``Sprintf`` など) は、提供されたバッファを埋めるのではなく、文字列を返します。
 
 書式文字列を提供する必要はありません。``Printf`` , ``Fprintf`` , ``Sprintf`` のそれぞれについて、別のペアの関数、たとえば ``Print`` と ``Println`` があります。 これらの関数はフォーマット文字列を取りませんが、代わりに各引数のデフォルトフォーマットを生成します。また ``Println`` 版は引数の間に空白を挿入し、出力に改行を追加します。しかし ``Print`` 版は隣り合うどちらの側のオペランドも ``string`` でない場合にのみ空白を追加します。 この例では、各行は同じ出力を生成します。
 
@@ -976,9 +976,9 @@ Goの書式付きプリントでは、Cのprintfファミリーに似たスタ�
    fmt.Println("Hello", 23)
    fmt.Println(fmt.Sprint("Hello ", 23))
 
-フォーマットされたプリント関数 **fmt.Fprint** と類似する関数は **io.Writer** インターフェイスを実装するオブジェクトを最初の引数として受け取ります。変数 **os.Stdout** と **os.Stderr** はよく知られたインスタンスです。
+フォーマットされたプリント関数 ``fmt.Fprint`` と類似する関数は ``io.Writer`` インターフェイスを実装するオブジェクトを最初の引数として受け取ります。変数 ``os.Stdout`` と ``os.Stderr`` はよく知られたインスタンスです。
 
-ここからCと異なります。最初に **%d** などの数値形式は、符号付きまたは大きさのフラグを取りません。 代わりに、プリントルーチンは引数の型を使用してこれらのプロパティを決定します。
+ここからCと異なります。最初に ``%d`` などの数値形式は、符号付きまたは大きさのフラグを取りません。 代わりに、プリントルーチンは引数の型を使用してこれらのプロパティを決定します。
 
 .. code-block:: go
 
@@ -991,7 +991,7 @@ Goの書式付きプリントでは、Cのprintfファミリーに似たスタ�
 
    18446744073709551615 ffffffffffffffff; -1 -1
 
-整数の小数など、デフォルトの変換だけが必要な場合は、すべてで用いることのできる形式 **%v** を使用できます。 結果はPrintとPrintlnが生成するものとまったく同じです。 さらに、その形式では、配列、スライス、構造体、マップなど、任意の値を出力できます。 これは、前のセクションで定義したタイムゾーンマップのprintステートメントです。
+整数の小数など、デフォルトの変換だけが必要な場合は、すべてで用いることのできる形式 ``%v`` を使用できます。 結果はPrintとPrintlnが生成するものとまったく同じです。 さらに、その形式では、配列、スライス、構造体、マップなど、任意の値を出力できます。 これは、前のセクションで定義したタイムゾーンマップのprintステートメントです。
 
 .. code-block:: go
 
@@ -1003,9 +1003,9 @@ Goの書式付きプリントでは、Cのprintfファミリーに似たスタ�
 
    map[CST:-21600 EST:-18000 MST:-25200 PST:-28800 UTC:0]
 
-マップの場合、 **Printf** や周辺の関数は、キーの辞書順でソートして表示します。
+マップの場合、 ``Printf`` や周辺の関数は、キーの辞書順でソートして表示します。
 
-構造体をプリントする場合、拡張された形式 **%+v** は構造体のフィールドに名前を付けて注釈を付けます。値があれば代替の形式 **%#v** は値を完全なGo構文でプリントします。
+構造体をプリントする場合、拡張された形式 ``%+v`` は構造体のフィールドに名前を付けて注釈を付けます。値があれば代替の形式 ``%#v`` は値を完全なGo構文でプリントします。
 
 .. code-block:: go
 
@@ -1029,9 +1029,9 @@ Goの書式付きプリントでは、Cのprintfファミリーに似たスタ�
    &main.T{a:7, b:-2.35, c:"abc\tdef"}
    map[string]int{"CST":-21600, "EST":-18000, "MST":-25200, "PST":-28800, "UTC":0}
 
-(アンパサンド ``&`` に注意してください。)この引用符付き文字列形式は **string** 型または **[]byte** 型の値に適用される場合 **%q** でも使用できます。 別の書式 **%#q** は、可能であれば代わりにバッククォートを使用します。 ( **%q** 形式は、整数とルーンにも適用され、単一引用符で囲まれたルーン定数を生成します。)また **%x** は、文字列、バイト配列、バイトスライス、および整数で機能し、長い16進数文字列を生成し、スペースを使用します フォーマット( **%x** )では、バイト間にスペースを入れます。
+(アンパサンド ``&`` に注意してください。)この引用符付き文字列形式は ``string`` 型または ``[]byte`` 型の値に適用される場合 ``%q`` でも使用できます。 別の書式 ``%#q`` は、可能であれば代わりにバッククォートを使用します。 ( ``%q`` 形式は、整数とルーンにも適用され、単一引用符で囲まれたルーン定数を生成します。)また ``%x`` は、文字列、バイト配列、バイトスライス、および整数で機能し、長い16進数文字列を生成し、スペースを使用します フォーマット( ``%x`` )では、バイト間にスペースを入れます。
 
-もう1つの便利な形式は **%T** です。これは、値の型を出力します。
+もう1つの便利な形式は ``%T`` です。これは、値の型を出力します。
 
 .. code-block:: go
 
@@ -1043,7 +1043,7 @@ Goの書式付きプリントでは、Cのprintfファミリーに似たスタ�
 
    map[string]int
 
-デフォルトの書式を拡張したい場合 **String() string** のシグネチャを持つメソッドを型に定義する必要があります。以下のシンプルな型Tは以下のようになります。
+デフォルトの書式を拡張したい場合 ``String() string`` のシグネチャを持つメソッドを型に定義する必要があります。以下のシンプルな型Tは以下のようになります。
 
 .. code-block:: go
 
@@ -1083,13 +1083,13 @@ String() メソッドは、プリントルーチンが完全にリエントラ�
 
 初期化セクションでは、この再帰を回避する別の手法を紹介します。
 
-別のプリントするテクニックは、プリントルーチンの引数を別のルーチンに直接渡すことです。 Printfのシグネチャは、最後の引数に型 **...interface{}** を使用して、フォーマットの後に任意の数のパラメーター(任意の型)を表示できることを指定します。
+別のプリントするテクニックは、プリントルーチンの引数を別のルーチンに直接渡すことです。 Printfのシグネチャは、最後の引数に型 ``...interface{}`` を使用して、フォーマットの後に任意の数のパラメーター(任意の型)を表示できることを指定します。
 
 .. code-block:: go
 
    func Printf(format string, v ...interface{}) (n int, err error) {
 
-Printf関数内では v は **[]interface{}** 型の変数のように機能しますが、別の可変長引数を持つ関数に渡されると、通常の引数リストのように機能します。 上記で使用した ``log.Println`` 関数の実装を次に示します。 実際の書式設定のために、引数をfmt.Sprintlnに直接渡します。
+Printf関数内では v は ``[]interface{}`` 型の変数のように機能しますが、別の可変長引数を持つ関数に渡されると、通常の引数リストのように機能します。 上記で使用した ``log.Println`` 関数の実装を次に示します。 実際の書式設定のために、引数をfmt.Sprintlnに直接渡します。
 
 .. code-block:: go
 
@@ -1098,11 +1098,11 @@ Printf関数内では v は **[]interface{}** 型の変数のように機能し�
        std.Output(2, fmt.Sprintln(v...))  // Output takes parameters (int, string)
    }
 
-Sprintlnへのネストされた呼び出しでvの後に **...** を記述して、vを引数のリストとして扱うようコンパイラーに指示します。それ以外の場合は、vを単一のスライス引数として渡します。
+Sprintlnへのネストされた呼び出しでvの後に ``...`` を記述して、vを引数のリストとして扱うようコンパイラーに指示します。それ以外の場合は、vを単一のスライス引数として渡します。
 
 ここで説明した以外にも、プリントにはさらに多くの機能があります。詳細については、パッケージfmtのgodocドキュメントを参照してください。
 
-ちなみに **...** パラメータは型として指定することができます。たとえば、整数のリストの最小のものを選択するmin関数の場合、パラメータの引数の型は **...int** です。
+ちなみに ``...`` パラメータは型として指定することができます。たとえば、整数のリストの最小のものを選択するmin関数の場合、パラメータの引数の型は ``...int`` です。
 
 .. code-block:: go
 
@@ -1119,15 +1119,15 @@ Sprintlnへのネストされた呼び出しでvの後に **...** を記述し�
 Append
 ~~~~~~
 
-これで **append** 組み込み関数の設計を説明するために必要な準備が揃いました。appendのシグネチャは、上記で説明したカスタムAppend関数とは異なります。概略的には、次のようなものです。
+これで ``append`` 組み込み関数の設計を説明するために必要な準備が揃いました。appendのシグネチャは、上記で説明したカスタムAppend関数とは異なります。概略的には、次のようなものです。
 
 .. code-block:: go
 
    func append(slice []T, elements ...T) []T
 
-ここで **T** は任意の型のプレースホルダーです。 Goでは、呼び出し側によって型Tが決定される関数を実際に書くことはできません。それがappendが組み込まれている理由です：コンパイラからのサポートが必要です。
+ここで ``T`` は任意の型のプレースホルダーです。 Goでは、呼び出し側によって型Tが決定される関数を実際に書くことはできません。それがappendが組み込まれている理由です：コンパイラからのサポートが必要です。
 
-**append** が実施するのは、要素をスライスの最後に追加して、結果のスライスを返すことです。カスタムのAppend関数と同様に、もとになる配列が変更される可能性があるため、結果を返す必要があります。この簡単な例を示します。
+``append`` が実施するのは、要素をスライスの最後に追加して、結果のスライスを返すことです。カスタムのAppend関数と同様に、もとになる配列が変更される可能性があるため、結果を返す必要があります。この簡単な例を示します。
 
 .. code-block:: go
 
@@ -1137,7 +1137,7 @@ Append
 
 [1 2 3 4 5 6]をプリントします。したがって、appendはPrintfのように機能し、任意の数の引数を受け取ります。
 
-しかしカスタムのAppendが行うことを行い、スライスにスライスを追加する場合はどうでしょうか。答えは簡単です。：上記のOutputの呼び出しで行ったように、呼び出す側で **...** を使用します。このスニペットは、上記のものと同じ出力を生成します。
+しかしカスタムのAppendが行うことを行い、スライスにスライスを追加する場合はどうでしょうか。答えは簡単です。：上記のOutputの呼び出しで行ったように、呼び出す側で ``...`` を使用します。このスニペットは、上記のものと同じ出力を生成します。
 
 .. code-block:: go
 
@@ -1146,7 +1146,7 @@ Append
    x = append(x, y...)
    fmt.Println(x)
 
-**...** の識別子がなければ、型が間違っているためコンパイルできません。 yは **int** 型ではありません。
+``...`` の識別子がなければ、型が間違っているためコンパイルできません。 yは ``int`` 型ではありません。
 
 初期化
 --------------------------------------------------
@@ -1156,9 +1156,9 @@ Append
 定数
 ~~~~~~~~~~~~~~~~~
 
-Goの定数は、まさにその定数です。関数でローカル変数として定義されている場合でも、コンパイル時に作成され、数字、文字(ルーン)、文字列、またはブール値のみを使用できます。 コンパイル時の制限のため、それらを定義する式は、コンパイラーによって評価可能な定数式でなければなりません。 たとえば、 **1 << 3** は定数式ですが **math.Sin(math.Pi/4)** は **math.Sin** の関数呼び出しが実行時に発生する必要があるため、定数ではありません。
+Goの定数は、まさにその定数です。関数でローカル変数として定義されている場合でも、コンパイル時に作成され、数字、文字(ルーン)、文字列、またはブール値のみを使用できます。 コンパイル時の制限のため、それらを定義する式は、コンパイラーによって評価可能な定数式でなければなりません。 たとえば、 ``1 << 3`` は定数式ですが ``math.Sin(math.Pi/4)`` は ``math.Sin`` の関数呼び出しが実行時に発生する必要があるため、定数ではありません。
 
-Goでは **iota** 列挙子を使用して列挙定数が作成されます。 iotaは式の一部であり、式は暗黙的に繰り返される可能性があるため、複雑な値のセットを簡単に作成できます。
+Goでは ``iota`` 列挙子を使用して列挙定数が作成されます。 iotaは式の一部であり、式は暗黙的に繰り返される可能性があるため、複雑な値のセットを簡単に作成できます。
 
 .. code-block:: go
 
@@ -1176,7 +1176,7 @@ Goでは **iota** 列挙子を使用して列挙定数が作成されます。 i
         YB
     )
 
-**String** などのメソッドをユーザーが定義した任意の型に付属する機能により、任意の値をプリント用に自動的にフォーマットできます。 構造体に最も頻繁に適用されることがわかりますが、この手法は **ByteSize** などの浮動小数点型などのスカラー型にも役立ちます。
+``String`` などのメソッドをユーザーが定義した任意の型に付属する機能により、任意の値をプリント用に自動的にフォーマットできます。 構造体に最も頻繁に適用されることがわかりますが、この手法は ``ByteSize`` などの浮動小数点型などのスカラー型にも役立ちます。
 
 .. code-block:: go
 
@@ -1202,9 +1202,9 @@ Goでは **iota** 列挙子を使用して列挙定数が作成されます。 i
         return fmt.Sprintf("%.2fB", b)
     }
 
-式 **YB** は1.00YBとして表示され、ByteSize(1e13)は9.09TBとして表示されます。
+式 ``YB`` は1.00YBとして表示され、ByteSize(1e13)は9.09TBとして表示されます。
 
-ここでSprintfを使用してByteSizeのStringメソッドを実装することは、変換のためではなく、文字列形式ではない **%f** でSprintfを呼び出すため、安全です(無限に繰り返されることを防ぎます)。Sprintfは、文字列が必要な場合にのみStringメソッドを呼び出します。また **%f** は浮動小数点(float)の値が必要です。
+ここでSprintfを使用してByteSizeのStringメソッドを実装することは、変換のためではなく、文字列形式ではない ``%f`` でSprintfを呼び出すため、安全です(無限に繰り返されることを防ぎます)。Sprintfは、文字列が必要な場合にのみStringメソッドを呼び出します。また ``%f`` は浮動小数点(float)の値が必要です。
 
 変数
 ~~~~~~~~~~~~~~~~~
@@ -1302,7 +1302,7 @@ init関数
 
 Goのインターフェイスは、オブジェクトの振る舞いを提供します。このセクションではインタフェースにより実現できることすべてを説明します。すでにいくつかの簡単な例を見てきました。カスタムの出力はStringメソッドで実装できますが、FprintfはWriteメソッドであらゆるものに出力できます。1つまたは2つのメソッドのみを持つインターフェイスはGoコードでは一般的であり、通常は、Writeを実装するio.Writerなど、メソッドから派生した名前が付けられます。
 
-型は複数のインターフェースを実装できます。 たとえば、コレクションは **Len()** , **Less(i, j int) bool** , **Swap(i、j int)** を含むsort.Interfaceを実装している場合、パッケージsortのメソッドを用いてソートできます。カスタム出力も同様です。以下の ``Sequence`` 構造体の例では、どちらのインターフェースも満たしています。
+型は複数のインターフェースを実装できます。 たとえば、コレクションは ``Len()`` , ``Less(i, j int) bool`` , ``Swap(i、j int)`` を含むsort.Interfaceを実装している場合、パッケージsortのメソッドを用いてソートできます。カスタム出力も同様です。以下の ``Sequence`` 構造体の例では、どちらのインターフェースも満たしています。
 
 .. code-block:: go
 
@@ -1342,7 +1342,7 @@ Goのインターフェイスは、オブジェクトの振る舞いを提供し
 変換
 ~~~~~~~~~~~~~~~~~~~
 
-SequenceのStringメソッドは、Sprintがスライスに対してすでに行っている内容を再作成しています。(複雑なO(N²)もあります。これはナイーブな実装です。)Sprintを呼び出す前にSequenceを純粋な **[]int** に変換すると、既存の処理を利用することができます(また、高速化できます)。
+SequenceのStringメソッドは、Sprintがスライスに対してすでに行っている内容を再作成しています。(複雑なO(N²)もあります。これはナイーブな実装です。)Sprintを呼び出す前にSequenceを純粋な ``[]int`` に変換すると、既存の処理を利用することができます(また、高速化できます)。
 
 .. code-block:: go
 
@@ -1352,7 +1352,7 @@ SequenceのStringメソッドは、Sprintがスライスに対してすでに行
        return fmt.Sprint([]int(s))
    }
 
-このメソッドは、StringメソッドからSprintfを安全に呼び出すための変換手法の別の例です。 型名を無視する場合、2つの型( **Sequence** と **[]int** )は同じであるため、それらの間で変換することは正当です。 変換は新しい値を作成するのではなく、既存の値に新しい型があるかのように一時的に動作するだけです。(整数から浮動小数点への変換など、新しい値を作成する他の有効な変換があります。)
+このメソッドは、StringメソッドからSprintfを安全に呼び出すための変換手法の別の例です。 型名を無視する場合、2つの型( ``Sequence`` と ``[]int`` )は同じであるため、それらの間で変換することは正当です。 変換は新しい値を作成するのではなく、既存の値に新しい型があるかのように一時的に動作するだけです。(整数から浮動小数点への変換など、新しい値を作成する他の有効な変換があります。)
 
 式の型を変換して別のメソッドセットにアクセスすることは、Goプログラムのイディオムです。例として、既存のsort.IntSlice型を使用して、例全体を以下のように実装量を削減することができます。
 
@@ -1461,7 +1461,7 @@ NewCTRは、1つの特定の暗号化アルゴリズムとデータソースだ�
 インターフェースとメソッド
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-ほとんどすべての型にメソッドを実装でき、インターフェースを満たすことができます。 1つの実例は **http** パッケージにあり、これは **Handler** インターフェースを定義します。 Handler を実装するオブジェクトは、HTTPリクエストを処理できます。
+ほとんどすべての型にメソッドを実装でき、インターフェースを満たすことができます。 1つの実例は ``http`` パッケージにあり、これは ``Handler`` インターフェースを定義します。 Handler を実装するオブジェクトは、HTTPリクエストを処理できます。
 
 .. code-block:: go
 
@@ -1542,7 +1542,7 @@ ResponseWriter自体は、クライアントに応答を返すために必要な
        f(w, req)
    }
 
-**HandlerFunc** は **ServeHTTP** というメソッドを持つ型であるため、その型の値はHTTPリクエストを処理できます。メソッドの実装を見てください。レシーバは関数 ``f`` であり、メソッドは ``f`` を呼び出します。それは不思議に思えるかもしれませんが、例えば、レシーバーがチャンネルであり、チャンネルで送信するメソッドとそれほど違いはありません。
+``HandlerFunc`` は ``ServeHTTP`` というメソッドを持つ型であるため、その型の値はHTTPリクエストを処理できます。メソッドの実装を見てください。レシーバは関数 ``f`` であり、メソッドは ``f`` を呼び出します。それは不思議に思えるかもしれませんが、例えば、レシーバーがチャンネルであり、チャンネルで送信するメソッドとそれほど違いはありません。
 
 ArgServerをHTTPサーバーにするには、まずHTTPリクエストを処理できるようにシグネチャを変更します。
 
@@ -1553,13 +1553,13 @@ ArgServerをHTTPサーバーにするには、まずHTTPリクエストを処理
        fmt.Fprintln(w, os.Args)
    }
 
-ArgServerは **HandlerFunc** と同じシグネチャを持つようになったので、メソッドにアクセスするためにその型に変換できます。前のセクションでSequenceの型をIntSliceの型に変換してIntSlice.Sortにアクセスしたようなものです。実装するコードは簡潔です。
+ArgServerは ``HandlerFunc`` と同じシグネチャを持つようになったので、メソッドにアクセスするためにその型に変換できます。前のセクションでSequenceの型をIntSliceの型に変換してIntSlice.Sortにアクセスしたようなものです。実装するコードは簡潔です。
 
 .. code-block:: go
 
    http.Handle("/args", http.HandlerFunc(ArgServer))
 
-誰かがパス ``/args`` にアクセスすると、そのパスに紐付いているハンドラーの値はArgServerであり、HandlerFuncと入力されます。 HTTPサーバーは、ArgServerをレシーバーとして、そのタイプのServeHTTPメソッドを呼び出します。これは、ArgServerを呼び出します(HandlerFunc.ServeHTTP内の呼び出し **f(w, req)** を経由します)。そして、引数が表示されます。
+誰かがパス ``/args`` にアクセスすると、そのパスに紐付いているハンドラーの値はArgServerであり、HandlerFuncと入力されます。 HTTPサーバーは、ArgServerをレシーバーとして、そのタイプのServeHTTPメソッドを呼び出します。これは、ArgServerを呼び出します(HandlerFunc.ServeHTTP内の呼び出し ``f(w, req)`` を経由します)。そして、引数が表示されます。
 
 このセクションでは、構造体、整数、チャネル、および関数からHTTPサーバーを作成しました。これは、インターフェイスがほとんど任意の型に対して定義できる単なるメソッドのセットであることを示すためです。
 
@@ -1687,7 +1687,7 @@ ArgServerは **HandlerFunc** と同じシグネチャを持つようになった
 
 Goは、典型的な型のサブクラス化の概念を提供しませんが、構造体またはインターフェイス内に型を埋め込むことにより、実装の一部を「借りる」機能を備えています。
 
-インターフェイスの埋め込みは非常に簡単です。 以前に **io.Reader** および **io.Writer** インターフェースについて言及しました。定義は次のとおりです。
+インターフェイスの埋め込みは非常に簡単です。 以前に ``io.Reader`` および ``io.Writer`` インターフェースについて言及しました。定義は次のとおりです。
 
 .. code-block:: go
 
@@ -1699,7 +1699,7 @@ Goは、典型的な型のサブクラス化の概念を提供しませんが、
        Write(p []byte) (n int, err error)
    }
 
-ioパッケージは、そのようないくつかのメソッドを実装できるオブジェクトを持つインターフェースも公開しています。 たとえば、読み取りと書き込みの両方を含むインターフェイスである **io.ReadWriter** があります。 2つのメソッドを明示的にリストすることで **io.ReadWriter** を指定できますが、次のように2つのインターフェイスを埋め込んで新しいインターフェイスを作成する方が簡単で示唆に富んでいます。
+ioパッケージは、そのようないくつかのメソッドを実装できるオブジェクトを持つインターフェースも公開しています。 たとえば、読み取りと書き込みの両方を含むインターフェイスである ``io.ReadWriter`` があります。 2つのメソッドを明示的にリストすることで ``io.ReadWriter`` を指定できますが、次のように2つのインターフェイスを埋め込んで新しいインターフェイスを作成する方が簡単で示唆に富んでいます。
 
 .. code-block:: go
 
@@ -1709,9 +1709,9 @@ ioパッケージは、そのようないくつかのメソッドを実装でき
        Writer
    }
 
-これは、見た目だけを示しています。 **ReadWriter** は、Readerの機能とWriterの機能を実行できます。 これは、組み込みインターフェース(メソッドの互いに素なセットでなければなりません)の結合です。 インターフェイスにのみ埋め込むことができます。
+これは、見た目だけを示しています。 ``ReadWriter`` は、Readerの機能とWriterの機能を実行できます。 これは、組み込みインターフェース(メソッドの互いに素なセットでなければなりません)の結合です。 インターフェイスにのみ埋め込むことができます。
 
-同じ基本的な考え方は構造体にも当てはまりますが、より広範囲に影響を及ぼします。 **bufio** パッケージには、bufio.Readerとbufio.Writerの2つの構造体タイプがあり、それぞれがパッケージioから類似のインターフェースを実装しています。 またbufioは、バッファー付きの Reader/Writer も実装します。これは、埋め込みを使用して Reader と Writer を1つの構造に結合することで行います。構造内の型をリストしますが、フィールド名は付けません。
+同じ基本的な考え方は構造体にも当てはまりますが、より広範囲に影響を及ぼします。 ``bufio`` パッケージには、bufio.Readerとbufio.Writerの2つの構造体タイプがあり、それぞれがパッケージioから類似のインターフェースを実装しています。 またbufioは、バッファー付きの Reader/Writer も実装します。これは、埋め込みを使用して Reader と Writer を1つの構造に結合することで行います。構造内の型をリストしますが、フィールド名は付けません。
 
 .. code-block:: go
 
@@ -1722,7 +1722,7 @@ ioパッケージは、そのようないくつかのメソッドを実装でき
        *Writer  // *bufio.Writer
    }
 
-埋め込まれた要素は構造体へのポインタであり、使用する前に有効な構造体を指すように初期化する必要があります。 **ReadWriter** 構造体は次のように記述できます。
+埋め込まれた要素は構造体へのポインタであり、使用する前に有効な構造体を指すように初期化する必要があります。 ``ReadWriter`` 構造体は次のように記述できます。
 
 .. code-block:: go
 
@@ -1834,9 +1834,9 @@ Goroutines are multiplexed onto multiple OS threads so if one should
 block, such as while waiting for I/O, others continue to run. Their
 design hides many of the complexities of thread creation and management.
 
-Prefix a function or method call with the **go** keyword to run the call
+Prefix a function or method call with the ``go`` keyword to run the call
 in a new goroutine. When the call completes, the goroutine exits,
-silently. (The effect is similar to the Unix shell's **&** notation for
+silently. (The effect is similar to the Unix shell's ``&`` notation for
 running a command in the background.)
 
 .. code-block:: go
@@ -1864,7 +1864,7 @@ signaling completion. For that, we need channels.
 チャンネル
 ~~~~~~~~~~~~~~~~~~
 
-Like maps, channels are allocated with **make**, and the resulting value
+Like maps, channels are allocated with ``make``, and the resulting value
 acts as a reference to an underlying data structure. If an optional
 integer parameter is provided, it sets the buffer size for the channel.
 The default is zero, for an unbuffered or synchronous channel.
@@ -1902,11 +1902,11 @@ been copied to the buffer; if the buffer is full, this means waiting
 until some receiver has retrieved a value.
 
 A buffered channel can be used like a semaphore, for instance to limit
-throughput. In this example, incoming requests are passed to **handle**,
+throughput. In this example, incoming requests are passed to ``handle``,
 which sends a value into the channel, processes the request, and then
 receives a value from the channel to ready the “semaphore” for the next
 consumer. The capacity of the channel buffer limits the number of
-simultaneous calls to **process**.
+simultaneous calls to ``process``.
 
 .. code-block:: go
 
@@ -1925,15 +1925,15 @@ simultaneous calls to **process**.
        }
    }
 
-Once **MaxOutstanding** handlers are executing **process**, any more
+Once ``MaxOutstanding`` handlers are executing ``process``, any more
 will block trying to send into the filled channel buffer, until one of
 the existing handlers finishes and receives from the buffer.
 
-This design has a problem, though: **Serve** creates a new goroutine for
-every incoming request, even though only **MaxOutstanding** of them can
+This design has a problem, though: ``Serve`` creates a new goroutine for
+every incoming request, even though only ``MaxOutstanding`` of them can
 run at any moment. As a result, the program can consume unlimited
 resources if the requests come in too fast. We can address that
-deficiency by changing **Serve** to gate the creation of the goroutines.
+deficiency by changing ``Serve`` to gate the creation of the goroutines.
 Here's an obvious solution, but beware it has a bug we'll fix
 subsequently:
 
@@ -1949,10 +1949,10 @@ subsequently:
        }
    }
 
-The bug is that in a Go **for** loop, the loop variable is reused for
-each iteration, so the **req** variable is shared across all goroutines.
-That's not what we want. We need to make sure that **req** is unique for
-each goroutine. Here's one way to do that, passing the value of **req**
+The bug is that in a Go ``for`` loop, the loop variable is reused for
+each iteration, so the ``req`` variable is shared across all goroutines.
+That's not what we want. We need to make sure that ``req`` is unique for
+each goroutine. Here's one way to do that, passing the value of ``req``
 as an argument to the closure in the goroutine:
 
 .. code-block:: go
@@ -1996,9 +1996,9 @@ variable locally but unique to each goroutine.
 
 Going back to the general problem of writing the server, another
 approach that manages resources well is to start a fixed number of
-**handle** goroutines all reading from the request channel. The number
-of goroutines limits the number of simultaneous calls to **process**.
-This **Serve** function also accepts a channel on which it will be told
+``handle`` goroutines all reading from the request channel. The number
+of goroutines limits the number of simultaneous calls to ``process``.
+This ``Serve`` function also accepts a channel on which it will be told
 to exit; after launching the goroutines it blocks receiving from that
 channel.
 
@@ -2028,11 +2028,11 @@ first-class value that can be allocated and passed around like any
 other. A common use of this property is to implement safe, parallel
 demultiplexing.
 
-In the example in the previous section, **handle** was an idealized
+In the example in the previous section, ``handle`` was an idealized
 handler for a request but we didn't define the type it was handling. If
 that type includes a channel on which to reply, each client can provide
 its own path for the answer. Here's a schematic definition of type
-**Request**.
+``Request``.
 
 .. code-block:: go
 
@@ -2122,16 +2122,16 @@ goroutines.
    }
 
 Rather than create a constant value for numCPU, we can ask the runtime
-what value is appropriate. The function **runtime.NumCPU** returns the
+what value is appropriate. The function ``runtime.NumCPU`` returns the
 number of hardware CPU cores in the machine, so we could write
 
 .. code-block:: go
 
    var numCPU = runtime.NumCPU()
 
-There is also a function **runtime.GOMAXPROCS**, which reports (or sets)
+There is also a function ``runtime.GOMAXPROCS``, which reports (or sets)
 the user-specified number of cores that a Go program can have running
-simultaneously. It defaults to the value of **runtime.NumCPU** but can
+simultaneously. It defaults to the value of ``runtime.NumCPU`` but can
 be overridden by setting the similarly named shell environment variable
 or by calling the function with a positive number. Calling it with zero
 just queries the value. Therefore if we want to honor the user's
@@ -2161,7 +2161,7 @@ client goroutine loops receiving data from some source, perhaps a
 network. To avoid allocating and freeing buffers, it keeps a free list,
 and uses a buffered channel to represent it. If the channel is empty, a
 new buffer gets allocated. Once the message buffer is ready, it's sent
-to the server on **serverChan**.
+to the server on ``serverChan``.
 
 .. code-block:: go
 
@@ -2203,12 +2203,12 @@ returns the buffer to the free list.
        }
    }
 
-The client attempts to retrieve a buffer from **freeList**; if none is
-available, it allocates a fresh one. The server's send to **freeList**
-puts **b** back on the free list unless the list is full, in which case
+The client attempts to retrieve a buffer from ``freeList``; if none is
+available, it allocates a fresh one. The server's send to ``freeList``
+puts ``b`` back on the free list unless the list is full, in which case
 the buffer is dropped on the floor to be reclaimed by the garbage
-collector. (The **default** clauses in the **select** statements execute
-when no other case is ready, meaning that the **selects** never block.)
+collector. (The ``default`` clauses in the ``select`` statements execute
+when no other case is ready, meaning that the ``selects`` never block.)
 This implementation builds a leaky bucket free list in just a few lines,
 relying on the buffered channel and the garbage collector for
 bookkeeping.
@@ -2273,12 +2273,12 @@ Goでは慣例としてエラーはシンプルなビルトインインターフ
 Panic
 ~~~~~
 
-The usual way to report an error to a caller is to return an **error**
-as an extra return value. The canonical **Read** method is a well-known
-instance; it returns a byte count and an **error**. But what if the
+The usual way to report an error to a caller is to return an ``error``
+as an extra return value. The canonical ``Read`` method is a well-known
+instance; it returns a byte count and an ``error``. But what if the
 error is unrecoverable? Sometimes the program simply cannot continue.
 
-For this purpose, there is a built-in function **panic** that in effect
+For this purpose, there is a built-in function ``panic`` that in effect
 creates a run-time error that will stop the program (but see the next
 section). The function takes a single argument of arbitrary type—often a
 string—to be printed as the program dies. It's also a way to indicate
@@ -2302,7 +2302,7 @@ loop.
    }
 
 This is only an example but real library functions should avoid
-**panic**. If the problem can be masked or worked around, it's always
+``panic``. If the problem can be masked or worked around, it's always
 better to let things continue to run rather than taking down the whole
 program. One possible counterexample is during initialization: if the
 library truly cannot set itself up, it might be reasonable to panic, so
@@ -2321,21 +2321,21 @@ to speak.
 Recover
 ~~~~~~~
 
-When **panic** is called, including implicitly for run-time errors such
+When ``panic`` is called, including implicitly for run-time errors such
 as indexing a slice out of bounds or failing a type assertion, it
 immediately stops execution of the current function and begins unwinding
 the stack of the goroutine, running any deferred functions along the
 way. If that unwinding reaches the top of the goroutine's stack, the
 program dies. However, it is possible to use the built-in function
-**recover** to regain control of the goroutine and resume normal
+``recover`` to regain control of the goroutine and resume normal
 execution.
 
-A call to **recover** stops the unwinding and returns the argument
-passed to **panic**. Because the only code that runs while unwinding is
-inside deferred functions, **recover** is only useful inside deferred
+A call to ``recover`` stops the unwinding and returns the argument
+passed to ``panic``. Because the only code that runs while unwinding is
+inside deferred functions, ``recover`` is only useful inside deferred
 functions.
 
-One application of **recover** is to shut down a failing goroutine
+One application of ``recover`` is to shut down a failing goroutine
 inside a server without killing the other executing goroutines.
 
 .. code-block:: go
@@ -2355,24 +2355,24 @@ inside a server without killing the other executing goroutines.
        do(work)
    }
 
-In this example, if **do(work)** panics, the result will be logged and
+In this example, if ``do(work)`` panics, the result will be logged and
 the goroutine will exit cleanly without disturbing the others. There's
-no need to do anything else in the deferred closure; calling **recover**
+no need to do anything else in the deferred closure; calling ``recover``
 handles the condition completely.
 
-Because **recover** always returns **nil** unless called directly from a
+Because ``recover`` always returns ``nil`` unless called directly from a
 deferred function, deferred code can call library routines that
-themselves use **panic** and **recover** without failing. As an example,
-the deferred function in **safelyDo** might call a logging function
-before calling **recover**, and that logging code would run unaffected
+themselves use ``panic`` and ``recover`` without failing. As an example,
+the deferred function in ``safelyDo`` might call a logging function
+before calling ``recover``, and that logging code would run unaffected
 by the panicking state.
 
-With our recovery pattern in place, the **do** function (and anything it
-calls) can get out of any bad situation cleanly by calling **panic**. We
+With our recovery pattern in place, the ``do`` function (and anything it
+calls) can get out of any bad situation cleanly by calling ``panic``. We
 can use that idea to simplify error handling in complex software. Let's
-look at an idealized version of a **regexp** package, which reports
-parsing errors by calling **panic** with a local error type. Here's the
-definition of **Error**, an **error** method, and the **Compile**
+look at an idealized version of a ``regexp`` package, which reports
+parsing errors by calling ``panic`` with a local error type. Here's the
+definition of ``Error``, an ``error`` method, and the ``Compile``
 function.
 
 .. code-block:: go
@@ -2402,19 +2402,19 @@ function.
        return regexp.doParse(str), nil
    }
 
-If **doParse** panics, the recovery block will set the return value to
-**nil**—deferred functions can modify named return values. It will then
-check, in the assignment to **err**, that the problem was a parse error
-by asserting that it has the local type **Error**. If it does not, the
+If ``doParse`` panics, the recovery block will set the return value to
+``nil``—deferred functions can modify named return values. It will then
+check, in the assignment to ``err``, that the problem was a parse error
+by asserting that it has the local type ``Error``. If it does not, the
 type assertion will fail, causing a run-time error that continues the
 stack unwinding as though nothing had interrupted it. This check means
 that if something unexpected happens, such as an index out of bounds,
-the code will fail even though we are using **panic** and **recover** to
+the code will fail even though we are using ``panic`` and ``recover`` to
 handle parse errors.
 
-With error handling in place, the **error** method (because it's a
+With error handling in place, the ``error`` method (because it's a
 method bound to a type, it's fine, even natural, for it to have the same
-name as the builtin **error** type) makes it easy to report parse errors
+name as the builtin ``error`` type) makes it easy to report parse errors
 without worrying about unwinding the parse stack by hand:
 
 .. code-block:: go
@@ -2424,8 +2424,8 @@ without worrying about unwinding the parse stack by hand:
    }
 
 Useful though this pattern is, it should be used only within a package.
-**Parse** turns its internal **panic** calls into **error** values; it
-does not expose **panics** to its client. That is a good rule to follow.
+``Parse`` turns its internal ``panic`` calls into ``error`` values; it
+does not expose ``panics`` to its client. That is a good rule to follow.
 
 By the way, this re-panic idiom changes the panic value if an actual
 error occurs. However, both the original and new failures will be
@@ -2441,7 +2441,7 @@ exercise for the reader.
 Webサーバー
 --------------------
 
-完全なGoのプログラムであるWebサーバを仕上げて終わりにしましょう。これは実際には一種の中継サーバです。Googleは **chart.apis.google.com** としてデータをチャートおよびグラフに自動的にフォーマットするサービスを提供しています。ただし、データをクエリとしてURLに送信する必要があるため、インタラクティブに使用することは困難です。ここでのプログラムはデータの1形式へのよりよいインターフェースを提供します。短いテキストを与えると、チャートサーバを呼び出し、テキストをエンコードする二次元のQRコードを生成します。その画像を携帯電話のカメラで取得して、たとえばURLとして解釈し、携帯電話の小さなキーボードにURLを入力する手間を省くことができます。
+完全なGoのプログラムであるWebサーバを仕上げて終わりにしましょう。これは実際には一種の中継サーバです。Googleは ``chart.apis.google.com`` としてデータをチャートおよびグラフに自動的にフォーマットするサービスを提供しています。ただし、データをクエリとしてURLに送信する必要があるため、インタラクティブに使用することは困難です。ここでのプログラムはデータの1形式へのよりよいインターフェースを提供します。短いテキストを与えると、チャートサーバを呼び出し、テキストをエンコードする二次元のQRコードを生成します。その画像を携帯電話のカメラで取得して、たとえばURLとして解釈し、携帯電話の小さなキーボードにURLを入力する手間を省くことができます。
 
 ここに完全なプログラムがあります。以下に従って説明します。
 
@@ -2450,13 +2450,13 @@ Webサーバー
 
 mainまでの部分は簡単に理解できるはずです。 1つのフラグは、サーバーのデフォルトHTTPポートを設定します。 テンプレート変数templは、面白いことが起こる場所です。 ページを表示するためにサーバーによって実行されるHTMLテンプレートを作成します。 それについてはすぐに説明します。
 
-メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 **QR** をサーバーのルートパスにバインドします。 次に、サーバーを起動するために **http.ListenAndServe** が呼び出されます。 サーバーの実行中はブロックされます。
+メイン関数はフラグを解析し、上で説明したメカニズムを使用して、関数 ``QR`` をサーバーのルートパスにバインドします。 次に、サーバーを起動するために ``http.ListenAndServe`` が呼び出されます。 サーバーの実行中はブロックされます。
 
-**QR** はフォームデータを含むリクエストを受信し、 **s** という名前のフォーム値のデータに対してテンプレートを実行します。
+``QR`` はフォームデータを含むリクエストを受信し、 ``s`` という名前のフォーム値のデータに対してテンプレートを実行します。
 
-テンプレートパッケージ **html/template** は強力です。 このプログラムは、その機能に触れています。 本質的に、 **templ.Execute** に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 **{{if .}}** から **{{end}}** の部分は、**.** と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
+テンプレートパッケージ ``html/template`` は強力です。 このプログラムは、その機能に触れています。 本質的に、 ``templ.Execute`` に渡されるデータ項目(この場合はフォーム値)から派生した要素を置き換えることにより、HTMLテキストを即座に書き換えます。 テンプレートテキスト(templateStr)内で、二重括弧で区切られた部分はテンプレートアクションを示します。 ``{{if .}}`` から ``{{end}}`` の部分は、``.`` と呼ばれる現在のデータ項目が空でない場合のみ実行されます。つまり、文字列が空の場合、テンプレートのこの部分は抑制されます。
 
-2つのスニペット **{{.}}** は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
+2つのスニペット ``{{.}}`` は、テンプレートに提示されたデータ(クエリ文字列)をWebページに表示することを示しています。 HTMLテンプレートパッケージは、適切なエスケープを自動的に提供するため、テキストを安全に表示できます。
 
 テンプレート文字列の残りの部分は、ページが読み込まれたときに表示するHTMLです。 説明が速すぎる場合は、テンプレートパッケージの `ドキュメント <https://golang.org/pkg/html/template/>`_ で詳細を確認してください。
 
