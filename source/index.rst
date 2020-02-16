@@ -7,4 +7,7 @@ Effective Go
 
     documents/effective_go_ja
 
-.. todolist::
+.. toctree::
+    :maxdepth: 1
+
+    documents/todo
