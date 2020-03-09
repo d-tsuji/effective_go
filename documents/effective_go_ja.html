@@ -1879,16 +1879,8 @@ bookkeeping.</p>
 <p>ここの2番目の <code class="docutils literal notranslate"><span class="pre">if</span></code> ステートメントは別の型アサーションです。 失敗した場合 <code class="docutils literal notranslate"><span class="pre">ok</span></code> は <code class="docutils literal notranslate"><span class="pre">false</span></code> になり、<code class="docutils literal notranslate"><span class="pre">e</span></code> は <code class="docutils literal notranslate"><span class="pre">nil</span></code> になります。 成功した場合、 <code class="docutils literal notranslate"><span class="pre">ok</span></code> は <code class="docutils literal notranslate"><span class="pre">true</span></code> になります。これは、エラーのタイプが <code class="docutils literal notranslate"><span class="pre">*os.PathError</span></code> であったことを意味し、続いて <code class="docutils literal notranslate"><span class="pre">e</span></code> もエラーの詳細について調べることができます。</p>
 <div class="section" id="panic">
 <h3>Panic<a class="headerlink" href="#panic" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>The usual way to report an error to a caller is to return an <code class="docutils literal notranslate"><span class="pre">error</span></code>
-as an extra return value. The canonical <code class="docutils literal notranslate"><span class="pre">Read</span></code> method is a well-known
-instance; it returns a byte count and an <code class="docutils literal notranslate"><span class="pre">error</span></code>. But what if the
-error is unrecoverable? Sometimes the program simply cannot continue.</p>
-<p>For this purpose, there is a built-in function <code class="docutils literal notranslate"><span class="pre">panic</span></code> that in effect
-creates a run-time error that will stop the program (but see the next
-section). The function takes a single argument of arbitrary type—often a
-string—to be printed as the program dies. It's also a way to indicate
-that something impossible has happened, such as exiting an infinite
-loop.</p>
+<p>呼び出し元にエラーがあったことを示す一般的な方法は追加の戻り値として <code class="docutils literal notranslate"><span class="pre">error</span></code> を返すことです。標準パッケージの <code class="docutils literal notranslate"><span class="pre">Read</span></code> はよく知られた関数です。読み取ったバイト数とエラーを返します。しかし、回復不能なエラーの場合はどうでしょうか？単純にプログラムが動作し続けることができない場合があります。</p>
+<p>この目的のために、プログラムが停止する実行時エラーを発生させる組み込み関数 <code class="docutils literal notranslate"><span class="pre">panic</span></code> があります(ただし、次のセクションを参照してください)。この関数は、プログラムの終了時に出力される任意の型の単一の引数(多くの場合文字列)を取ります。また、無限ループの終了など、不可能なことが発生したことを示す方法でもあります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// A toy implementation of cube root using Newton&#39;s method.</span>
 <span class="kd">func</span> <span class="nx">CubeRoot</span><span class="p">(</span><span class="nx">x</span> <span class="kt">float64</span><span class="p">)</span> <span class="kt">float64</span> <span class="p">{</span>
     <span class="nx">z</span> <span class="o">:=</span> <span class="nx">x</span><span class="o">/</span><span class="mi">3</span>   <span class="c1">// Arbitrary initial value</span>
@@ -1904,12 +1896,7 @@ loop.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>This is only an example but real library functions should avoid
-<code class="docutils literal notranslate"><span class="pre">panic</span></code>. If the problem can be masked or worked around, it's always
-better to let things continue to run rather than taking down the whole
-program. One possible counterexample is during initialization: if the
-library truly cannot set itself up, it might be reasonable to panic, so
-to speak.</p>
+<p>これは単なる例ですが、実際のライブラリ関数は <code class="docutils literal notranslate"><span class="pre">panic</span></code> を回避する必要があります。 問題が表面化することなく防いだり、回避したりできる場合は、プログラム全体を停止するのではなく、常に実行し続けた方が良いでしょう。考えられる反例の1つは、初期化時です。ライブラリが真にセットアップできない場合はいわゆるパニック状態に陥ることは妥当かもしれません。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">var</span> <span class="nx">user</span> <span class="p">=</span> <span class="nx">os</span><span class="p">.</span><span class="nx">Getenv</span><span class="p">(</span><span class="s">&quot;USER&quot;</span><span class="p">)</span>
 
 <span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
@@ -2202,11 +2189,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 18892</li>
-            <li>非アスキー: 26251</li>
-            <li>合計文字数: 45143</li>
-            <li>半角換算: 71394</li>
-            <li>全角換算: 35697.0</li>
+            <li>英数記号: 17951</li>
+            <li>非アスキー: 26697</li>
+            <li>合計文字数: 44648</li>
+            <li>半角換算: 71345</li>
+            <li>全角換算: 35672.5</li>
         </ul>
     </p>
 </div>
@@ -2241,7 +2228,7 @@ exercise for the reader.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, d-tsuji.
-      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.1 で生成しました。
+      このドキュメントは <a href="http://sphinx-doc.org/">Sphinx</a> 2.4.4 で生成しました。
     </div>
   </body>
 </html>

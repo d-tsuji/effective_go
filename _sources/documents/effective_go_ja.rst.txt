@@ -2273,17 +2273,9 @@ Goでは慣例としてエラーはシンプルなビルトインインターフ
 Panic
 ~~~~~
 
-The usual way to report an error to a caller is to return an ``error``
-as an extra return value. The canonical ``Read`` method is a well-known
-instance; it returns a byte count and an ``error``. But what if the
-error is unrecoverable? Sometimes the program simply cannot continue.
+呼び出し元にエラーがあったことを示す一般的な方法は追加の戻り値として ``error`` を返すことです。標準パッケージの ``Read`` はよく知られた関数です。読み取ったバイト数とエラーを返します。しかし、回復不能なエラーの場合はどうでしょうか？単純にプログラムが動作し続けることができない場合があります。
 
-For this purpose, there is a built-in function ``panic`` that in effect
-creates a run-time error that will stop the program (but see the next
-section). The function takes a single argument of arbitrary type—often a
-string—to be printed as the program dies. It's also a way to indicate
-that something impossible has happened, such as exiting an infinite
-loop.
+この目的のために、プログラムが停止する実行時エラーを発生させる組み込み関数 ``panic`` があります(ただし、次のセクションを参照してください)。この関数は、プログラムの終了時に出力される任意の型の単一の引数(多くの場合文字列)を取ります。また、無限ループの終了など、不可能なことが発生したことを示す方法でもあります。
 
 .. code-block:: go
 
@@ -2301,12 +2293,7 @@ loop.
        panic(fmt.Sprintf("CubeRoot(%g) did not converge", x))
    }
 
-This is only an example but real library functions should avoid
-``panic``. If the problem can be masked or worked around, it's always
-better to let things continue to run rather than taking down the whole
-program. One possible counterexample is during initialization: if the
-library truly cannot set itself up, it might be reasonable to panic, so
-to speak.
+これは単なる例ですが、実際のライブラリ関数は ``panic`` を回避する必要があります。 問題が表面化することなく防いだり、回避したりできる場合は、プログラム全体を停止するのではなく、常に実行し続けた方が良いでしょう。考えられる反例の1つは、初期化時です。ライブラリが真にセットアップできない場合はいわゆるパニック状態に陥ることは妥当かもしれません。
 
 .. code-block:: go
 
