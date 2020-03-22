@@ -2308,22 +2308,11 @@ Panic
 Recover
 ~~~~~~~
 
-When ``panic`` is called, including implicitly for run-time errors such
-as indexing a slice out of bounds or failing a type assertion, it
-immediately stops execution of the current function and begins unwinding
-the stack of the goroutine, running any deferred functions along the
-way. If that unwinding reaches the top of the goroutine's stack, the
-program dies. However, it is possible to use the built-in function
-``recover`` to regain control of the goroutine and resume normal
-execution.
+パニックが呼び出されると、スライスに範囲外のインデックスにアクセスしたり、型アサーションに失敗したりするなどのランタイムエラーを暗黙的に含めて、現在の関数の実行を直ちに停止し、goroutineのスタックの巻き戻しを開始し、途中で defer した関数を実行します。その巻き戻しがゴルーチンのスタックの先頭に到達した場合、プログラムは終了します。しかし、組み込み関数 recover を使用して goroutine の制御を回復し、通常の実行を再開することは可能です。
 
-A call to ``recover`` stops the unwinding and returns the argument
-passed to ``panic``. Because the only code that runs while unwinding is
-inside deferred functions, ``recover`` is only useful inside deferred
-functions.
+recoverの呼び出しは、巻き戻しを停止し、panicに渡された引数を返します。巻き戻し中に実行されるコードは defer 関数の内部にしかないので、recoverは defer 関数の内部でのみ有用です。
 
-One application of ``recover`` is to shut down a failing goroutine
-inside a server without killing the other executing goroutines.
+recoverの1つの応用例は、他の実行中のゴルーチンを kill することなく、サーバ内部の失敗したゴルーチンをシャットダウンすることです。
 
 .. code-block:: go
 
@@ -2362,6 +2351,12 @@ parsing errors by calling ``panic`` with a local error type. Here's the
 definition of ``Error``, an ``error`` method, and the ``Compile``
 function.
 
+この例では、do(work) がパニックになった場合、結果はログに記録され、goroutine は他のゴルーチンに迷惑をかけずにきれいに終了します。deferredクロージャでは、他に何かをする必要はありません。
+
+deferred関数から直接呼び出されない限り、recoverは常にnilを返すので、 deferredコードは、それ自体がpanicとrecoverを使用するライブラリルーチンを、失敗することなく呼び出すことができます。例えば、safelyDo の derfer 関数は recover を呼び出す前にロギング関数を呼び出すことができ、そのロギングコードはパニック状態の影響を受けずに実行されます。
+
+リカバリパターンが適切に設定されていれば、do関数(とそれが呼び出すものはすべて)はパニックを呼び出すことで、どんな悪い状況からもきれいに抜け出すことができます。この考え方を利用して、複雑なソフトウェアのエラー処理を簡単にすることができます。ここでは、ローカルのエラータイプを指定してpanicを呼び出すことで解析エラーを報告するregexpパッケージの理想化されたバージョンを見てみましょう。エラーの定義、エラーメソッド、Compile関数は以下の通りです。
+
 .. code-block:: go
 
    // Error is the type of a parse error; it satisfies the error interface.
@@ -2389,20 +2384,9 @@ function.
        return regexp.doParse(str), nil
    }
 
-If ``doParse`` panics, the recovery block will set the return value to
-``nil``—deferred functions can modify named return values. It will then
-check, in the assignment to ``err``, that the problem was a parse error
-by asserting that it has the local type ``Error``. If it does not, the
-type assertion will fail, causing a run-time error that continues the
-stack unwinding as though nothing had interrupted it. This check means
-that if something unexpected happens, such as an index out of bounds,
-the code will fail even though we are using ``panic`` and ``recover`` to
-handle parse errors.
+doParse がパニックになると、リカバリ・ブロックは戻り値を nil に設定します。その後、 err への代入で、問題がローカル型 Error を持つことをアサートすることで、問題がパースエラーであることをチェックします。そうでない場合、型のアサーションは失敗し、何も中断しなかったかのようにスタックの巻き戻しを続けるランタイムエラーを引き起こします。このチェックは、範囲外のインデックスアクセスのような予期せぬことが起こった場合には、 パースエラーを処理するためにパニックとリカバリーを使用しているにもかかわらず、コードが失敗することを意味しています。
 
-With error handling in place, the ``error`` method (because it's a
-method bound to a type, it's fine, even natural, for it to have the same
-name as the builtin ``error`` type) makes it easy to report parse errors
-without worrying about unwinding the parse stack by hand:
+エラー処理が適切に行われていると、エラーメソッド (型にバインドされたメソッドなので、組み込みのエラー型と同じ名前を持っていても問題ありませんし、当然のことです) によって、パーススタックを手で巻き戻すことを心配することなく、簡単にパースエラーを報告することができるようになります。
 
 .. code-block:: go
 
@@ -2410,18 +2394,9 @@ without worrying about unwinding the parse stack by hand:
        re.error("'*' illegal at start of expression")
    }
 
-Useful though this pattern is, it should be used only within a package.
-``Parse`` turns its internal ``panic`` calls into ``error`` values; it
-does not expose ``panics`` to its client. That is a good rule to follow.
+このパターンは便利ですが、パッケージ内でのみ使用すべきです。Parse は内部のパニックコールをエラー値に変換します。これは従うべき良いルールです。
 
-By the way, this re-panic idiom changes the panic value if an actual
-error occurs. However, both the original and new failures will be
-presented in the crash report, so the root cause of the problem will
-still be visible. Thus this simple re-panic approach is usually
-sufficient—it's a crash after all—but if you want to display only the
-original value, you can write a little more code to filter unexpected
-problems and re-panic with the original error. That's left as an
-exercise for the reader.
+ところで、この再パニックイディオムは、実際のエラーが発生した場合にパニック値を変更します。しかし、元の障害と新しい障害の両方がクラッシュレポートに表示されるので、問題の根本原因はまだ見えます。このように、この単純な再パニックのアプローチは通常は十分です-これは結局のところクラッシュです-しかし、元の値だけを表示したい場合は、予想外の問題をフィルタリングして元のエラーで再パニックするためにもう少しコードを書くことができます。これは読者のための練習問題として残しておきます。
 
 .. _web_server:
 
