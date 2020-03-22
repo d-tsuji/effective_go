@@ -1909,20 +1909,9 @@ bookkeeping.</p>
 </div>
 <div class="section" id="recover">
 <h3>Recover<a class="headerlink" href="#recover" title="このヘッドラインへのパーマリンク">¶</a></h3>
-<p>When <code class="docutils literal notranslate"><span class="pre">panic</span></code> is called, including implicitly for run-time errors such
-as indexing a slice out of bounds or failing a type assertion, it
-immediately stops execution of the current function and begins unwinding
-the stack of the goroutine, running any deferred functions along the
-way. If that unwinding reaches the top of the goroutine's stack, the
-program dies. However, it is possible to use the built-in function
-<code class="docutils literal notranslate"><span class="pre">recover</span></code> to regain control of the goroutine and resume normal
-execution.</p>
-<p>A call to <code class="docutils literal notranslate"><span class="pre">recover</span></code> stops the unwinding and returns the argument
-passed to <code class="docutils literal notranslate"><span class="pre">panic</span></code>. Because the only code that runs while unwinding is
-inside deferred functions, <code class="docutils literal notranslate"><span class="pre">recover</span></code> is only useful inside deferred
-functions.</p>
-<p>One application of <code class="docutils literal notranslate"><span class="pre">recover</span></code> is to shut down a failing goroutine
-inside a server without killing the other executing goroutines.</p>
+<p>パニックが呼び出されると、スライスに範囲外のインデックスにアクセスしたり、型アサーションに失敗したりするなどのランタイムエラーを暗黙的に含めて、現在の関数の実行を直ちに停止し、goroutineのスタックの巻き戻しを開始し、途中で defer した関数を実行します。その巻き戻しがゴルーチンのスタックの先頭に到達した場合、プログラムは終了します。しかし、組み込み関数 recover を使用して goroutine の制御を回復し、通常の実行を再開することは可能です。</p>
+<p>recoverの呼び出しは、巻き戻しを停止し、panicに渡された引数を返します。巻き戻し中に実行されるコードは defer 関数の内部にしかないので、recoverは defer 関数の内部でのみ有用です。</p>
+<p>recoverの1つの応用例は、他の実行中のゴルーチンを kill することなく、サーバ内部の失敗したゴルーチンをシャットダウンすることです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kd">func</span> <span class="nx">server</span><span class="p">(</span><span class="nx">workChan</span> <span class="o">&lt;-</span><span class="kd">chan</span> <span class="o">*</span><span class="nx">Work</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="nx">work</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">workChan</span> <span class="p">{</span>
         <span class="k">go</span> <span class="nx">safelyDo</span><span class="p">(</span><span class="nx">work</span><span class="p">)</span>
@@ -1956,6 +1945,9 @@ look at an idealized version of a <code class="docutils literal notranslate"><sp
 parsing errors by calling <code class="docutils literal notranslate"><span class="pre">panic</span></code> with a local error type. Here's the
 definition of <code class="docutils literal notranslate"><span class="pre">Error</span></code>, an <code class="docutils literal notranslate"><span class="pre">error</span></code> method, and the <code class="docutils literal notranslate"><span class="pre">Compile</span></code>
 function.</p>
+<p>この例では、do(work) がパニックになった場合、結果はログに記録され、goroutine は他のゴルーチンに迷惑をかけずにきれいに終了します。deferredクロージャでは、他に何かをする必要はありません。</p>
+<p>deferred関数から直接呼び出されない限り、recoverは常にnilを返すので、 deferredコードは、それ自体がpanicとrecoverを使用するライブラリルーチンを、失敗することなく呼び出すことができます。例えば、safelyDo の derfer 関数は recover を呼び出す前にロギング関数を呼び出すことができ、そのロギングコードはパニック状態の影響を受けずに実行されます。</p>
+<p>リカバリパターンが適切に設定されていれば、do関数(とそれが呼び出すものはすべて)はパニックを呼び出すことで、どんな悪い状況からもきれいに抜け出すことができます。この考え方を利用して、複雑なソフトウェアのエラー処理を簡単にすることができます。ここでは、ローカルのエラータイプを指定してpanicを呼び出すことで解析エラーを報告するregexpパッケージの理想化されたバージョンを見てみましょう。エラーの定義、エラーメソッド、Compile関数は以下の通りです。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="c1">// Error is the type of a parse error; it satisfies the error interface.</span>
 <span class="kd">type</span> <span class="nx">Error</span> <span class="kt">string</span>
 <span class="kd">func</span> <span class="p">(</span><span class="nx">e</span> <span class="nx">Error</span><span class="p">)</span> <span class="nx">Error</span><span class="p">()</span> <span class="kt">string</span> <span class="p">{</span>
@@ -1982,35 +1974,15 @@ function.</p>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>If <code class="docutils literal notranslate"><span class="pre">doParse</span></code> panics, the recovery block will set the return value to
-<code class="docutils literal notranslate"><span class="pre">nil</span></code>—deferred functions can modify named return values. It will then
-check, in the assignment to <code class="docutils literal notranslate"><span class="pre">err</span></code>, that the problem was a parse error
-by asserting that it has the local type <code class="docutils literal notranslate"><span class="pre">Error</span></code>. If it does not, the
-type assertion will fail, causing a run-time error that continues the
-stack unwinding as though nothing had interrupted it. This check means
-that if something unexpected happens, such as an index out of bounds,
-the code will fail even though we are using <code class="docutils literal notranslate"><span class="pre">panic</span></code> and <code class="docutils literal notranslate"><span class="pre">recover</span></code> to
-handle parse errors.</p>
-<p>With error handling in place, the <code class="docutils literal notranslate"><span class="pre">error</span></code> method (because it's a
-method bound to a type, it's fine, even natural, for it to have the same
-name as the builtin <code class="docutils literal notranslate"><span class="pre">error</span></code> type) makes it easy to report parse errors
-without worrying about unwinding the parse stack by hand:</p>
+<p>doParse がパニックになると、リカバリ・ブロックは戻り値を nil に設定します。その後、 err への代入で、問題がローカル型 Error を持つことをアサートすることで、問題がパースエラーであることをチェックします。そうでない場合、型のアサーションは失敗し、何も中断しなかったかのようにスタックの巻き戻しを続けるランタイムエラーを引き起こします。このチェックは、範囲外のインデックスアクセスのような予期せぬことが起こった場合には、 パースエラーを処理するためにパニックとリカバリーを使用しているにもかかわらず、コードが失敗することを意味しています。</p>
+<p>エラー処理が適切に行われていると、エラーメソッド (型にバインドされたメソッドなので、組み込みのエラー型と同じ名前を持っていても問題ありませんし、当然のことです) によって、パーススタックを手で巻き戻すことを心配することなく、簡単にパースエラーを報告することができるようになります。</p>
 <div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="k">if</span> <span class="nx">pos</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">{</span>
     <span class="nx">re</span><span class="p">.</span><span class="nb">error</span><span class="p">(</span><span class="s">&quot;&#39;*&#39; illegal at start of expression&quot;</span><span class="p">)</span>
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Useful though this pattern is, it should be used only within a package.
-<code class="docutils literal notranslate"><span class="pre">Parse</span></code> turns its internal <code class="docutils literal notranslate"><span class="pre">panic</span></code> calls into <code class="docutils literal notranslate"><span class="pre">error</span></code> values; it
-does not expose <code class="docutils literal notranslate"><span class="pre">panics</span></code> to its client. That is a good rule to follow.</p>
-<p>By the way, this re-panic idiom changes the panic value if an actual
-error occurs. However, both the original and new failures will be
-presented in the crash report, so the root cause of the problem will
-still be visible. Thus this simple re-panic approach is usually
-sufficient—it's a crash after all—but if you want to display only the
-original value, you can write a little more code to filter unexpected
-problems and re-panic with the original error. That's left as an
-exercise for the reader.</p>
+<p>このパターンは便利ですが、パッケージ内でのみ使用すべきです。Parse は内部のパニックコールをエラー値に変換します。これは従うべき良いルールです。</p>
+<p>ところで、この再パニックイディオムは、実際のエラーが発生した場合にパニック値を変更します。しかし、元の障害と新しい障害の両方がクラッシュレポートに表示されるので、問題の根本原因はまだ見えます。このように、この単純な再パニックのアプローチは通常は十分です-これは結局のところクラッシュです-しかし、元の値だけを表示したい場合は、予想外の問題をフィルタリングして元のエラーで再パニックするためにもう少しコードを書くことができます。これは読者のための練習問題として残しておきます。</p>
 </div>
 </div>
 <div class="section" id="web">
@@ -2189,11 +2161,11 @@ exercise for the reader.</p>
     <h4>Page Info</h4>
     <p>
         <ul>
-            <li>英数記号: 17951</li>
-            <li>非アスキー: 26697</li>
-            <li>合計文字数: 44648</li>
-            <li>半角換算: 71345</li>
-            <li>全角換算: 35672.5</li>
+            <li>英数記号: 15846</li>
+            <li>非アスキー: 28138</li>
+            <li>合計文字数: 43984</li>
+            <li>半角換算: 72122</li>
+            <li>全角換算: 36061.0</li>
         </ul>
     </p>
 </div>
